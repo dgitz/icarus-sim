@@ -1,0 +1,284 @@
+<?xml version='1.0'?>
+<sdf version="1.4">
+    <model name="scout_robot">
+        
+        <static>false</static>
+        <link name="base">
+                <gazebo>
+  <plugin name="skid_steer_drive_controller" filename="libgazebo_ros_skid_steer_drive.so">
+    <updateRate>100.0</updateRate>
+    <robotNamespace>/</robotNamespace>
+    <leftFrontJoint>front_left_wheel_joint</leftFrontJoint>
+    <rightFrontJoint>front_right_wheel_joint</rightFrontJoint>
+    <leftRearJoint>back_left_wheel_joint</leftRearJoint>
+    <rightRearJoint>back_right_wheel_joint</rightRearJoint>
+    <wheelSeparation>0.4</wheelSeparation>
+    <wheelDiameter>0.215</wheelDiameter>
+    <robotBaseFrame>base_link</robotBaseFrame>
+    <torque>20</torque>
+    <topicName>cmd_vel</topicName>
+    <broadcastTF>false</broadcastTF>
+  </plugin>
+</gazebo>
+            <pose>0 0 0.0223 1.570796327 0 1.570796327</pose>
+            <inertial>
+                <mass>5.119</mass>
+                <inertia>
+                    <ixx>0.0833</ixx>
+                    <ixy>0.0</ixy> 
+                    <ixz>0.0</ixz> 
+                    <iyy>0.451</iyy>     
+                    <iyz>0.0</iyz>      
+                    <izz>0.3897</izz>      
+                </inertia>
+            </inertial>
+            <collision name="collision">
+                <geometry>
+                    <!--
+                    <box>
+                        <size>.5 0.05 0.05</size>
+                    </box>
+                    -->
+                    <mesh>
+                        <uri>model://scout/meshes/scout_base_collision.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                </geometry>
+                <surface>
+            <friction>
+              <ode>
+                <mu>0</mu>
+                <mu2>0</mu2>
+                <slip1>1.0</slip1>
+                <slip2>1.0</slip2>
+              </ode>
+            </friction>
+          </surface>
+            </collision>
+            <visual name="visual">
+
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/scout_base.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                </geometry>
+            </visual>
+        </link>
+        <link name="midleft_wheel">
+            <pose>0.0 0.176911 0.031115 0 1.5707 1.5707</pose>
+            <collision name="collision">
+                <geometry>
+                    <cylinder>
+                        <radius>0.031115</radius>
+                        <length>0.023368</length>
+                    </cylinder>
+                </geometry>
+                <surface>
+                    <friction>
+                      <ode>
+                        <mu>0.01</mu>
+                        <mu2>0.01</mu2>
+                      </ode>
+                    </friction>
+                </surface>
+            </collision>
+            <visual name="visual">
+                <geometry>
+                    <cylinder>
+                        <radius>0.031115</radius>
+                        <length>0.023368</length>
+                    </cylinder>
+                </geometry>
+            </visual>
+        </link>
+        <link name="midright_wheel">
+            <pose>0.0 -0.176911 0.031115 0 1.5707 1.5707</pose>
+            <collision name="collision">
+                <geometry>
+                    <cylinder>
+                        <radius>0.031115</radius>
+                        <length>0.023368</length>
+                    </cylinder>
+                </geometry>
+                <surface>
+                    <friction>
+                      <ode>
+                        <mu>0.01</mu>
+                        <mu2>0.01</mu2>
+                      </ode>
+                    </friction>
+                </surface>
+            </collision>
+            <visual name="visual">
+                <geometry>
+                    <cylinder>
+                        <radius>0.031115</radius>
+                        <length>0.023368</length>
+                    </cylinder>
+                </geometry>
+            </visual>
+        </link>
+        <link name="frontleft_wheel">
+            <pose>0.1143 0.176911 0.079502 0 1.5707 1.5707</pose>
+            <collision name="collision">
+                <geometry>
+                    <cylinder>
+                        <radius>0.0766826</radius>
+                        <length>0.029718</length>
+                    </cylinder>
+                </geometry>
+                <surface>
+                    <friction>
+                      <ode>
+                        <mu>0.01</mu>
+                        <mu2>0.01</mu2>
+                      </ode>
+                    </friction>
+                </surface>
+            </collision>
+            <visual name="visual">
+                <geometry>
+                    <cylinder>
+                        <radius>0.0766826</radius>
+                        <length>0.029718</length>
+                    </cylinder>
+                </geometry>
+            </visual>
+        </link>
+        <link name="backleft_wheel">
+            <pose>-0.1143 0.176911 0.079502 0 1.5707 1.5707</pose>
+           
+            <collision name="collision">
+                <geometry>
+                    <cylinder>
+                        <radius>0.0766826</radius>
+                        <length>0.029718</length>
+                    </cylinder>
+                </geometry>
+                <surface>
+                    <friction>
+                      <ode>
+                        <mu>0.01</mu>
+                        <mu2>0.01</mu2>
+                      </ode>
+                    </friction>
+                </surface>
+            </collision>
+            <visual name="visual">
+                <geometry>
+                    <cylinder>
+                        <radius>0.0766826</radius>
+                        <length>0.029718</length>
+                    </cylinder>
+                </geometry>
+            </visual>
+        </link>
+        <link name="frontright_wheel">
+            <pose>0.1143 -0.176911 0.079502 0 1.5707 1.5707</pose>
+           
+            <collision name="collision">
+                <geometry>
+                    <cylinder>
+                        <radius>0.0766826</radius>
+                        <length>0.029718</length>
+                    </cylinder>
+                </geometry>
+                <surface>
+                    <friction>
+                      <ode>
+                        <mu>0.01</mu>
+                        <mu2>0.01</mu2>
+                      </ode>
+                    </friction>
+                </surface>
+            </collision>
+            <visual name="visual">
+                <geometry>
+                    <cylinder>
+                        <radius>0.0766826</radius>
+                        <length>0.029718</length>
+                    </cylinder>
+                </geometry>
+            </visual>
+        </link>
+        <link name="backright_wheel">
+            <pose>-0.1143 -0.176911 0.079502 0 1.5707 1.5707</pose>
+            
+            <collision name="collision">
+                <geometry>
+                    <cylinder>
+                        <radius>0.0766826</radius>
+                        <length>0.029718</length>
+                    </cylinder>
+                </geometry>
+                <surface>
+                    <friction>
+                      <ode>
+                        <mu>0.01</mu>
+                        <mu2>0.01</mu2>
+                      </ode>
+                    </friction>
+                </surface>
+            </collision>
+            <visual name="visual">
+                <geometry>
+                    <cylinder>
+                        <radius>0.0766826</radius>
+                        <length>0.029718</length>
+                    </cylinder>
+                </geometry>
+            </visual>
+        </link>
+        <joint type="revolute" name="frontleft_wheel_joint">
+            <pose>0 0 0.0 0 0 0</pose>
+            <child>frontleft_wheel</child>
+            <parent>base</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+            </axis>
+        </joint>
+        <joint type="revolute" name="frontright_wheel_joint">
+            <pose>0 0 0.0 0 0 0</pose>
+            <child>frontright_wheel</child>
+            <parent>base</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+            </axis>
+        </joint>
+        <joint type="revolute" name="backleft_wheel_joint">
+            <pose>0 0 0.0 0 0 0</pose>
+            <child>backleft_wheel</child>
+            <parent>base</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+            </axis>
+        </joint>
+        <joint type="revolute" name="backright_wheel_joint">
+            <pose>0 0 0.0 0 0 0</pose>
+            <child>backright_wheel</child>
+            <parent>base</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+            </axis>
+        </joint>
+        <joint type="revolute" name="midleft_wheel_joint">
+            <pose>0 0 0.0 0 0 0</pose>
+            <child>midleft_wheel</child>
+            <parent>base</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+            </axis>
+        </joint>
+        <joint type="revolute" name="midright_wheel_joint">
+            <pose>0 0 0.0 0 0 0</pose>
+            <child>midright_wheel</child>
+            <parent>base</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+            </axis>
+        </joint>
+        
+    </model>
+
+</sdf>
