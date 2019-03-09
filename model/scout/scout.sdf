@@ -76,10 +76,10 @@
             <name>backright_wheel</name>
             <pose>-0.1143 -0.176911 0.079502 0 1.5707 1.5707</pose>
         </include>
-        <!--
         <link name="boom">
-            <pose>0.233934 0 0.1172972 1.570796327 0 1.570796327</pose>
+            <pose>0.186944 0 0.1221232 1.570796327 0 1.570796327</pose>
             <inertial>
+                <pose>0 -0.0049022 0.0502158 0 0 0</pose>
                 <mass>0.063049339</mass>
                 <inertia>
                     <ixx>0.000184004</ixx>
@@ -92,9 +92,10 @@
             </inertial>
             <collision name="collision">
                 <geometry>
-                    <box>
-                        <size>.127 .1 .254</size>
-                    </box>
+                    <mesh>
+                        <uri>model://scout/meshes/365001.stl</uri>
+                    <scale>0.001 0.001 0.001</scale>
+                </mesh>
                 </geometry>
                 <surface>
                     <friction>
@@ -117,7 +118,90 @@
             </geometry>
             </visual>
         </link>
-        -->
+        <link name="bucket">
+            <pose>0.359918 0 0.0809752 1.570796327 0 1.570796327</pose>
+            <inertial>
+                <pose>0 0.0143256 0.0276606 0 0 0</pose>
+                <mass>0.07847148</mass>
+                <inertia>
+                    <ixx>0.0000586</ixx>
+                    <ixy>0.0</ixy> 
+                    <ixz>0.0</ixz> 
+                    <iyy>0.0002736</iyy>     
+                    <iyz>0.0</iyz>      
+                    <izz>0.000293</izz>      
+                </inertia>
+            </inertial>
+            <collision name="collision">
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/365000.stl</uri>
+                    <scale>0.001 0.001 0.001</scale>
+                </mesh>
+                </geometry>
+                <surface>
+                    <friction>
+                      <ode>
+                        <mu>.7</mu>
+                        <mu2>.7</mu2>
+                        <slip1>0.5</slip1>
+                        <slip2>0.5</slip2>
+                        <fdir1>0 1 0</fdir1>
+                      </ode>
+                    </friction>
+                </surface>
+            </collision>
+            <visual name="visual">
+            <geometry>
+                <mesh>
+                    <uri>model://scout/meshes/365000.stl</uri>
+                    <scale>0.001 0.001 0.001</scale>
+                </mesh>
+            </geometry>
+            </visual>
+        </link>
+        <link name="boomlink">
+            <pose>0.359918 0 0.1142492 1.343903716  0 1.570796327</pose>
+            <inertial>
+                <pose>0 0.0176 -0.0783844 0 0 0</pose>
+                <mass>0.082100219</mass>
+                <inertia>
+                    <ixx>0.000208</ixx>
+                    <ixy>0.0</ixy> 
+                    <ixz>0.0</ixz> 
+                    <iyy>0.000205</iyy>     
+                    <iyz>0.0</iyz>      
+                    <izz>0.0000134</izz>      
+                </inertia>
+            </inertial>
+            <collision name="collision">
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/365003.stl</uri>
+                    <scale>0.001 0.001 0.001</scale>
+                </mesh>
+                </geometry>
+                <surface>
+                    <friction>
+                      <ode>
+                        <mu>.7</mu>
+                        <mu2>.7</mu2>
+                        <slip1>0.5</slip1>
+                        <slip2>0.5</slip2>
+                        <fdir1>0 1 0</fdir1>
+                      </ode>
+                    </friction>
+                </surface>
+            </collision>
+            <visual name="visual">
+            <geometry>
+                <mesh>
+                    <uri>model://scout/meshes/365003.stl</uri>
+                    <scale>0.001 0.001 0.001</scale>
+                </mesh>
+            </geometry>
+            </visual>
+        </link>
         <joint type="revolute" name="frontleft_wheel_joint">
             <pose frame=''>0 0 0 0 0 0</pose>
             <child>frontleft_wheel::large_wheel</child>
@@ -256,7 +340,6 @@
                 </ode>
             </physics>
         </joint> 
-        <!--
         <joint type="revolute" name="boom_base_joint">
             <child>boom</child>
             <parent>base</parent>
@@ -279,7 +362,50 @@
                 </ode>
             </physics>
         </joint>  
-        -->     
+        <joint type="revolute" name="bucket_boom_joint">
+            <child>bucket</child>
+            <parent>boom</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+                <dynamics>
+                    <damping>0</damping>
+                </dynamics>
+            </axis>
+            <physics>
+                <ode>
+                    <limit>
+                        <cfm>0</cfm>
+                        <erp>0.2</erp>
+                    </limit>
+                    <suspension>
+                        <cfm>0</cfm>
+                        <erp>0.2</erp>
+                    </suspension>
+                </ode>
+            </physics>
+        </joint> 
+        <joint type="revolute" name="boomlink_bucket_joint">
+            <child>boomlink</child>
+            <parent>bucket</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+                <dynamics>
+                    <damping>0</damping>
+                </dynamics>
+            </axis>
+            <physics>
+                <ode>
+                    <limit>
+                        <cfm>0</cfm>
+                        <erp>0.2</erp>
+                    </limit>
+                    <suspension>
+                        <cfm>0</cfm>
+                        <erp>0.2</erp>
+                    </suspension>
+                </ode>
+            </physics>
+        </joint>  
     </model>
 
 </sdf>
