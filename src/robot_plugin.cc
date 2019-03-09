@@ -111,7 +111,7 @@ public: virtual void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 /// of the Velodyne.
 public: void OnRosMsg(const std_msgs::Float32ConstPtr &_msg)
 {
-	printf("Got ROS\n");
+	printf("Got ROS: %f\n",_msg->data);
 	this->SetVelocity(_msg->data);
 }
 /// \brief Set the velocity of the Velodyne

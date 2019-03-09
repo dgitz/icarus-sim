@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<sdf version='1.5'>
+    <model name="mid_wheel">
+        <static>false</static>
+        <link name="mid_wheel">
+            <inertial>
+                <mass>0.0591</mass>
+                <inertia>
+                    <ixx>0.000170233</ixx>
+                    <ixy>0.0</ixy> 
+                    <ixz>0.0</ixz> 
+                    <iyy>0.000170233</iyy>     
+                    <iyz>0.0</iyz>      
+                    <izz>0.000286554</izz>      
+                </inertia>
+            </inertial>
+            <collision name="collision">
+                <geometry>
+                    <cylinder>
+                        <radius>0.031115</radius>
+                        <length>0.023368</length>
+                    </cylinder>
+                </geometry>
+                <surface>
+                    <friction>
+                        <torsional>
+                            <coefficient>0.7</coefficient>
+                            <surface_radius>1</surface_radius>
+                            <use_patch_radius>false</use_patch_radius>
+                        </torsional>
+                        <ode>
+                            <mu>0.7</mu>
+                            <mu2>0.7</mu2>
+                            <slip1>0.0</slip1>
+                            <slip2>0.0</slip2>
+                        </ode>
+                    </friction>
+                    <contact>
+                        <ode>
+                            <min_depth>0.005</min_depth>
+                            <kp>1e8</kp>
+                        </ode>
+                    </contact>
+                </surface>
+            </collision>
+            <visual name="visual">
+                <geometry>
+                    <cylinder>
+                        <radius>0.031115</radius>
+                        <length>0.023368</length>
+                    </cylinder>
+                </geometry>
+            </visual>
+        </link>
+    </model>
+</sdf>
