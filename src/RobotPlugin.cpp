@@ -91,9 +91,29 @@ bool RobotPlugin::LoadModel()
 				joints.push_back(newjoint);
 			}
 		}
+		if (m_model->GetJoints()[i]->GetScopedName().find("boom_base_joint") != std::string::npos)
+		{
+			joint newjoint;
+			newjoint.joint_type = JointType::BOOM_ROTATE;
+			newjoint.id = i;
+			newjoint.poweron_setpoint = -.2;
+			newjoint.name = m_model->GetJoints()[i]->GetScopedName();
+			joints.push_back(newjoint);
+		}
+		if (m_model->GetJoints()[i]->GetScopedName().find("bucket_boom_joint") != std::string::npos)
+		{
+			joint newjoint;
+			newjoint.joint_type = JointType::BUCKET_ROTATE;
+			newjoint.id = i;
+			newjoint.poweron_setpoint = 0.0;
+			newjoint.name = m_model->GetJoints()[i]->GetScopedName();
+			joints.push_back(newjoint);
+		}
 	}
 	drivetrain_left_pid = common::PID(0.1, 0, 0);
 	drivetrain_right_pid = common::PID(0.1, 0, 0);
+	boomrotate_pid = common::PID(0.3, 0.01, 0.01);
+	bucketrotate_pid = common::PID(0.3, 0.01, 0.01);
 	for(std::size_t i = 0; i < joints.size(); ++i)
 	{
 		if(joints.at(i).joint_type == JointType::DRIVETRAIN_LEFT)
@@ -108,6 +128,20 @@ bool RobotPlugin::LoadModel()
 			m_model->GetJointController()->SetVelocityPID(
 					m_model->GetJoints()[i]->GetScopedName(), drivetrain_right_pid);
 			m_model->GetJointController()->SetVelocityTarget(
+					m_model->GetJoints()[joints.at(i).id]->GetScopedName(), joints.at(i).poweron_setpoint);
+		}
+		if(joints.at(i).joint_type == JointType::BOOM_ROTATE)
+		{
+			m_model->GetJointController()->SetPositionPID(
+					m_model->GetJoints()[i]->GetScopedName(), boomrotate_pid);
+			m_model->GetJointController()->SetPositionTarget(
+					m_model->GetJoints()[joints.at(i).id]->GetScopedName(), joints.at(i).poweron_setpoint);
+		}
+		if(joints.at(i).joint_type == JointType::BUCKET_ROTATE)
+		{
+			m_model->GetJointController()->SetPositionPID(
+					m_model->GetJoints()[i]->GetScopedName(), bucketrotate_pid);
+			m_model->GetJointController()->SetPositionTarget(
 					m_model->GetJoints()[joints.at(i).id]->GetScopedName(), joints.at(i).poweron_setpoint);
 		}
 
@@ -144,6 +178,24 @@ bool RobotPlugin::InitializeSubscriptions()
 						ros::VoidPtr(), &this->rosQueue);
 		sub_drivetrain_right_cmd = this->rosNode->subscribe(so);
 	}
+	{
+		ros::SubscribeOptions so =
+				ros::SubscribeOptions::create<std_msgs::Float32>(
+						"/" +  m_model->GetName() + "/boomrotate_cmd",
+						1,
+						boost::bind(&RobotPlugin::boom_rotate_cmd, this, _1),
+						ros::VoidPtr(), &this->rosQueue);
+		sub_boomrotate_cmd = this->rosNode->subscribe(so);
+	}
+	{
+		ros::SubscribeOptions so =
+				ros::SubscribeOptions::create<std_msgs::Float32>(
+						"/" +  m_model->GetName() + "/bucketrotate_cmd",
+						1,
+						boost::bind(&RobotPlugin::bucket_rotate_cmd, this, _1),
+						ros::VoidPtr(), &this->rosQueue);
+		sub_bucketrotate_cmd = this->rosNode->subscribe(so);
+	}
 	this->rosQueueThread =
 			std::thread(std::bind(&RobotPlugin::QueueThread, this));
 
@@ -161,20 +213,6 @@ void RobotPlugin::QueueThread()
 }
 void RobotPlugin::OnUpdate()
 {
-	/*
-	printf("Left: %f Right: %f\n",left_cmd,right_cmd);
-	for(std::size_t i = 0; i < joints.size(); ++i)
-	{
-		if(joints.at(i).joint_type == JointType::DRIVETRAIN_LEFT)
-		{
-			m_model->GetJoints()[joints.at(i).id]->SetVelocity(0,left_cmd);
-		}
-		if(joints.at(i).joint_type == JointType::DRIVETRAIN_RIGHT)
-		{
-			m_model->GetJoint(joints.at(i).name)->SetParam("vel", 0, right_cmd);
-		}
-	}
-	 */
 }
 void RobotPlugin::drivetrain_left_cmd(const std_msgs::Float32ConstPtr &_msg)
 {
@@ -199,6 +237,32 @@ void RobotPlugin::drivetrain_right_cmd(const std_msgs::Float32ConstPtr &_msg)
 		{
 			printf("Right: %f\n",right_cmd);
 			m_model->GetJointController()->SetVelocityTarget(
+					m_model->GetJoints()[joints.at(i).id]->GetScopedName(), _msg->data);
+		}
+	}
+}
+void RobotPlugin::boom_rotate_cmd(const std_msgs::Float32ConstPtr &_msg)
+{
+	boomrotate_cmd = _msg->data;
+	for(std::size_t i = 0; i < joints.size(); ++i)
+	{
+		if(joints.at(i).joint_type == JointType::BOOM_ROTATE)
+		{
+			printf("BoomRotate: %f\n",boomrotate_cmd);
+			m_model->GetJointController()->SetPositionTarget(
+					m_model->GetJoints()[joints.at(i).id]->GetScopedName(), _msg->data);
+		}
+	}
+}
+void RobotPlugin::bucket_rotate_cmd(const std_msgs::Float32ConstPtr &_msg)
+{
+	bucketrotate_cmd = _msg->data;
+	for(std::size_t i = 0; i < joints.size(); ++i)
+	{
+		if(joints.at(i).joint_type == JointType::BUCKET_ROTATE)
+		{
+			printf("BucketRotate: %f\n",bucketrotate_cmd);
+			m_model->GetJointController()->SetPositionTarget(
 					m_model->GetJoints()[joints.at(i).id]->GetScopedName(), _msg->data);
 		}
 	}

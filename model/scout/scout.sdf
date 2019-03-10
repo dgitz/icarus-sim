@@ -244,7 +244,7 @@
             </geometry>
             </visual>
         </link>
-        <joint type="revolute" name="frontleft_wheel_joint">
+        <joint type="revolute" name="drivetrain_frontleft_wheel_joint">
             <pose frame=''>0 0 0 0 0 0</pose>
             <child>frontleft_wheel::large_wheel</child>
             <parent>base</parent>
@@ -267,7 +267,7 @@
                 </ode>
             </physics>
         </joint>
-        <joint type="revolute" name="frontright_wheel_joint">
+        <joint type="revolute" name="drivetrain_frontright_wheel_joint">
             <pose frame=''>0 0 0 0 0 0</pose>
             <child>frontright_wheel::large_wheel</child>
             <parent>base</parent>
@@ -290,7 +290,7 @@
                 </ode>
             </physics>
         </joint>
-        <joint type="revolute" name="backleft_wheel_joint">
+        <joint type="revolute" name="drivetrain_backleft_wheel_joint">
             <pose frame=''>0 0 0 0 0 0</pose>
             <child>backleft_wheel::large_wheel</child>
             <parent>base</parent>
@@ -313,7 +313,7 @@
                 </ode>
             </physics>
         </joint>
-        <joint type="revolute" name="backright_wheel_joint">
+        <joint type="revolute" name="drivetrain_backright_wheel_joint">
             <pose frame=''>0 0 0 0 0 0</pose>
             <child>backright_wheel::large_wheel</child>
             <parent>base</parent>
@@ -337,7 +337,7 @@
             </physics>
         </joint>
         
-        <joint type="revolute" name="midleft_wheel_joint">
+        <joint type="revolute" name="drivetrain_midleft_wheel_joint">
             <child>midleft_wheel::mid_wheel</child>
             <parent>base</parent>
             <axis>
@@ -360,7 +360,7 @@
             </physics>
         </joint> 
         
-        <joint type="revolute" name="midright_wheel_joint">
+        <joint type="revolute" name="drivetrain_midright_wheel_joint">
             <child>midright_wheel::mid_wheel</child>
             <parent>base</parent>
             <axis>

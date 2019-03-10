@@ -33,6 +33,8 @@ public:
 	//Messages
 	void drivetrain_left_cmd(const std_msgs::Float32ConstPtr &_msg);
 	void drivetrain_right_cmd(const std_msgs::Float32ConstPtr &_msg);
+	void boom_rotate_cmd(const std_msgs::Float32ConstPtr &_msg);
+	void bucket_rotate_cmd(const std_msgs::Float32ConstPtr &_msg);
 private:
 	bool InitializePlugin();
 	bool LoadModel();
@@ -43,6 +45,9 @@ private:
 		UNKNOWN = 0,
 		DRIVETRAIN_LEFT =1,
 		DRIVETRAIN_RIGHT = 2,
+		BOOM_ROTATE = 3,
+		BUCKET_ROTATE = 4,
+
 	};
 	struct joint
 	{
@@ -66,6 +71,15 @@ private:
 	common::PID drivetrain_right_pid;
 	double left_cmd;
 	double right_cmd;
+
+	ros::Subscriber sub_boomrotate_cmd;
+	common::PID boomrotate_pid;
+	ros::Subscriber sub_bucketrotate_cmd;
+	common::PID bucketrotate_pid;
+	double boomrotate_cmd;
+	double bucketrotate_cmd;
+
+
 };
 GZ_REGISTER_MODEL_PLUGIN(RobotPlugin)
 }
