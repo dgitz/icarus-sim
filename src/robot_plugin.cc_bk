@@ -10,6 +10,7 @@
 #include "ros/callback_queue.h"
 #include "ros/subscribe_options.h"
 #include "std_msgs/Float32.h"
+#include "RobotModel.h"
 
 namespace gazebo
 {
@@ -36,7 +37,15 @@ public: virtual void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 	printf("Joint Count: %d\n",_model->GetJointCount());
 	// Store the model pointer for convenience.
 	this->model = _model;
+	robot = std::unique_ptr<RobotModel>(new RobotModel());
+	if(robot->init(this->model) == false)
+	{
 
+		printf("Robot Failed to Load.\n");
+		return;
+	}
+	robot->print_model();
+	joints = this->robot->get_joints_drivetrain_left();
 	// Get the first joint. We are making an assumption about the model
 	// having one joint that is the rotational joint.
 	this->joint = _model->GetJoints()[0];
@@ -54,14 +63,8 @@ public: virtual void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 				this->model->GetJoints()[i]->GetScopedName(), this->pid);
 	}
 
-	// Default to zero velocity
-	double velocity = 0;
 
-	// Check that the velocity element exists, then read the value
-	if (_sdf->HasElement("velocity"))
-		velocity = _sdf->Get<double>("velocity");
 
-	this->SetVelocity(velocity);
 
 	// Create the node
 	this->node = transport::NodePtr(new transport::Node());
@@ -70,13 +73,6 @@ public: virtual void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 #else
 	this->node->Init(this->model->GetWorld()->Name());
 #endif
-
-	// Create a topic name
-	std::string topicName = "~/" + this->model->GetName() + "/vel_cmd";
-
-	// Subscribe to the topic, and register a callback
-	this->sub = this->node->Subscribe(topicName,
-			&RobotPlugin::OnMsg, this);
 
 	// Initialize ros, if it has not already bee initialized.
 	if (!ros::isInitialized())
@@ -92,13 +88,15 @@ public: virtual void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 	this->rosNode.reset(new ros::NodeHandle("gazebo_client"));
 
 	// Create a named topic, and subscribe to it.
-	ros::SubscribeOptions so =
-			ros::SubscribeOptions::create<std_msgs::Float32>(
-					"/" + this->model->GetName() + "/vel_cmd",
-					1,
-					boost::bind(&RobotPlugin::OnRosMsg, this, _1),
-					ros::VoidPtr(), &this->rosQueue);
-	this->rosSub = this->rosNode->subscribe(so);
+	{
+		ros::SubscribeOptions so =
+				ros::SubscribeOptions::create<std_msgs::Float32>(
+						"/" + this->model->GetName() + "/drivetrain_left_cmd",
+						1,
+						boost::bind(&RobotPlugin::drivetrain_left_cmd, this, _1),
+						ros::VoidPtr(), &this->rosQueue);
+		this->drivetrain_left_rosSub = this->rosNode->subscribe(so);
+	}
 
 	// Spin up the queue helper thread.
 	this->rosQueueThread =
@@ -109,31 +107,14 @@ public: virtual void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 /// \brief Handle an incoming message from ROS
 /// \param[in] _msg A float value that is used to set the velocity
 /// of the Velodyne.
-public: void OnRosMsg(const std_msgs::Float32ConstPtr &_msg)
+public: void drivetrain_left_cmd(const std_msgs::Float32ConstPtr &_msg)
 {
-	printf("Got ROS: %f\n",_msg->data);
-	this->SetVelocity(_msg->data);
-}
-/// \brief Set the velocity of the Velodyne
-/// \param[in] _vel New target velocity
-public: void SetVelocity(const double &_vel)
-{
-	// Set the joint's target velocity.
-	for(int i = 0; i < this->model->GetJointCount(); ++i)
-		{
-
-			this->model->GetJointController()->SetVelocityTarget(
-						this->model->GetJoints()[i]->GetScopedName(), _vel);
-		}
-}
-
-/// \brief Handle incoming message
-/// \param[in] _msg Repurpose a vector3 message. This function will
-/// only use the x component.
-private: void OnMsg(ConstVector3dPtr &_msg)
-{
-	printf("Got: %f\n",_msg->x());
-	this->SetVelocity(_msg->x());
+	//this->SetVelocity(_msg->data);
+	for(std::size_t i = 0; i < joints.size(); ++i)
+	{
+		//this->model->GetJointController()->SetVelocityTarget(
+		//		this->model->GetJoints()[joints.at(i)]->GetScopedName(), _msg->data);
+	}
 }
 
 /// \brief ROS helper function that processes messages
@@ -145,12 +126,14 @@ private: void QueueThread()
 		this->rosQueue.callAvailable(ros::WallDuration(timeout));
 	}
 }
-
+std::unique_ptr<gazebo::RobotModel> robot;
 /// \brief A node used for transport
 private: transport::NodePtr node;
+private: std::vector<uint16_t> joints;
 
 /// \brief A subscriber to a named topic.
-private: transport::SubscriberPtr sub;
+private: transport::SubscriberPtr drivetrain_left_sub;
+private: transport::SubscriberPtr drivetrain_right_sub;
 
 /// \brief Pointer to the model.
 private: physics::ModelPtr model;
@@ -165,7 +148,8 @@ private: common::PID pid;
 private: std::unique_ptr<ros::NodeHandle> rosNode;
 
 /// \brief A ROS subscriber
-private: ros::Subscriber rosSub;
+private: ros::Subscriber drivetrain_left_rosSub;
+private: ros::Subscriber drivetrain_right_rosSub;
 
 /// \brief A ROS callbackqueue that helps process messages
 private: ros::CallbackQueue rosQueue;
