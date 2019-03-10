@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<sdf version='1.5'>
+    <model name="large_wheel">
+        <static>false</static>
+        <link name="large_wheel">
+            <inertial>
+                <mass>1.724</mass>
+                <inertia>
+                    <ixx>0.00266</ixx>
+                    <ixy>0.0</ixy> 
+                    <ixz>0.0</ixz> 
+                    <iyy>0.00266</iyy>     
+                    <iyz>0.0</iyz>      
+                    <izz>0.00507476</izz>      
+                </inertia>
+            </inertial>
+            <collision name="collision">
+                <geometry>
+                    <cylinder>
+                        <radius>0.0766826</radius>
+                        <length>0.029718</length>
+                    </cylinder>
+                </geometry>
+                <surface>
+                    <friction>
+                        <torsional>
+                            <coefficient>0.7</coefficient>
+                            <surface_radius>1</surface_radius>
+                            <use_patch_radius>false</use_patch_radius>
+                        </torsional>
+                        <ode>
+                            <mu>0.7</mu>
+                            <mu2>0.7</mu2>
+                            <slip1>0.0</slip1>
+                            <slip2>0.0</slip2>
+                        </ode>
+                    </friction>
+                    <contact>
+                        <ode>
+                            <min_depth>0.005</min_depth>
+                            <kp>1e8</kp>
+                        </ode>
+                    </contact>
+                </surface>
+            </collision>
+            <visual name="visual">
+                <geometry>
+                    <cylinder>
+                        <radius>0.0766826</radius>
+                        <length>0.029718</length>
+                    </cylinder>
+                </geometry>
+            </visual>
+        </link>
+    </model>
+</sdf>
