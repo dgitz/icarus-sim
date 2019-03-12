@@ -45,8 +45,8 @@
                     </mesh>
                 </geometry>
             </visual>
-            
-            <visual name='left_imu'>
+            <!--
+            <visual name='vis_leftimu'>
                 <pose>.3 0.3 0.3 0 0 0</pose>
                 <geometry>
                     <box>
@@ -54,40 +54,12 @@
                     </box>
                 </geometry>
             </visual>
-            <sensor type="imu" name="left_imu">
+             <sensor type="imu" name="left_imu">
                 <always_on>1</always_on>
                 <update_rate>20.0</update_rate>
-                <pose>.3 0.3 0.3 0 0 0</pose>
-                <visualize>false</visualize>
+                <pose>0 0 0 0 0 0</pose>
             </sensor>
-            <sensor type="magnetometer" name="left_imu_mag">
-                <always_on>1</always_on>
-                <update_rate>20.0</update_rate>
-                <pose>.3 0.3 0.3 0 0 0</pose>
-                <visualize>false</visualize>
-            </sensor>
-
-            <visual name='right_imu'>
-                <pose>-.3 0.3 0.3 0 0 0</pose>
-                <geometry>
-                    <box>
-                        <size>0.1 0.1 0.1</size>
-                    </box>
-                </geometry>
-            </visual>
-             <sensor type="imu" name="right_imu">
-                <always_on>1</always_on>
-                <update_rate>20.0</update_rate>
-                <pose>-.3 0.3 0.3 0 0 0</pose>
-                <visualize>false</visualize>
-            </sensor>
-            <sensor type="magnetometer" name="right_imu_mag">
-                <always_on>1</always_on>
-                <update_rate>20.0</update_rate>
-                <pose>.3 0.3 0.3 0 0 0</pose>
-                <visualize>false</visualize>
-            </sensor>
-
+            -->
         </link>
         <include>
             <uri>model://mid_wheel</uri>

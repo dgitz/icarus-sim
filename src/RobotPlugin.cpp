@@ -9,7 +9,10 @@
 using namespace gazebo;
 using namespace std;
 RobotPlugin::RobotPlugin(): ModelPlugin(),
-		m_model(nullptr)
+		m_model(nullptr),
+		m_sensorManager(nullptr),
+		m_left_imu(nullptr),
+		m_right_imu(nullptr)
 {
 	left_cmd = 0.0;
 	right_cmd = 0.0;
@@ -20,6 +23,8 @@ RobotPlugin::RobotPlugin(): ModelPlugin(),
 RobotPlugin::~RobotPlugin() {
 	// TODO Auto-generated destructor stub
 }
+
+//Initialize Functions
 void RobotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 {
 	printf("Plugin load started\n");
@@ -55,14 +60,32 @@ bool RobotPlugin::InitializePlugin()
 	if(InitializeSubscriptions() == false)
 	{
 		printf("Not able to initialize Subscriptions. Exiting.\n");
+		return false;
 	}
+	if(InitializePublications() == false)
+	{
+		printf("Not able to initialize Publications. Exiting.\n");
+		return false;
+	}
+	m_fastloop.set_name("FASTLOOP");
+	m_fastloop.set_targetrate(50.0);
+	m_mediumloop.set_name("MEDIUMLOOP");
+	m_mediumloop.set_targetrate(10.0);
+	m_slowloop.set_name("SLOWLOOP");
+	m_slowloop.set_targetrate(1.0);
+	m_veryslowloop.set_name("VERYSLOWLOOP");
+	m_veryslowloop.set_targetrate(0.1);
 	printf("Plugin Started.\n");
 	return true;
 }
 bool RobotPlugin::LoadModel()
 {
 	printf("Initializing Model.\n");
-	//joint_list = _joint_list;
+	if(LoadSensors() == false)
+	{
+		printf("Could not load sensors. Exiting.\n");
+		return false;
+	}
 	if(m_model->GetJointCount() == 0)
 	{
 		printf("Robot Model did not receive any info.  Exiting.\n");
@@ -146,18 +169,10 @@ bool RobotPlugin::LoadModel()
 		}
 
 	}
+	left_imu = initialize_imu();
 	return true;
 }
-void RobotPlugin::print_model()
-{
-	for(std::size_t i = 0; i < joints.size(); ++i)
-	{
-		printf("[%d] Type: %d Name: %s\n",
-				joints.at(i).id,
-				joints.at(i).joint_type,
-				joints.at(i).name.c_str());
-	}
-}
+
 bool RobotPlugin::InitializeSubscriptions()
 {
 	{
@@ -196,6 +211,7 @@ bool RobotPlugin::InitializeSubscriptions()
 						ros::VoidPtr(), &this->rosQueue);
 		sub_bucketrotate_cmd = this->rosNode->subscribe(so);
 	}
+
 	this->rosQueueThread =
 			std::thread(std::bind(&RobotPlugin::QueueThread, this));
 
@@ -203,6 +219,85 @@ bool RobotPlugin::InitializeSubscriptions()
 			std::bind(&RobotPlugin::OnUpdate, this));
 	return true;
 }
+bool RobotPlugin::InitializePublications()
+{
+	pub_leftimu = this->rosNode->advertise<eros::imu>("/left_imu",1);
+	pub_rightimu = this->rosNode->advertise<eros::imu>("/right_imu",1);
+	return true;
+}
+bool RobotPlugin::LoadSensors()
+{
+	m_sensorManager = sensors::SensorManager::Instance();
+	if(m_sensorManager ==nullptr)
+	{
+		return false;
+	}
+	{
+		sensors::SensorPtr _sensor = m_sensorManager->GetSensor("left_imu");
+		if(_sensor == nullptr)
+		{
+			printf("ERROR: Could not load Left IMU.  Exiting.\n");
+			return false;
+		}
+		m_left_imu = dynamic_pointer_cast<sensors::ImuSensor,sensors::Sensor>(_sensor);
+	}
+	{
+		sensors::SensorPtr _sensor = m_sensorManager->GetSensor("right_imu");
+		if(_sensor == nullptr)
+		{
+			printf("ERROR: Could not load Right IMU.  Exiting.\n");
+			return false;
+		}
+		m_right_imu = dynamic_pointer_cast<sensors::ImuSensor,sensors::Sensor>(_sensor);
+	}
+	{
+		sensors::SensorPtr _sensor = m_sensorManager->GetSensor("left_imu_mag");
+		if(_sensor == nullptr)
+		{
+			printf("ERROR: Could not load Left IMU Magnetometer.  Exiting.\n");
+			return false;
+		}
+		m_left_imu_mag = dynamic_pointer_cast<sensors::MagnetometerSensor,sensors::Sensor>(_sensor);
+	}
+	{
+		sensors::SensorPtr _sensor = m_sensorManager->GetSensor("right_imu_mag");
+		if(_sensor == nullptr)
+		{
+			printf("ERROR: Could not load Right IMU Magnetometer.  Exiting.\n");
+			return false;
+		}
+		m_right_imu_mag = dynamic_pointer_cast<sensors::MagnetometerSensor,sensors::Sensor>(_sensor);
+	}
+	return true;
+}
+eros::imu RobotPlugin::initialize_imu()
+{
+	eros::imu imu;
+	imu.sequence_number = 0;
+	imu.xacc.units = "m/s^2";
+	imu.xacc.status = SIGNALSTATE_INITIALIZING;
+	imu.yacc.units = "m/s^2";
+	imu.yacc.status = SIGNALSTATE_INITIALIZING;
+	imu.zacc.units = "m/s^2";
+	imu.zacc.status = SIGNALSTATE_INITIALIZING;
+
+	imu.xgyro.units = "rad/s";
+	imu.xgyro.status = SIGNALSTATE_INITIALIZING;
+	imu.ygyro.units = "rad/s";
+	imu.ygyro.status = SIGNALSTATE_INITIALIZING;
+	imu.zgyro.units = "rad/s";
+	imu.zgyro.status = SIGNALSTATE_INITIALIZING;
+
+	imu.xmag.units = "uT";
+	imu.xmag.status = SIGNALSTATE_INITIALIZING;
+	imu.ymag.units = "uT";
+	imu.ymag.status = SIGNALSTATE_INITIALIZING;
+	imu.zmag.units = "uT";
+	imu.zmag.status = SIGNALSTATE_INITIALIZING;
+
+	return imu;
+}
+//Update Functions
 void RobotPlugin::QueueThread()
 {
 	static const double timeout = 0.01;
@@ -213,7 +308,61 @@ void RobotPlugin::QueueThread()
 }
 void RobotPlugin::OnUpdate()
 {
+	if(m_fastloop.run_loop())
+	{
+		{
+			ignition::math::Vector3d acc = m_left_imu->LinearAcceleration();
+			ignition::math::Vector3d  rate = m_left_imu->AngularVelocity();
+			ignition::math::Vector3d mag = m_left_imu_mag->MagneticField();
+			left_imu.tov = m_fastloop.get_currentTime();
+			left_imu.xacc.value = acc.X();
+			left_imu.yacc.value = acc.Y();
+			left_imu.zacc.value = acc.Z();
+			left_imu.xgyro.value = rate.X();
+			left_imu.ygyro.value = rate.Y();
+			left_imu.zgyro.value = rate.Z();
+			left_imu.xmag.value = mag.X();
+			left_imu.ymag.value = mag.Y();
+			left_imu.zmag.value = mag.Z();
+			pub_leftimu.publish(left_imu);
+		}
+		{
+			ignition::math::Vector3d acc = m_right_imu->LinearAcceleration();
+			ignition::math::Vector3d  rate = m_right_imu->AngularVelocity();
+			ignition::math::Vector3d mag = m_right_imu_mag->MagneticField();
+			right_imu.tov = m_fastloop.get_currentTime();
+			right_imu.xacc.value = acc.X();
+			right_imu.yacc.value = acc.Y();
+			right_imu.zacc.value = acc.Z();
+			right_imu.xgyro.value = rate.X();
+			right_imu.ygyro.value = rate.Y();
+			right_imu.zgyro.value = rate.Z();
+			right_imu.xmag.value = mag.X();
+			right_imu.ymag.value = mag.Y();
+			right_imu.zmag.value = mag.Z();
+			pub_rightimu.publish(right_imu);
+		}
+	}
+	if(m_mediumloop.run_loop())
+	{
+
+	}
+	if(m_slowloop.run_loop())
+	{
+		m_fastloop.check_looprate();
+		m_mediumloop.check_looprate();
+		m_slowloop.check_looprate();
+		m_veryslowloop.check_looprate();
+	}
+	if(m_veryslowloop.run_loop())
+	{
+		//print_loopstates(m_veryslowloop);
+		//print_loopstates(m_slowloop);
+		//print_loopstates(m_mediumloop);
+		//print_loopstates(m_fastloop);
+	}
 }
+//Communication Functions
 void RobotPlugin::drivetrain_left_cmd(const std_msgs::Float32ConstPtr &_msg)
 {
 	left_cmd = _msg->data;
@@ -265,5 +414,46 @@ void RobotPlugin::bucket_rotate_cmd(const std_msgs::Float32ConstPtr &_msg)
 			m_model->GetJointController()->SetPositionTarget(
 					m_model->GetJoints()[joints.at(i).id]->GetScopedName(), _msg->data);
 		}
+	}
+}
+
+
+
+
+//Utility Functions
+void RobotPlugin::print_loopstates(SimpleTimer timer)
+{
+	printf("%s: Error: %4.2f%% Target Rate: %4.2f Actual Rate: %4.2f Set Rate: %4.2f\n",timer.get_name().c_str(),fabs(timer.get_timingerrorperc()),
+			timer.get_rate(),timer.get_actualrate(),timer.get_setrate());
+}
+void RobotPlugin::print_model()
+{
+	for(std::size_t i = 0; i < joints.size(); ++i)
+	{
+		printf("[%d] Type: %s Name: %s\n",
+				joints.at(i).id,
+				map_jointtype_tostring(joints.at(i).joint_type).c_str(),
+				joints.at(i).name.c_str());
+	}
+}
+std::string RobotPlugin::map_jointtype_tostring(uint16_t joint_type)
+{
+	switch(joint_type)
+	{
+	case JointType::BOOM_ROTATE:
+		return "BOOM ROTATE";
+		break;
+	case JointType::BUCKET_ROTATE:
+		return "BUCKET ROTATE";
+		break;
+	case JointType::DRIVETRAIN_LEFT:
+		return "DRIVETRAIN LEFT";
+		break;
+	case JointType::DRIVETRAIN_RIGHT:
+		return "DRIVETRAIN RIGHT";
+		break;
+	default:
+		return "UNKNOWN";
+		break;
 	}
 }
