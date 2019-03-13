@@ -70,7 +70,7 @@
       <uri>model://scout</uri>
         <plugin name="robot_control" filename="libRobotPlugin.so">
         </plugin>
-      <name>scout_robot</name>
+      <name>sim_scout</name>
       <pose>0.0 0.0 .01 0 0 0</pose>
     </include>
   </world>
