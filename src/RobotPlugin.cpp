@@ -221,8 +221,8 @@ bool RobotPlugin::InitializeSubscriptions()
 }
 bool RobotPlugin::InitializePublications()
 {
-	pub_leftimu = this->rosNode->advertise<eros::imu>("/left_imu",1);
-	pub_rightimu = this->rosNode->advertise<eros::imu>("/right_imu",1);
+	pub_leftimu = this->rosNode->advertise<eros::imu>("/LeftIMU",1);
+	pub_rightimu = this->rosNode->advertise<eros::imu>("/RightIMU",1);
 	return true;
 }
 bool RobotPlugin::LoadSensors()
