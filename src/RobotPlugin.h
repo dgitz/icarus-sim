@@ -31,12 +31,14 @@
 //Gazebo Messages
 #include <gazebo/msgs/msgs.hh>
 //ROS Messages
-#include "std_msgs/Float32.h"
 #include <eros/signal.h>
 #include <eros/imu.h>
+#include <eros/pin.h>
 //Project
 #include "../include/SimpleTimer.h"
 #include "../../eROS/include/eROS_Definitions.h"
+#include "MotorControllerModel.h"
+#include "MotorModel.h"
 
 namespace gazebo
 {
@@ -55,10 +57,10 @@ public:
 	//Utility Functions
 	void print_model();
 	//Message Functions
-	void drivetrain_left_cmd(const std_msgs::Float32ConstPtr &_msg);
-	void drivetrain_right_cmd(const std_msgs::Float32ConstPtr &_msg);
-	void boom_rotate_cmd(const std_msgs::Float32ConstPtr &_msg);
-	void bucket_rotate_cmd(const std_msgs::Float32ConstPtr &_msg);
+	void drivetrain_left_cmd(const eros::pin::ConstPtr& _msg);
+	void drivetrain_right_cmd(const eros::pin::ConstPtr& _msg);
+	void boom_rotate_cmd(const eros::pin::ConstPtr& _msg);
+	void bucket_rotate_cmd(const eros::pin::ConstPtr& _msg);
 	//Destructors
 
 private:
@@ -134,9 +136,15 @@ private:
 	eros::imu right_imu;
 
 
+	//Debug
+	double scale_value(double in_value,double neutral_value,double in_min,double in_max,double out_min,double out_max, double deadband);
 
+	//Robot Modelling
+	MotorControllerModel left_motorcontroller;
+	MotorControllerModel right_motorcontroller;
 
-
+	MotorModel left_motor;
+	MotorModel right_motor;
 
 
 

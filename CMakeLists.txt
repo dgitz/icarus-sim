@@ -42,7 +42,9 @@ target_link_libraries(velodyne_plugin ${GAZEBO_LIBRARIES} ${roscpp_LIBRARIES})
 
 
 add_library(RobotPlugin SHARED src/RobotPlugin.cpp)
-target_link_libraries(RobotPlugin ${GAZEBO_LIBRARIES} ${roscpp_LIBRARIES} ${catkin_LIBRARIES})
+add_library(MotorControllerModel src/MotorControllerModel.cpp)
+add_library(MotorModel src/MotorModel.cpp)
+target_link_libraries(RobotPlugin ${GAZEBO_LIBRARIES} ${roscpp_LIBRARIES} ${catkin_LIBRARIES} MotorControllerModel MotorModel)
 add_dependencies(RobotPlugin ${catkin_EXPORTED_TARGETS})
 
 # Build the stand-alone test program

@@ -170,6 +170,38 @@ bool RobotPlugin::LoadModel()
 
 	}
 	left_imu = initialize_imu();
+	{
+		bool status = left_motorcontroller.init("362009");
+		if(status == false)
+		{
+			printf("Could not Initialize Left Motor Controller.\n");
+			return false;
+		}
+	}
+	{
+		bool status = left_motor.init("361006",45.0);
+		if(status == false)
+		{
+			printf("Could not Initialize Left Motor.\n");
+			return false;
+		}
+	}
+	{
+		bool status = right_motorcontroller.init("362009");
+		if(status == false)
+		{
+			printf("Could not Initialize Right Motor Controller.\n");
+			return false;
+		}
+	}
+	{
+		bool status = right_motor.init("361006",45.0);
+		if(status == false)
+		{
+			printf("Could not Initialize Right Motor.\n");
+			return false;
+		}
+	}
 	return true;
 }
 
@@ -177,8 +209,8 @@ bool RobotPlugin::InitializeSubscriptions()
 {
 	{
 		ros::SubscribeOptions so =
-				ros::SubscribeOptions::create<std_msgs::Float32>(
-						"/" +  m_model->GetName() + "/drivetrain_left_cmd",
+				ros::SubscribeOptions::create<eros::pin>(
+						"/LeftMotorController",
 						1,
 						boost::bind(&RobotPlugin::drivetrain_left_cmd, this, _1),
 						ros::VoidPtr(), &this->rosQueue);
@@ -186,8 +218,8 @@ bool RobotPlugin::InitializeSubscriptions()
 	}
 	{
 		ros::SubscribeOptions so =
-				ros::SubscribeOptions::create<std_msgs::Float32>(
-						"/" +  m_model->GetName() + "/drivetrain_right_cmd",
+				ros::SubscribeOptions::create<eros::pin>(
+						"/RightMotorController",
 						1,
 						boost::bind(&RobotPlugin::drivetrain_right_cmd, this, _1),
 						ros::VoidPtr(), &this->rosQueue);
@@ -195,7 +227,7 @@ bool RobotPlugin::InitializeSubscriptions()
 	}
 	{
 		ros::SubscribeOptions so =
-				ros::SubscribeOptions::create<std_msgs::Float32>(
+				ros::SubscribeOptions::create<eros::pin>(
 						"/" +  m_model->GetName() + "/boomrotate_cmd",
 						1,
 						boost::bind(&RobotPlugin::boom_rotate_cmd, this, _1),
@@ -204,7 +236,7 @@ bool RobotPlugin::InitializeSubscriptions()
 	}
 	{
 		ros::SubscribeOptions so =
-				ros::SubscribeOptions::create<std_msgs::Float32>(
+				ros::SubscribeOptions::create<eros::pin>(
 						"/" +  m_model->GetName() + "/bucketrotate_cmd",
 						1,
 						boost::bind(&RobotPlugin::bucket_rotate_cmd, this, _1),
@@ -310,6 +342,8 @@ void RobotPlugin::OnUpdate()
 {
 	if(m_fastloop.run_loop())
 	{
+		left_motorcontroller.set_batteryvoltage(12.0);
+		right_motorcontroller.set_batteryvoltage(12.0);
 		{
 			ignition::math::Vector3d acc = m_left_imu->LinearAcceleration();
 			ignition::math::Vector3d  rate = m_left_imu->AngularVelocity();
@@ -349,6 +383,7 @@ void RobotPlugin::OnUpdate()
 	}
 	if(m_slowloop.run_loop())
 	{
+		printf("Left: %4.2f Right: %4.2f\n",left_cmd,right_cmd);
 		m_fastloop.check_looprate();
 		m_mediumloop.check_looprate();
 		m_slowloop.check_looprate();
@@ -363,35 +398,36 @@ void RobotPlugin::OnUpdate()
 	}
 }
 //Communication Functions
-void RobotPlugin::drivetrain_left_cmd(const std_msgs::Float32ConstPtr &_msg)
+void RobotPlugin::drivetrain_left_cmd(const eros::pin::ConstPtr& _msg)
 {
-	left_cmd = _msg->data;
+	double left_voltage = left_motorcontroller.set_input(_msg->Value);
+	left_cmd = left_motor.set_input(left_voltage);
 	for(std::size_t i = 0; i < joints.size(); ++i)
 	{
 		if(joints.at(i).joint_type == JointType::DRIVETRAIN_LEFT)
 		{
-			printf("Left: %f\n",left_cmd);
 			m_model->GetJointController()->SetVelocityTarget(
-					m_model->GetJoints()[joints.at(i).id]->GetScopedName(), _msg->data);
+					m_model->GetJoints()[joints.at(i).id]->GetScopedName(), left_cmd);
 		}
 	}
 
 }
-void RobotPlugin::drivetrain_right_cmd(const std_msgs::Float32ConstPtr &_msg)
+void RobotPlugin::drivetrain_right_cmd(const eros::pin::ConstPtr& _msg)
 {
-	right_cmd = _msg->data;
+	double right_voltage = right_motorcontroller.set_input(_msg->Value);
+	right_cmd = right_motor.set_input(right_voltage);
 	for(std::size_t i = 0; i < joints.size(); ++i)
 	{
 		if(joints.at(i).joint_type == JointType::DRIVETRAIN_RIGHT)
 		{
-			printf("Right: %f\n",right_cmd);
 			m_model->GetJointController()->SetVelocityTarget(
-					m_model->GetJoints()[joints.at(i).id]->GetScopedName(), _msg->data);
+					m_model->GetJoints()[joints.at(i).id]->GetScopedName(), right_cmd);
 		}
 	}
 }
-void RobotPlugin::boom_rotate_cmd(const std_msgs::Float32ConstPtr &_msg)
+void RobotPlugin::boom_rotate_cmd(const eros::pin::ConstPtr& _msg)
 {
+	/*
 	boomrotate_cmd = _msg->data;
 	for(std::size_t i = 0; i < joints.size(); ++i)
 	{
@@ -402,9 +438,11 @@ void RobotPlugin::boom_rotate_cmd(const std_msgs::Float32ConstPtr &_msg)
 					m_model->GetJoints()[joints.at(i).id]->GetScopedName(), _msg->data);
 		}
 	}
+	 */
 }
-void RobotPlugin::bucket_rotate_cmd(const std_msgs::Float32ConstPtr &_msg)
+void RobotPlugin::bucket_rotate_cmd(const eros::pin::ConstPtr& _msg)
 {
+	/*
 	bucketrotate_cmd = _msg->data;
 	for(std::size_t i = 0; i < joints.size(); ++i)
 	{
@@ -415,6 +453,7 @@ void RobotPlugin::bucket_rotate_cmd(const std_msgs::Float32ConstPtr &_msg)
 					m_model->GetJoints()[joints.at(i).id]->GetScopedName(), _msg->data);
 		}
 	}
+	 */
 }
 
 
@@ -456,4 +495,13 @@ std::string RobotPlugin::map_jointtype_tostring(uint16_t joint_type)
 		return "UNKNOWN";
 		break;
 	}
+}
+//Debug
+double RobotPlugin::scale_value(double x,double neutral,double x1,double x2,double y1,double y2, double deadband)
+{
+	double out = 0.0;
+	double m = (y2-y1)/(x2-x1);
+	//y-y1 = m(x-x1)
+	out = m*(x-x1) + y1;
+	return out;
 }
