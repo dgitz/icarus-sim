@@ -5,7 +5,6 @@ find_package(std_msgs REQUIRED)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   gazebo_ros
-  eros
 )
 
 include_directories(${roscpp_INCLUDE_DIRS})

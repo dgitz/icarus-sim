@@ -306,25 +306,25 @@ eros::imu RobotPlugin::initialize_imu()
 {
 	eros::imu imu;
 	imu.sequence_number = 0;
-	imu.xacc.units = "m/s^2";
+	imu.xacc.type = SIGNALTYPE_ACCELERATION;
 	imu.xacc.status = SIGNALSTATE_INITIALIZING;
-	imu.yacc.units = "m/s^2";
+	imu.yacc.type = SIGNALTYPE_ACCELERATION;
 	imu.yacc.status = SIGNALSTATE_INITIALIZING;
-	imu.zacc.units = "m/s^2";
+	imu.zacc.type = SIGNALTYPE_ACCELERATION;
 	imu.zacc.status = SIGNALSTATE_INITIALIZING;
 
-	imu.xgyro.units = "rad/s";
+	imu.xgyro.type = SIGNALTYPE_ROTATION_RATE;
 	imu.xgyro.status = SIGNALSTATE_INITIALIZING;
-	imu.ygyro.units = "rad/s";
+	imu.ygyro.type = SIGNALTYPE_ROTATION_RATE;
 	imu.ygyro.status = SIGNALSTATE_INITIALIZING;
-	imu.zgyro.units = "rad/s";
+	imu.zgyro.type = SIGNALTYPE_ROTATION_RATE;
 	imu.zgyro.status = SIGNALSTATE_INITIALIZING;
 
-	imu.xmag.units = "uT";
+	imu.xmag.type = SIGNALTYPE_MAGNETIC_FIELD;
 	imu.xmag.status = SIGNALSTATE_INITIALIZING;
-	imu.ymag.units = "uT";
+	imu.ymag.type = SIGNALTYPE_MAGNETIC_FIELD;
 	imu.ymag.status = SIGNALSTATE_INITIALIZING;
-	imu.zmag.units = "uT";
+	imu.zmag.type = SIGNALTYPE_MAGNETIC_FIELD;
 	imu.zmag.status = SIGNALSTATE_INITIALIZING;
 
 	return imu;
@@ -352,9 +352,9 @@ void RobotPlugin::OnUpdate()
 			left_imu.xacc.value = acc.X();
 			left_imu.yacc.value = acc.Y();
 			left_imu.zacc.value = acc.Z();
-			left_imu.xgyro.value = rate.X();
-			left_imu.ygyro.value = rate.Y();
-			left_imu.zgyro.value = rate.Z();
+			left_imu.xgyro.value = rate.X()*180.0/M_PI;
+			left_imu.ygyro.value = rate.Y()*180.0/M_PI;
+			left_imu.zgyro.value = rate.Z()*180.0/M_PI;
 			left_imu.xmag.value = mag.X();
 			left_imu.ymag.value = mag.Y();
 			left_imu.zmag.value = mag.Z();
@@ -368,9 +368,9 @@ void RobotPlugin::OnUpdate()
 			right_imu.xacc.value = acc.X();
 			right_imu.yacc.value = acc.Y();
 			right_imu.zacc.value = acc.Z();
-			right_imu.xgyro.value = rate.X();
-			right_imu.ygyro.value = rate.Y();
-			right_imu.zgyro.value = rate.Z();
+			right_imu.xgyro.value = rate.X()*180.0/M_PI;
+			right_imu.ygyro.value = rate.Y()*180.0/M_PI;
+			right_imu.zgyro.value = rate.Z()*180.0/M_PI;
 			right_imu.xmag.value = mag.X();
 			right_imu.ymag.value = mag.Y();
 			right_imu.zmag.value = mag.Z();
