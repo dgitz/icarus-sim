@@ -46,6 +46,7 @@ namespace gazebo
  *  \brief This is a RobotPlugin class.  This plugin can be used by Gazebo.*/
 class RobotPlugin: public ModelPlugin {
 public:
+	
 	RobotPlugin();
 	virtual ~RobotPlugin();
 	//Constants
@@ -54,6 +55,7 @@ public:
 	virtual void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf);
 	//Update Functions
 	virtual void OnUpdate();
+	
 	//Utility Functions
 	void print_model();
 	//Message Functions
@@ -64,8 +66,18 @@ public:
 	//Destructors
 
 private:
+	struct IMU
+	{
+		bool initialized;
+		double time_imu_updated;
+		double time_imumag_updated;
+		sensors::MagnetometerSensorPtr m_gazebo_imu_mag;
+		sensors::ImuSensorPtr m_gazebo_imu;
+		eros::imu eros_imu;
+	};
 	//Initialize Functions
-	eros::imu initialize_imu();
+	IMU initialize_imu(std::string location);
+	IMU update_IMU(double current_time,IMU imu);
 	bool InitializePlugin();
 	bool LoadModel();
 	bool LoadSensors();
@@ -77,6 +89,7 @@ private:
 	std::string map_jointtype_tostring(uint16_t joint_type);
 	void print_loopstates(SimpleTimer timer);
 	//Structs
+	
 	enum JointType
 	{
 		UNKNOWN = 0,
@@ -128,13 +141,12 @@ private:
 
 	//Sensor Variables
 	sensors::SensorManager *m_sensorManager;
-	sensors::ImuSensorPtr m_left_imu;
-	sensors::ImuSensorPtr m_right_imu;
-	sensors::MagnetometerSensorPtr m_left_imu_mag;
-	sensors::MagnetometerSensorPtr m_right_imu_mag;
-	eros::imu left_imu;
-	eros::imu right_imu;
+	bool sensors_enabled;
+	IMU left_imu;
+	IMU right_imu;
+	
 
+	
 
 	//Debug
 	double scale_value(double in_value,double neutral_value,double in_min,double in_max,double out_min,double out_max, double deadband);

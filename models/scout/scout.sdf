@@ -1,5 +1,5 @@
 <?xml version='1.0'?>
-<sdf version="1.4">
+<sdf version="1.6">
     <model name="sim_scout">
         
         <static>false</static>
@@ -45,50 +45,12 @@
                     </mesh>
                 </geometry>
             </visual>
-            
-            <visual name='left_imu'>
-                <pose>.3 0.3 0.3 0 0 0</pose>
-                <geometry>
-                    <box>
-                        <size>0.1 0.1 0.1</size>
-                    </box>
-                </geometry>
-            </visual>
-            <sensor type="imu" name="left_imu">
-                <always_on>1</always_on>
-                <update_rate>20.0</update_rate>
-                <pose>.3 0.3 0.3 0 0 0</pose>
-                <visualize>false</visualize>
-            </sensor>
-            <sensor type="magnetometer" name="left_imu_mag">
-                <always_on>1</always_on>
-                <update_rate>20.0</update_rate>
-                <pose>.3 0.3 0.3 0 0 0</pose>
-                <visualize>false</visualize>
-            </sensor>
-
-            <visual name='right_imu'>
-                <pose>-.3 0.3 0.3 0 0 0</pose>
-                <geometry>
-                    <box>
-                        <size>0.1 0.1 0.1</size>
-                    </box>
-                </geometry>
-            </visual>
-             <sensor type="imu" name="right_imu">
-                <always_on>1</always_on>
-                <update_rate>20.0</update_rate>
-                <pose>-.3 0.3 0.3 0 0 0</pose>
-                <visualize>false</visualize>
-            </sensor>
-            <sensor type="magnetometer" name="right_imu_mag">
-                <always_on>1</always_on>
-                <update_rate>20.0</update_rate>
-                <pose>.3 0.3 0.3 0 0 0</pose>
-                <visualize>false</visualize>
-            </sensor>
 
         </link>
+
+        
+        
+
         <include>
             <uri>model://mid_wheel</uri>
             <name>midleft_wheel</name>
@@ -287,14 +249,31 @@
             </geometry>
             </visual>
         </link>
+        <include>
+            <uri>model://110015-NEXT</uri>
+            <pose>0 0.07 0.08 0 0 0</pose>
+        </include>
+        <joint name="base_leftimu" type="fixed">
+            <child>110015-NEXT::LeftIMU</child>
+            <parent>base</parent>
+        </joint>
+        <include>
+            <uri>model://110015-3551284</uri>
+            <pose>0 -0.07 .08 0 0 0</pose>
+        </include>
+        <joint name="base_rightimu" type="fixed">
+            <child>110015-3551284::RightIMU</child>
+            <parent>base</parent>
+        </joint>
         <joint type="revolute" name="drivetrain_frontleft_wheel_joint">
             <pose frame=''>0 0 0 0 0 0</pose>
             <child>frontleft_wheel::large_wheel</child>
             <parent>base</parent>
             <axis>
-                <xyz>0 1 0</xyz>
+                <xyz>0 0 1</xyz>
                 <dynamics>
-                    <damping>0</damping>
+                    <damping>0.1</damping>
+                    <friction>0.4</friction>
                 </dynamics>
             </axis>
             <physics>
@@ -315,9 +294,10 @@
             <child>frontright_wheel::large_wheel</child>
             <parent>base</parent>
             <axis>
-                <xyz>0 1 0</xyz>
+                <xyz>0 0 1</xyz>
                 <dynamics>
-                    <damping>0</damping>
+                    <damping>0.1</damping>
+                    <friction>0.4</friction>
                 </dynamics>
             </axis>
             <physics>
@@ -338,9 +318,10 @@
             <child>backleft_wheel::large_wheel</child>
             <parent>base</parent>
             <axis>
-                <xyz>0 1 0</xyz>
+                <xyz>0 0 1</xyz>
                 <dynamics>
-                    <damping>0</damping>
+                    <damping>0.1</damping>
+                    <friction>0.4</friction>
                 </dynamics>
             </axis>
             <physics>
@@ -361,9 +342,10 @@
             <child>backright_wheel::large_wheel</child>
             <parent>base</parent>
             <axis>
-                <xyz>0 1 0</xyz>
+                <xyz>0 0 1</xyz>
                 <dynamics>
-                    <damping>0</damping>
+                    <damping>0.1</damping>
+                    <friction>0.4</friction>
                 </dynamics>
             </axis>
             <physics>
@@ -384,9 +366,10 @@
             <child>midleft_wheel::mid_wheel</child>
             <parent>base</parent>
             <axis>
-                <xyz>0 1 0</xyz>
+                <xyz>0 0 1</xyz>
                 <dynamics>
-                    <damping>0</damping>
+                    <damping>0.1</damping>
+                    <friction>0.4</friction>
                 </dynamics>
             </axis>
             <physics>
@@ -407,9 +390,10 @@
             <child>midright_wheel::mid_wheel</child>
             <parent>base</parent>
             <axis>
-                <xyz>0 1 0</xyz>
+                <xyz>0 0 1</xyz>
                 <dynamics>
-                    <damping>0</damping>
+                    <damping>0.1</damping>
+                    <friction>0.4</friction>
                 </dynamics>
             </axis>
             <physics>
@@ -429,7 +413,7 @@
             <child>boom</child>
             <parent>base</parent>
             <axis>
-                <xyz>0 1 0</xyz>
+                <xyz>1 0 0</xyz>
                 <dynamics>
                     <damping>0</damping>
                 </dynamics>
@@ -451,7 +435,7 @@
             <child>bucket</child>
             <parent>boom</parent>
             <axis>
-                <xyz>0 1 0</xyz>
+                <xyz>1 0 0</xyz>
                 <dynamics>
                     <damping>0</damping>
                 </dynamics>
@@ -473,7 +457,7 @@
             <child>boomlink</child>
             <parent>bucket</parent>
             <axis>
-                <xyz>0 1 0</xyz>
+                <xyz>1 0 0</xyz>
                 <dynamics>
                     <damping>0</damping>
                 </dynamics>
@@ -495,7 +479,7 @@
             <child>rocker</child>
             <parent>boomlink</parent>
             <axis>
-                <xyz>0 1 0</xyz>
+                <xyz>1 0 0</xyz>
                 <dynamics>
                     <damping>0</damping>
                 </dynamics>
@@ -518,7 +502,7 @@
             <child>rocker</child>
             <parent>boom</parent>
             <axis>
-                <xyz>0 1 0</xyz>
+                <xyz>1 0 0</xyz>
                 <dynamics>
                     <damping>0</damping>
                 </dynamics>

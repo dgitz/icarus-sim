@@ -10,9 +10,9 @@ using namespace gazebo;
 using namespace std;
 RobotPlugin::RobotPlugin(): ModelPlugin(),
 		m_model(nullptr),
-		m_sensorManager(nullptr),
-		m_left_imu(nullptr),
-		m_right_imu(nullptr)
+		m_sensorManager(nullptr)
+		//m_left_imu(nullptr),
+		//m_right_imu(nullptr)
 {
 	left_cmd = 0.0;
 	right_cmd = 0.0;
@@ -37,6 +37,7 @@ void RobotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 }
 bool RobotPlugin::InitializePlugin()
 {
+	sensors_enabled = true;
 	if(LoadModel() == false)
 	{
 		printf("Model Failed to Load. Exiting.\n");
@@ -119,7 +120,7 @@ bool RobotPlugin::LoadModel()
 			joint newjoint;
 			newjoint.joint_type = JointType::BOOM_ROTATE;
 			newjoint.id = i;
-			newjoint.poweron_setpoint = -.2;
+			newjoint.poweron_setpoint = -1.0;
 			newjoint.name = m_model->GetJoints()[i]->GetScopedName();
 			joints.push_back(newjoint);
 		}
@@ -169,7 +170,7 @@ bool RobotPlugin::LoadModel()
 		}
 
 	}
-	left_imu = initialize_imu();
+	
 	{
 		bool status = left_motorcontroller.init("362009");
 		if(status == false)
@@ -253,81 +254,106 @@ bool RobotPlugin::InitializeSubscriptions()
 }
 bool RobotPlugin::InitializePublications()
 {
-	pub_leftimu = this->rosNode->advertise<eros::imu>("/LeftIMU",1);
-	pub_rightimu = this->rosNode->advertise<eros::imu>("/RightIMU",1);
+	if(sensors_enabled == true)
+	{
+		pub_leftimu = this->rosNode->advertise<eros::imu>("/LeftIMU",1);
+		pub_rightimu = this->rosNode->advertise<eros::imu>("/RightIMU",1);
+	}
 	return true;
 }
 bool RobotPlugin::LoadSensors()
 {
-	m_sensorManager = sensors::SensorManager::Instance();
-	if(m_sensorManager ==nullptr)
+	if(sensors_enabled == true)
+	{
+	left_imu = initialize_imu("left");
+	if(left_imu.initialized == false)
 	{
 		return false;
 	}
+	right_imu = initialize_imu("right");
+	if(right_imu.initialized == false)
 	{
-		sensors::SensorPtr _sensor = m_sensorManager->GetSensor("left_imu");
-		if(_sensor == nullptr)
-		{
-			printf("ERROR: Could not load Left IMU.  Exiting.\n");
-			return false;
-		}
-		m_left_imu = dynamic_pointer_cast<sensors::ImuSensor,sensors::Sensor>(_sensor);
+		return false;
 	}
-	{
-		sensors::SensorPtr _sensor = m_sensorManager->GetSensor("right_imu");
-		if(_sensor == nullptr)
-		{
-			printf("ERROR: Could not load Right IMU.  Exiting.\n");
-			return false;
-		}
-		m_right_imu = dynamic_pointer_cast<sensors::ImuSensor,sensors::Sensor>(_sensor);
-	}
-	{
-		sensors::SensorPtr _sensor = m_sensorManager->GetSensor("left_imu_mag");
-		if(_sensor == nullptr)
-		{
-			printf("ERROR: Could not load Left IMU Magnetometer.  Exiting.\n");
-			return false;
-		}
-		m_left_imu_mag = dynamic_pointer_cast<sensors::MagnetometerSensor,sensors::Sensor>(_sensor);
-	}
-	{
-		sensors::SensorPtr _sensor = m_sensorManager->GetSensor("right_imu_mag");
-		if(_sensor == nullptr)
-		{
-			printf("ERROR: Could not load Right IMU Magnetometer.  Exiting.\n");
-			return false;
-		}
-		m_right_imu_mag = dynamic_pointer_cast<sensors::MagnetometerSensor,sensors::Sensor>(_sensor);
 	}
 	return true;
 }
-eros::imu RobotPlugin::initialize_imu()
+RobotPlugin::IMU RobotPlugin::initialize_imu(std::string location)
 {
-	eros::imu imu;
-	imu.sequence_number = 0;
-	imu.xacc.type = SIGNALTYPE_ACCELERATION;
-	imu.xacc.status = SIGNALSTATE_INITIALIZING;
-	imu.yacc.type = SIGNALTYPE_ACCELERATION;
-	imu.yacc.status = SIGNALSTATE_INITIALIZING;
-	imu.zacc.type = SIGNALTYPE_ACCELERATION;
-	imu.zacc.status = SIGNALSTATE_INITIALIZING;
+	IMU m_imu;
+	m_imu.initialized = false;
+	m_sensorManager = sensors::SensorManager::Instance();
+	if(m_sensorManager ==nullptr)
+	{
+		m_imu.initialized = false;
+		return m_imu;
+	}
+	std::string main_imu_name;
+	std::string main_magnetometer_name;
+	std::string topic_name;
+	if(location == "left")
+	{
+		main_imu_name = "left_imu";
+		main_magnetometer_name = "left_imu_mag";
+		topic_name = "/LeftIMU";
+	}
+	else if(location == "right")
+	{
+		main_imu_name = "right_imu";
+		main_magnetometer_name = "right_imu_mag";
+		topic_name = "/RightIMU";
+	}
+	else
+	{
+		m_imu.initialized = false;
+		return m_imu;
+	}
+	{
+		sensors::SensorPtr _sensor = m_sensorManager->GetSensor(main_imu_name);
+		if(_sensor == nullptr)
+		{
+			printf("ERROR: Could not load %s IMU.  Exiting.\n",main_imu_name.c_str());
+			m_imu.initialized = false;
+			return m_imu;
+		}
+		m_imu.m_gazebo_imu = dynamic_pointer_cast<sensors::ImuSensor,sensors::Sensor>(_sensor);
+	}
+	{
+		sensors::SensorPtr _sensor = m_sensorManager->GetSensor(main_magnetometer_name);
+		if(_sensor == nullptr)
+		{
+			printf("ERROR: Could not load %s IMU Magnetometer.  Exiting.\n",main_magnetometer_name.c_str());
+			m_imu.initialized = false;
+			return m_imu;
+		}
+		m_imu.m_gazebo_imu_mag = dynamic_pointer_cast<sensors::MagnetometerSensor,sensors::Sensor>(_sensor);
+	}
+	m_imu.time_imu_updated = 0.0;
+	m_imu.time_imumag_updated = 0.0;
+	m_imu.eros_imu.sequence_number = 0;
+	m_imu.eros_imu.xacc.type = SIGNALTYPE_ACCELERATION;
+	m_imu.eros_imu.xacc.status = SIGNALSTATE_INITIALIZING;
+	m_imu.eros_imu.yacc.type = SIGNALTYPE_ACCELERATION;
+	m_imu.eros_imu.yacc.status = SIGNALSTATE_INITIALIZING;
+	m_imu.eros_imu.zacc.type = SIGNALTYPE_ACCELERATION;
+	m_imu.eros_imu.zacc.status = SIGNALSTATE_INITIALIZING;
 
-	imu.xgyro.type = SIGNALTYPE_ROTATION_RATE;
-	imu.xgyro.status = SIGNALSTATE_INITIALIZING;
-	imu.ygyro.type = SIGNALTYPE_ROTATION_RATE;
-	imu.ygyro.status = SIGNALSTATE_INITIALIZING;
-	imu.zgyro.type = SIGNALTYPE_ROTATION_RATE;
-	imu.zgyro.status = SIGNALSTATE_INITIALIZING;
+	m_imu.eros_imu.xgyro.type = SIGNALTYPE_ROTATION_RATE;
+	m_imu.eros_imu.xgyro.status = SIGNALSTATE_INITIALIZING;
+	m_imu.eros_imu.ygyro.type = SIGNALTYPE_ROTATION_RATE;
+	m_imu.eros_imu.ygyro.status = SIGNALSTATE_INITIALIZING;
+	m_imu.eros_imu.zgyro.type = SIGNALTYPE_ROTATION_RATE;
+	m_imu.eros_imu.zgyro.status = SIGNALSTATE_INITIALIZING;
 
-	imu.xmag.type = SIGNALTYPE_MAGNETIC_FIELD;
-	imu.xmag.status = SIGNALSTATE_INITIALIZING;
-	imu.ymag.type = SIGNALTYPE_MAGNETIC_FIELD;
-	imu.ymag.status = SIGNALSTATE_INITIALIZING;
-	imu.zmag.type = SIGNALTYPE_MAGNETIC_FIELD;
-	imu.zmag.status = SIGNALSTATE_INITIALIZING;
+	m_imu.eros_imu.xmag.type = SIGNALTYPE_MAGNETIC_FIELD;
+	m_imu.eros_imu.xmag.status = SIGNALSTATE_INITIALIZING;
+	m_imu.eros_imu.ymag.type = SIGNALTYPE_MAGNETIC_FIELD;
+	m_imu.eros_imu.ymag.status = SIGNALSTATE_INITIALIZING;
+	m_imu.eros_imu.zmag.type = SIGNALTYPE_MAGNETIC_FIELD;
+	m_imu.eros_imu.zmag.status = SIGNALSTATE_INITIALIZING;
 
-	return imu;
+	m_imu.initialized = true;
+	return m_imu;
 }
 //Update Functions
 void RobotPlugin::QueueThread()
@@ -338,43 +364,75 @@ void RobotPlugin::QueueThread()
 		this->rosQueue.callAvailable(ros::WallDuration(timeout));
 	}
 }
+RobotPlugin::IMU RobotPlugin::update_IMU(double current_time,IMU imu)
+{
+	imu.eros_imu.tov = current_time;
+	{
+		double time_updated = imu.m_gazebo_imu->LastUpdateTime().Double();
+		if(time_updated > imu.time_imu_updated)
+		{
+			imu.time_imu_updated = time_updated;
+			ignition::math::Vector3d acc = imu.m_gazebo_imu->LinearAcceleration();
+			ignition::math::Vector3d rate = imu.m_gazebo_imu->AngularVelocity();
+			imu.eros_imu.xacc.status = SIGNALSTATE_UPDATED;
+			imu.eros_imu.yacc.status = SIGNALSTATE_UPDATED;
+			imu.eros_imu.zacc.status = SIGNALSTATE_UPDATED;
+			imu.eros_imu.xgyro.status = SIGNALSTATE_UPDATED;
+			imu.eros_imu.ygyro.status = SIGNALSTATE_UPDATED;
+			imu.eros_imu.zgyro.status = SIGNALSTATE_UPDATED;
+			imu.eros_imu.xacc.value = acc.X();
+			imu.eros_imu.yacc.value = acc.Y();
+			imu.eros_imu.zacc.value = acc.Z();
+			imu.eros_imu.xgyro.value = rate.X()*180.0/M_PI;
+			imu.eros_imu.ygyro.value = rate.Y()*180.0/M_PI;
+			imu.eros_imu.zgyro.value = rate.Z()*180.0/M_PI;
+		}
+		else
+		{
+			imu.eros_imu.xacc.status = SIGNALSTATE_HOLD;
+			imu.eros_imu.yacc.status = SIGNALSTATE_HOLD;
+			imu.eros_imu.zacc.status = SIGNALSTATE_HOLD;
+			imu.eros_imu.xgyro.status = SIGNALSTATE_HOLD;
+			imu.eros_imu.ygyro.status = SIGNALSTATE_HOLD;
+			imu.eros_imu.zgyro.status = SIGNALSTATE_HOLD;
+		}	
+	}
+	{
+		double time_updated = imu.m_gazebo_imu_mag->LastUpdateTime().Double();
+		if(time_updated > imu.time_imumag_updated)
+		{
+			ignition::math::Vector3d mag = imu.m_gazebo_imu_mag->MagneticField();
+			imu.time_imumag_updated = time_updated;
+			imu.eros_imu.xmag.status = SIGNALSTATE_UPDATED;
+			imu.eros_imu.ymag.status = SIGNALSTATE_UPDATED;
+			imu.eros_imu.zmag.status = SIGNALSTATE_UPDATED;
+			imu.eros_imu.xmag.value = mag.X();
+			imu.eros_imu.ymag.value = mag.Y();
+			imu.eros_imu.zmag.value = mag.Z();
+		}
+		else
+		{
+			imu.eros_imu.xmag.status = SIGNALSTATE_HOLD;
+			imu.eros_imu.ymag.status = SIGNALSTATE_HOLD;
+			imu.eros_imu.zmag.status = SIGNALSTATE_HOLD;
+		}
+		
+	}
+	return imu;
+	
+}
 void RobotPlugin::OnUpdate()
 {
 	if(m_fastloop.run_loop())
 	{
 		left_motorcontroller.set_batteryvoltage(12.0);
 		right_motorcontroller.set_batteryvoltage(12.0);
+		if(sensors_enabled == true)
 		{
-			ignition::math::Vector3d acc = m_left_imu->LinearAcceleration();
-			ignition::math::Vector3d  rate = m_left_imu->AngularVelocity();
-			ignition::math::Vector3d mag = m_left_imu_mag->MagneticField();
-			left_imu.tov = m_fastloop.get_currentTime();
-			left_imu.xacc.value = acc.X();
-			left_imu.yacc.value = acc.Y();
-			left_imu.zacc.value = acc.Z();
-			left_imu.xgyro.value = rate.X()*180.0/M_PI;
-			left_imu.ygyro.value = rate.Y()*180.0/M_PI;
-			left_imu.zgyro.value = rate.Z()*180.0/M_PI;
-			left_imu.xmag.value = mag.X();
-			left_imu.ymag.value = mag.Y();
-			left_imu.zmag.value = mag.Z();
-			pub_leftimu.publish(left_imu);
-		}
-		{
-			ignition::math::Vector3d acc = m_right_imu->LinearAcceleration();
-			ignition::math::Vector3d  rate = m_right_imu->AngularVelocity();
-			ignition::math::Vector3d mag = m_right_imu_mag->MagneticField();
-			right_imu.tov = m_fastloop.get_currentTime();
-			right_imu.xacc.value = acc.X();
-			right_imu.yacc.value = acc.Y();
-			right_imu.zacc.value = acc.Z();
-			right_imu.xgyro.value = rate.X()*180.0/M_PI;
-			right_imu.ygyro.value = rate.Y()*180.0/M_PI;
-			right_imu.zgyro.value = rate.Z()*180.0/M_PI;
-			right_imu.xmag.value = mag.X();
-			right_imu.ymag.value = mag.Y();
-			right_imu.zmag.value = mag.Z();
-			pub_rightimu.publish(right_imu);
+			left_imu = update_IMU(m_fastloop.get_currentTime(),left_imu);
+			pub_leftimu.publish(left_imu.eros_imu);
+			right_imu = update_IMU(m_fastloop.get_currentTime(),right_imu);
+			pub_rightimu.publish(right_imu.eros_imu);
 		}
 	}
 	if(m_mediumloop.run_loop())
