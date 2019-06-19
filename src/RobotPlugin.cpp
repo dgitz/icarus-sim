@@ -16,6 +16,9 @@ RobotPlugin::RobotPlugin(): ModelPlugin(),
 {
 	left_cmd = 0.0;
 	right_cmd = 0.0;
+	drivetrain_left_actual_velocity = 0.0;
+	drivetrain_right_actual_velocity = 0.0;
+	kill_node = false;
 	// TODO Auto-generated constructor stub
 	printf("Plugin opened\n");
 }
@@ -29,7 +32,8 @@ void RobotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 {
 	printf("Plugin load started\n");
 	m_model = _model;
-
+	pose_initialized = false;
+	drivecommand_received = false;
 	InitializePlugin();
 
 	return;
@@ -92,6 +96,7 @@ bool RobotPlugin::LoadModel()
 		printf("Robot Model did not receive any info.  Exiting.\n");
 		return false;
 	}
+	
 	for(uint16_t i = 0; i < m_model->GetJointCount(); ++i)
 	{
 		if (m_model->GetJoints()[i]->GetScopedName().find("drivetrain") != std::string::npos)
@@ -102,6 +107,7 @@ bool RobotPlugin::LoadModel()
 				newjoint.joint_type = JointType::DRIVETRAIN_LEFT;
 				newjoint.id = i;
 				newjoint.poweron_setpoint = 0.0;
+				drivetrain_left_actual_velocity = newjoint.poweron_setpoint;
 				newjoint.name = m_model->GetJoints()[i]->GetScopedName();
 				joints.push_back(newjoint);
 			}
@@ -111,6 +117,7 @@ bool RobotPlugin::LoadModel()
 				newjoint.joint_type = JointType::DRIVETRAIN_RIGHT;
 				newjoint.id = i;
 				newjoint.poweron_setpoint = 0.0;
+				drivetrain_right_actual_velocity = newjoint.poweron_setpoint;
 				newjoint.name = m_model->GetJoints()[i]->GetScopedName();
 				joints.push_back(newjoint);
 			}
@@ -134,43 +141,27 @@ bool RobotPlugin::LoadModel()
 			joints.push_back(newjoint);
 		}
 	}
+	for(std::size_t i = 0; i < joints.size(); ++i)
+	{
+		m_model->GetJoints()[joints.at(i).id]->SetVelocity(0,0.0);
+		m_model->GetJoints()[joints.at(i).id]->SetVelocity(1,0.0);
+		m_model->GetJoints()[joints.at(i).id]->SetVelocity(2,0.0);
+	}
+	/*
 	drivetrain_left_pid = common::PID(0.1, 0, 0);
 	drivetrain_right_pid = common::PID(0.1, 0, 0);
 	boomrotate_pid = common::PID(0.3, 0.01, 0.01);
 	bucketrotate_pid = common::PID(0.3, 0.01, 0.01);
+	*/
 	for(std::size_t i = 0; i < joints.size(); ++i)
 	{
-		if(joints.at(i).joint_type == JointType::DRIVETRAIN_LEFT)
+		for(int j = 0; j < 0; ++j)
 		{
-			m_model->GetJointController()->SetVelocityPID(
-					m_model->GetJoints()[i]->GetScopedName(), drivetrain_left_pid);
-			m_model->GetJointController()->SetVelocityTarget(
-					m_model->GetJoints()[joints.at(i).id]->GetScopedName(), joints.at(i).poweron_setpoint);
+			m_model->GetJoints()[joints.at(i).id]->SetVelocity(0,joints.at(i).poweron_setpoint);
+			//m_model->GetJoints()[joints.at(i).id]->SetVelocity(1,joints.at(i).poweron_setpoint);
+			//m_model->GetJoints()[joints.at(i).id]->SetVelocity(2,joints.at(i).poweron_setpoint);
 		}
-		if(joints.at(i).joint_type == JointType::DRIVETRAIN_RIGHT)
-		{
-			m_model->GetJointController()->SetVelocityPID(
-					m_model->GetJoints()[i]->GetScopedName(), drivetrain_right_pid);
-			m_model->GetJointController()->SetVelocityTarget(
-					m_model->GetJoints()[joints.at(i).id]->GetScopedName(), joints.at(i).poweron_setpoint);
-		}
-		if(joints.at(i).joint_type == JointType::BOOM_ROTATE)
-		{
-			m_model->GetJointController()->SetPositionPID(
-					m_model->GetJoints()[i]->GetScopedName(), boomrotate_pid);
-			m_model->GetJointController()->SetPositionTarget(
-					m_model->GetJoints()[joints.at(i).id]->GetScopedName(), joints.at(i).poweron_setpoint);
-		}
-		if(joints.at(i).joint_type == JointType::BUCKET_ROTATE)
-		{
-			m_model->GetJointController()->SetPositionPID(
-					m_model->GetJoints()[i]->GetScopedName(), bucketrotate_pid);
-			m_model->GetJointController()->SetPositionTarget(
-					m_model->GetJoints()[joints.at(i).id]->GetScopedName(), joints.at(i).poweron_setpoint);
-		}
-
 	}
-	
 	{
 		bool status = left_motorcontroller.init("362009");
 		if(status == false)
@@ -205,7 +196,6 @@ bool RobotPlugin::LoadModel()
 	}
 	return true;
 }
-
 bool RobotPlugin::InitializeSubscriptions()
 {
 	{
@@ -359,7 +349,7 @@ RobotPlugin::IMU RobotPlugin::initialize_imu(std::string location)
 void RobotPlugin::QueueThread()
 {
 	static const double timeout = 0.01;
-	while (this->rosNode->ok())
+	while ((this->rosNode->ok()) and (kill_node == false))
 	{
 		this->rosQueue.callAvailable(ros::WallDuration(timeout));
 	}
@@ -427,6 +417,23 @@ void RobotPlugin::OnUpdate()
 	{
 		left_motorcontroller.set_batteryvoltage(12.0);
 		right_motorcontroller.set_batteryvoltage(12.0);
+		gazebo::math::Pose pose = m_model->GetWorldPose();
+		if(pose_initialized == false)
+		{
+			initial_pose = pose;
+			pose_initialized = true;
+		}
+		if(drivecommand_received == false)
+		{
+			double d = compute_distance(pose,initial_pose);
+			if(d > 1)
+			{
+				kill_node = true;
+				printf("Model Pose has drifted with no input command.  Likely a model sdf problem.  Please adjust\n");
+				return;
+			}
+			
+		}
 		if(sensors_enabled == true)
 		{
 			left_imu = update_IMU(m_fastloop.get_currentTime(),left_imu);
@@ -437,11 +444,23 @@ void RobotPlugin::OnUpdate()
 	}
 	if(m_mediumloop.run_loop())
 	{
-
+		for(std::size_t i = 0; i < joints.size(); ++i)
+		{
+			if(joints.at(i).joint_type == JointType::DRIVETRAIN_LEFT)
+			{
+				drivetrain_left_actual_velocity = m_model->GetJoints()[joints.at(i).id]->GetVelocity(0);
+			}
+			else if(joints.at(i).joint_type == JointType::DRIVETRAIN_RIGHT)
+			{
+				drivetrain_right_actual_velocity = m_model->GetJoints()[joints.at(i).id]->GetVelocity(0);
+			}
+			
+		}
+		printf("Left: %4.2f/%4.2f Right: %4.2f/%4.2f\n",left_cmd,drivetrain_left_actual_velocity,right_cmd,drivetrain_right_actual_velocity);
 	}
 	if(m_slowloop.run_loop())
 	{
-		printf("Left: %4.2f Right: %4.2f\n",left_cmd,right_cmd);
+		
 		m_fastloop.check_looprate();
 		m_mediumloop.check_looprate();
 		m_slowloop.check_looprate();
@@ -458,33 +477,35 @@ void RobotPlugin::OnUpdate()
 //Communication Functions
 void RobotPlugin::drivetrain_left_cmd(const eros::pin::ConstPtr& _msg)
 {
+	drivecommand_received = true;
 	double left_voltage = left_motorcontroller.set_input(_msg->Value);
 	left_cmd = left_motor.set_input(left_voltage);
 	for(std::size_t i = 0; i < joints.size(); ++i)
 	{
 		if(joints.at(i).joint_type == JointType::DRIVETRAIN_LEFT)
 		{
-			m_model->GetJointController()->SetVelocityTarget(
-					m_model->GetJoints()[joints.at(i).id]->GetScopedName(), left_cmd);
+			m_model->GetJoints()[joints.at(i).id]->SetVelocity(0,left_cmd);
 		}
 	}
 
 }
+
 void RobotPlugin::drivetrain_right_cmd(const eros::pin::ConstPtr& _msg)
 {
+	drivecommand_received = true;
 	double right_voltage = right_motorcontroller.set_input(_msg->Value);
 	right_cmd = right_motor.set_input(right_voltage);
 	for(std::size_t i = 0; i < joints.size(); ++i)
 	{
 		if(joints.at(i).joint_type == JointType::DRIVETRAIN_RIGHT)
 		{
-			m_model->GetJointController()->SetVelocityTarget(
-					m_model->GetJoints()[joints.at(i).id]->GetScopedName(), right_cmd);
+			m_model->GetJoints()[joints.at(i).id]->SetVelocity(0,right_cmd);
 		}
 	}
 }
 void RobotPlugin::boom_rotate_cmd(const eros::pin::ConstPtr& _msg)
 {
+	drivecommand_received = true;
 	/*
 	boomrotate_cmd = _msg->data;
 	for(std::size_t i = 0; i < joints.size(); ++i)
@@ -500,6 +521,7 @@ void RobotPlugin::boom_rotate_cmd(const eros::pin::ConstPtr& _msg)
 }
 void RobotPlugin::bucket_rotate_cmd(const eros::pin::ConstPtr& _msg)
 {
+	drivecommand_received = true;
 	/*
 	bucketrotate_cmd = _msg->data;
 	for(std::size_t i = 0; i < joints.size(); ++i)
@@ -562,4 +584,12 @@ double RobotPlugin::scale_value(double x,double neutral,double x1,double x2,doub
 	//y-y1 = m(x-x1)
 	out = m*(x-x1) + y1;
 	return out;
+}
+double RobotPlugin::compute_distance(gazebo::math::Pose a, gazebo::math::Pose b)
+{
+	double dx = a.pos.x-b.pos.x;
+	double dy = a.pos.y-b.pos.y;
+	double dz = a.pos.z-b.pos.z;
+	double d = sqrt((dx*dx)+(dy*dy)+(dz*dz));
+	return d;
 }

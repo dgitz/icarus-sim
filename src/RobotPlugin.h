@@ -9,7 +9,7 @@
 #define SRC_ICARUS_SIM_SRC_ROBOTPLUGIN_H_
 
 //C System Files
-
+#include <math.h> 
 //C++ System Files
 #include <thread>
 #include <vector>
@@ -85,6 +85,7 @@ private:
 	bool InitializePublications();
 	//Update Functions
 	void QueueThread();
+	double  compute_distance(gazebo::math::Pose a, gazebo::math::Pose b);
 	//Utility Functions
 	std::string map_jointtype_tostring(uint16_t joint_type);
 	void print_loopstates(SimpleTimer timer);
@@ -108,6 +109,7 @@ private:
 	};
 
 	//Communication Variables
+	bool kill_node;
 	std::unique_ptr<ros::NodeHandle> rosNode;
 	transport::NodePtr node;
 	event::ConnectionPtr updateConnection;
@@ -129,9 +131,14 @@ private:
 	SimpleTimer m_veryslowloop;
 
 	//State Variables
+	gazebo::math::Pose initial_pose;
+	bool pose_initialized;
+	bool drivecommand_received;
 	std::vector<joint> joints;
 	common::PID drivetrain_left_pid;
 	common::PID drivetrain_right_pid;
+	double drivetrain_left_actual_velocity;
+	double drivetrain_right_actual_velocity;
 	double left_cmd;
 	double right_cmd;
 	common::PID boomrotate_pid;
@@ -148,7 +155,7 @@ private:
 
 	
 
-	//Debug
+	
 	double scale_value(double in_value,double neutral_value,double in_min,double in_max,double out_min,double out_max, double deadband);
 
 	//Robot Modelling
