@@ -19,6 +19,8 @@ RobotPlugin::RobotPlugin(): ModelPlugin(),
 	drivetrain_left_actual_velocity = 0.0;
 	drivetrain_right_actual_velocity = 0.0;
 	kill_node = false;
+	robot_initialized = false;
+	run_time = 0.0;
 	// TODO Auto-generated constructor stub
 	printf("Plugin opened\n");
 }
@@ -80,7 +82,7 @@ bool RobotPlugin::InitializePlugin()
 	m_slowloop.set_targetrate(1.0);
 	m_veryslowloop.set_name("VERYSLOWLOOP");
 	m_veryslowloop.set_targetrate(0.1);
-	printf("Plugin Started.\n");
+	printf("Plugin Started.  Waiting %4.2f seconds from Start before Initialization is complete.\n",INITIALIZATION_TIME);
 	return true;
 }
 bool RobotPlugin::LoadModel()
@@ -415,6 +417,19 @@ void RobotPlugin::OnUpdate()
 {
 	if(m_fastloop.run_loop())
 	{
+		run_time+=m_fastloop.get_timedelta();
+		if(run_time > INITIALIZATION_TIME)
+		{
+			if(robot_initialized == false)
+			{
+				m_fastloop.enable_printing();
+				m_mediumloop.enable_printing();
+				m_slowloop.enable_printing();
+				m_veryslowloop.enable_printing();
+				printf("Robot Initialized.\n");
+			}
+			robot_initialized = true;
+		}
 		left_motorcontroller.set_batteryvoltage(12.0);
 		right_motorcontroller.set_batteryvoltage(12.0);
 		gazebo::math::Pose pose = m_model->GetWorldPose();
@@ -434,7 +449,7 @@ void RobotPlugin::OnUpdate()
 			}
 			
 		}
-		if(sensors_enabled == true)
+		if((sensors_enabled == true) and (robot_initialized == true))
 		{
 			left_imu = update_IMU(m_fastloop.get_currentTime(),left_imu);
 			pub_leftimu.publish(left_imu.eros_imu);
@@ -456,22 +471,21 @@ void RobotPlugin::OnUpdate()
 			}
 			
 		}
-		printf("Left: %4.2f/%4.2f Right: %4.2f/%4.2f\n",left_cmd,drivetrain_left_actual_velocity,right_cmd,drivetrain_right_actual_velocity);
-	}
-	if(m_slowloop.run_loop())
-	{
-		
 		m_fastloop.check_looprate();
 		m_mediumloop.check_looprate();
 		m_slowloop.check_looprate();
 		m_veryslowloop.check_looprate();
+		//printf("Left: %4.2f/%4.2f Right: %4.2f/%4.2f\n",left_cmd,drivetrain_left_actual_velocity,right_cmd,drivetrain_right_actual_velocity);
+	}
+	if(m_slowloop.run_loop())
+	{
 	}
 	if(m_veryslowloop.run_loop())
 	{
-		//print_loopstates(m_veryslowloop);
-		//print_loopstates(m_slowloop);
-		//print_loopstates(m_mediumloop);
-		//print_loopstates(m_fastloop);
+		print_loopstates(m_veryslowloop);
+		print_loopstates(m_slowloop);
+		print_loopstates(m_mediumloop);
+		print_loopstates(m_fastloop);
 	}
 }
 //Communication Functions

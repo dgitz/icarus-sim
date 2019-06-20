@@ -40,6 +40,8 @@
 #include "MotorControllerModel.h"
 #include "MotorModel.h"
 
+#define INITIALIZATION_TIME 20.0f
+
 namespace gazebo
 {
 /*! \class RobotPlugin RobotPlugin.h "RobotPlugin.h"
@@ -125,6 +127,7 @@ private:
 	ros::Publisher pub_rightimu;
 
 	//Timing Variables
+	double run_time;
 	SimpleTimer m_fastloop;
 	SimpleTimer m_mediumloop;
 	SimpleTimer m_slowloop;
@@ -133,6 +136,7 @@ private:
 	//State Variables
 	gazebo::math::Pose initial_pose;
 	bool pose_initialized;
+	bool robot_initialized;
 	bool drivecommand_received;
 	std::vector<joint> joints;
 	common::PID drivetrain_left_pid;
