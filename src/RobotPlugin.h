@@ -39,6 +39,7 @@
 #include "../../eROS/include/eROS_Definitions.h"
 #include "MotorControllerModel.h"
 #include "MotorModel.h"
+#include "Sensor/IMU/IMUSensor.h"
 
 #define INITIALIZATION_TIME 20.0f
 
@@ -68,8 +69,9 @@ public:
 	//Destructors
 
 private:
-	struct IMU
+	struct IMUStorage
 	{
+		IMUSensor sensor;
 		bool initialized;
 		double time_imu_updated;
 		double time_imumag_updated;
