@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<sdf version='1.5'>
+<sdf version='1.6'>
     <model name="mid_wheel">
         <static>false</static>
         <link name="mid_wheel">
@@ -29,8 +29,8 @@
                             <use_patch_radius>false</use_patch_radius>
                         </torsional>
                         <ode>
-                            <mu>0.7</mu>
-                            <mu2>0.7</mu2>
+                            <mu>1.0</mu>
+                            <mu2>1.0</mu2>
                             <slip1>0.0</slip1>
                             <slip2>0.0</slip2>
                         </ode>

@@ -1,0 +1,56 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="110015-NEXT">
+    <static>false</static>
+    <link name="LeftIMU">
+        <inertial>
+          <mass>0.05</mass>
+        </inertial>
+
+
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.0508 0.0508 0.0127</size>
+          </box>
+        </geometry>
+      </visual>
+      <sensor name="left_imu" type="imu">
+        <visualize>true</visualize>
+        <imu>
+          <angular_velocity>
+            <x>
+            </x>
+            <y>
+            </y>
+            <z>
+            </z>
+          </angular_velocity>
+          <linear_acceleration>
+            <x>
+            </x>
+            <y>
+            </y>
+            <z>
+            </z>
+          </linear_acceleration>
+        </imu>
+        <always_on>1</always_on>
+        <update_rate>50</update_rate>
+      </sensor>
+      <sensor name="left_imu_mag" type="magnetometer">
+        <visualize>true</visualize>
+        <magnetometer>
+            <x>
+            </x>
+            <y>
+            </y>
+            <z>
+            </z>
+        </magnetometer>
+        <always_on>1</always_on>
+        <update_rate>2</update_rate>
+      </sensor>
+    </link>
+  </model>
+</sdf>

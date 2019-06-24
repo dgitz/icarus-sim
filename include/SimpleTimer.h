@@ -17,6 +17,10 @@ public:
 			time_sincelast = 0.0;
 			enabled = false;
 			looprate_percerror = 0.0;
+			last_error = 0.0;
+			cum_error = 0.0;
+			dt = 0.0;
+			print_data = false;
 	}
 	void reset()
 	{
@@ -31,6 +35,7 @@ public:
 		gettimeofday(&m_currentTime,NULL);
 		return getTimeInSeconds(m_currentTime)-getTimeInSeconds(m_startTime);
 	}
+	double get_timedelta() { return dt; }
 	bool check_looprate()
 	{
 		if(counter < 10)
@@ -40,11 +45,28 @@ public:
 		}
 		actual_rate = get_actualrate();
 		double error = target_rate - actual_rate;
-		set_rate += 0.1 * error;
+		cum_error += error;
+		double P = 5.0*error;
+		double I = 1.0*cum_error;
+		double D = -1*(error-last_error);
+		double t_set_rate = target_rate + P + I + D;
+		double t_set_perc = abs(100.0*(target_rate-t_set_rate)/target_rate);
+		if(t_set_perc < 20.0)
+		{
+			set_rate = t_set_rate;
+		}
+		last_error = error;
 		looprate_percerror = 100.0*(target_rate - actual_rate)/target_rate;
+		if(name == "FASTLOOP")
+		{
+			//printf("%f %f %f %f %f %f %f %f %f %f\n",error,last_error,cum_error,P,I,D,set_rate,actual_rate,target_rate,looprate_percerror);
+		}
 		if(looprate_percerror > 5.0)
 		{
-			printf("WARN: %s is is Running Slow: %4.2f/%4.2f\n",get_name().c_str(),actual_rate,target_rate);
+			if(print_data == true)
+			{
+				printf("WARN: %s is is Running Slow: %4.2f/%4.2f\n",get_name().c_str(),actual_rate,target_rate);
+			}
 			return false;
 		}
 		else
@@ -66,7 +88,7 @@ public:
 		{
 			return false;
 		}
-		double dt = getTimeInSeconds(m_currentTime)-getTimeInSeconds(m_lastTime);
+		dt = getTimeInSeconds(m_currentTime)-getTimeInSeconds(m_lastTime);
 		if(dt > 1.0/set_rate)
 		{
 			should_run = true;
@@ -77,6 +99,7 @@ public:
             counter++;
 			gettimeofday(&m_lastTime,NULL);
 		}
+		
 		return should_run;
 	}
 	void set_targetrate(double v)
@@ -92,7 +115,7 @@ public:
 		}
 
 		target_rate = v;
-		set_rate = v;
+		set_rate = 1.1*v;
 		if(target_rate <= 0.0)
 		{
 			enabled = false;
@@ -109,11 +132,15 @@ public:
         return (double)(counter)/timeElapsed();
     }
 	double get_timesincelastrun() { return time_sincelast; }
+	void enable_printing() { print_data = true; }
 private:
 	double getTimeInSeconds(const struct timeval& time)
 	{
 		return (double)time.tv_sec + (double)(time.tv_usec)/1000000.0;
 	}
+	bool print_data;
+	double last_error;
+	double cum_error;
 	double looprate_percerror;
     uint64_t counter;
 	std::string name;
@@ -125,5 +152,6 @@ private:
 	struct timeval m_lastTime;
 	double time_sincelast;
 	bool enabled;
+	double dt;
 };
 #endif

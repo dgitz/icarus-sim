@@ -1,0 +1,87 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="110015-3551284">
+    <static>false</static>
+    
+    <link name="RightIMU">
+      <inertial>
+          <mass>0.01</mass>
+        </inertial>
+ 
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.0508 0.0508 0.0127</size>
+          </box>
+        </geometry>
+      </visual>
+      <sensor name="right_imu" type="imu">
+        <visualize>true</visualize>
+        <imu>
+          <angular_velocity>
+            <x>
+              <noise type="gaussian_quantized">
+                <mean>0.0</mean>
+                <stddev>0.014622</stddev>
+                <precision>0.122070313</precision>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian_quantized">
+                <mean>0.0</mean>
+                <stddev>0.015377</stddev>
+                <precision>0.122070313</precision>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian_quantized">
+                <mean>0.0</mean>
+                <stddev>0.022808</stddev>
+                <precision>0.122070313</precision>
+              </noise>
+            </z>
+          </angular_velocity>
+          <linear_acceleration>
+            <x>
+              <noise type="gaussian_quantized">
+                <mean>-0.029807</mean>
+                <stddev>0.056973</stddev>
+                <precision>0.000598755</precision>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian_quantized">
+                <mean>-0.047906</mean>
+                <stddev>0.074346</stddev>
+                <precision>0.000598755</precision>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian_quantized">
+                <mean>-0.036439</mean>
+                <stddev>0.067145</stddev>
+                <precision>0.000598755</precision>
+              </noise>
+            </z>
+          </linear_acceleration>
+        </imu>
+        <always_on>1</always_on>
+        <update_rate>50</update_rate>
+      </sensor>
+      <sensor name="right_imu_mag" type="magnetometer">
+        <visualize>true</visualize>
+        <magnetometer>
+            <x>
+            </x>
+            <y>
+            </y>
+            <z>
+            </z>
+        </magnetometer>
+        <always_on>1</always_on>
+        <update_rate>2</update_rate>
+      </sensor>
+
+    </link>
+  </model>
+</sdf>
