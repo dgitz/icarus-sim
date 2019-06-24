@@ -15,60 +15,23 @@
           </box>
         </geometry>
       </visual>
-      <collision name="collision">
-        <geometry>
-          <box>
-            <size>0.0508 0.0508 0.0127</size>
-          </box>
-        </geometry>
-      </collision>
       <sensor name="left_imu" type="imu">
         <visualize>true</visualize>
         <imu>
           <angular_velocity>
             <x>
-              <noise type="gaussian_quantized">
-                <mean>0.0</mean>
-                <stddev>0.014622</stddev>
-                <precision>0.000598755</precision>
-              </noise>
             </x>
             <y>
-              <noise type="gaussian_quantized">
-                <mean>0.0</mean>
-                <stddev>0.015377</stddev>
-                <precision>0.000598755</precision>
-              </noise>
             </y>
             <z>
-              <noise type="gaussian_quantized">
-                <mean>0.0</mean>
-                <stddev>0.022808</stddev>
-                <precision>0.000598755</precision>
-              </noise>
             </z>
           </angular_velocity>
           <linear_acceleration>
             <x>
-              <noise type="gaussian_quantized">
-                <mean>-0.029807</mean>
-                <stddev>0.056973</stddev>
-                <precision>0.122070313</precision>
-              </noise>
             </x>
             <y>
-              <noise type="gaussian_quantized">
-                <mean>-0.047906</mean>
-                <stddev>0.074346</stddev>
-                <precision>0.122070313</precision>
-              </noise>
             </y>
             <z>
-              <noise type="gaussian_quantized">
-                <mean>-0.036439</mean>
-                <stddev>0.067145</stddev>
-                <precision>0.122070313</precision>
-              </noise>
             </z>
           </linear_acceleration>
         </imu>
@@ -79,25 +42,10 @@
         <visualize>true</visualize>
         <magnetometer>
             <x>
-              <noise type="gaussian_quantized">
-                <mean>0.0</mean>
-                <stddev>0.026309</stddev>
-                <precision>0</precision>
-              </noise>
             </x>
             <y>
-              <noise type="gaussian_quantized">
-                <mean>0.0</mean>
-                <stddev>0.012666</stddev>
-                <precision>0</precision>
-              </noise>
             </y>
             <z>
-              <noise type="gaussian_quantized">
-                <mean>0.0</mean>
-                <stddev>0.022808</stddev>
-                <precision>0.012149</precision>
-              </noise>
             </z>
         </magnetometer>
         <always_on>1</always_on>

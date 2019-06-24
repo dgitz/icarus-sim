@@ -4,7 +4,7 @@
         
         <static>false</static>
         <link name="base">
-            <pose>0 0 0.104902 1.570796327 0 1.570796327</pose>
+            <pose>0 0 0 0 0 0</pose>
             <inertial>
                 <mass>5.119</mass>
                 <inertia>
@@ -221,7 +221,7 @@
         </joint> 
 
         <!-- BOOM -->
-        <!-- DISABLED FOR NOW UNTIL CONTROLLER IS BUILT
+        <!-- DISABLED FOR NOW UNTIL CONTROLLER IS BUILT 
         <link name="boom">
             <pose>0.186944 0 0.1221232 1.570796327 0 1.570796327</pose>
             <inertial>
@@ -501,12 +501,13 @@
                 </ode>
             </physics>
         </joint> 
-        -->
+        BOOM DISABLE -->
 
         <!-- SENSORS -->
+        <!-- -->
         <include>
             <uri>model://110015-NEXT</uri>
-            <pose>0 0.07 0.08 0 0 0</pose>
+            <pose>0 0.07 0.08 0 0 1.570796327</pose> <!-- ROTATE LEFT 90 DEGREES -->
         </include>
         <joint name="base_leftimu" type="fixed">
             <child>110015-NEXT::LeftIMU</child>
@@ -514,12 +515,13 @@
         </joint>
         <include>
             <uri>model://110015-3551284</uri>
-            <pose>0 -0.07 .08 0 0 0</pose>
+            <pose>0 -0.07 .08 0 0 -1.570796327</pose>  <!-- ROTATE RIGHT 90 DEGREES -->
         </include>
         <joint name="base_rightimu" type="fixed">
             <child>110015-3551284::RightIMU</child>
             <parent>base</parent>
         </joint>
+        <!-- -->
         
         
     </model>

@@ -98,6 +98,16 @@ bool RobotPlugin::LoadModel()
 		printf("Robot Model did not receive any info.  Exiting.\n");
 		return false;
 	}
+	printf("Joint Count: %d\n",m_model->GetJointCount());
+	auto t_links = m_model->GetLinks();
+	printf("Link Count: %d\n",t_links.size());
+	for(std::size_t i = 0; i < t_links.size(); ++i)
+	{	
+		link newlink;
+		newlink.id = (uint16_t)i;
+		newlink.name = m_model->GetLinks()[i]->GetScopedName();
+		links.push_back(newlink);
+	}
 	
 	for(uint16_t i = 0; i < m_model->GetJointCount(); ++i)
 	{
@@ -270,9 +280,9 @@ bool RobotPlugin::LoadSensors()
 	}
 	return true;
 }
-RobotPlugin::IMU RobotPlugin::initialize_imu(std::string location)
+RobotPlugin::IMUStorage RobotPlugin::initialize_imu(std::string location)
 {
-	IMU m_imu;
+	IMUStorage m_imu;
 	m_imu.initialized = false;
 	m_sensorManager = sensors::SensorManager::Instance();
 	if(m_sensorManager ==nullptr)
@@ -288,12 +298,34 @@ RobotPlugin::IMU RobotPlugin::initialize_imu(std::string location)
 		main_imu_name = "left_imu";
 		main_magnetometer_name = "left_imu_mag";
 		topic_name = "/LeftIMU";
+		math::Pose link_pose;
+		bool v = readLinkPose("LeftIMU",&link_pose);
+		if(v == false)
+		{
+			m_imu.initialized = false;
+			return m_imu;
+		}
+		m_imu.sensor.init("LeftIMU");
+		m_imu.sensor.set_pose(link_pose);
+		std::cout << "LeftIMU ACC Rotation Matrix:" << std::endl << 
+			m_imu.sensor.GetRotationMatrix_Acceleration() << std::endl;
 	}
 	else if(location == "right")
 	{
 		main_imu_name = "right_imu";
 		main_magnetometer_name = "right_imu_mag";
 		topic_name = "/RightIMU";
+		math::Pose link_pose;
+		bool v = readLinkPose("RightIMU",&link_pose);
+		if(v == false)
+		{
+			m_imu.initialized = false;
+			return m_imu;
+		}
+		m_imu.sensor.init("RightIMU");
+		m_imu.sensor.set_pose(link_pose);
+		std::cout << "RightIMU ACC Rotation Matrix:" << std::endl << 
+			m_imu.sensor.GetRotationMatrix_Acceleration() << std::endl;
 	}
 	else
 	{
@@ -320,29 +352,8 @@ RobotPlugin::IMU RobotPlugin::initialize_imu(std::string location)
 		}
 		m_imu.m_gazebo_imu_mag = dynamic_pointer_cast<sensors::MagnetometerSensor,sensors::Sensor>(_sensor);
 	}
-	m_imu.time_imu_updated = 0.0;
-	m_imu.time_imumag_updated = 0.0;
-	m_imu.eros_imu.sequence_number = 0;
-	m_imu.eros_imu.xacc.type = SIGNALTYPE_ACCELERATION;
-	m_imu.eros_imu.xacc.status = SIGNALSTATE_INITIALIZING;
-	m_imu.eros_imu.yacc.type = SIGNALTYPE_ACCELERATION;
-	m_imu.eros_imu.yacc.status = SIGNALSTATE_INITIALIZING;
-	m_imu.eros_imu.zacc.type = SIGNALTYPE_ACCELERATION;
-	m_imu.eros_imu.zacc.status = SIGNALSTATE_INITIALIZING;
-
-	m_imu.eros_imu.xgyro.type = SIGNALTYPE_ROTATION_RATE;
-	m_imu.eros_imu.xgyro.status = SIGNALSTATE_INITIALIZING;
-	m_imu.eros_imu.ygyro.type = SIGNALTYPE_ROTATION_RATE;
-	m_imu.eros_imu.ygyro.status = SIGNALSTATE_INITIALIZING;
-	m_imu.eros_imu.zgyro.type = SIGNALTYPE_ROTATION_RATE;
-	m_imu.eros_imu.zgyro.status = SIGNALSTATE_INITIALIZING;
-
-	m_imu.eros_imu.xmag.type = SIGNALTYPE_MAGNETIC_FIELD;
-	m_imu.eros_imu.xmag.status = SIGNALSTATE_INITIALIZING;
-	m_imu.eros_imu.ymag.type = SIGNALTYPE_MAGNETIC_FIELD;
-	m_imu.eros_imu.ymag.status = SIGNALSTATE_INITIALIZING;
-	m_imu.eros_imu.zmag.type = SIGNALTYPE_MAGNETIC_FIELD;
-	m_imu.eros_imu.zmag.status = SIGNALSTATE_INITIALIZING;
+	
+	
 
 	m_imu.initialized = true;
 	return m_imu;
@@ -355,63 +366,6 @@ void RobotPlugin::QueueThread()
 	{
 		this->rosQueue.callAvailable(ros::WallDuration(timeout));
 	}
-}
-RobotPlugin::IMU RobotPlugin::update_IMU(double current_time,IMU imu)
-{
-	imu.eros_imu.tov = current_time;
-	{
-		double time_updated = imu.m_gazebo_imu->LastUpdateTime().Double();
-		if(time_updated > imu.time_imu_updated)
-		{
-			imu.time_imu_updated = time_updated;
-			ignition::math::Vector3d acc = imu.m_gazebo_imu->LinearAcceleration();
-			ignition::math::Vector3d rate = imu.m_gazebo_imu->AngularVelocity();
-			imu.eros_imu.xacc.status = SIGNALSTATE_UPDATED;
-			imu.eros_imu.yacc.status = SIGNALSTATE_UPDATED;
-			imu.eros_imu.zacc.status = SIGNALSTATE_UPDATED;
-			imu.eros_imu.xgyro.status = SIGNALSTATE_UPDATED;
-			imu.eros_imu.ygyro.status = SIGNALSTATE_UPDATED;
-			imu.eros_imu.zgyro.status = SIGNALSTATE_UPDATED;
-			imu.eros_imu.xacc.value = acc.X();
-			imu.eros_imu.yacc.value = acc.Y();
-			imu.eros_imu.zacc.value = acc.Z();
-			imu.eros_imu.xgyro.value = rate.X()*180.0/M_PI;
-			imu.eros_imu.ygyro.value = rate.Y()*180.0/M_PI;
-			imu.eros_imu.zgyro.value = rate.Z()*180.0/M_PI;
-		}
-		else
-		{
-			imu.eros_imu.xacc.status = SIGNALSTATE_HOLD;
-			imu.eros_imu.yacc.status = SIGNALSTATE_HOLD;
-			imu.eros_imu.zacc.status = SIGNALSTATE_HOLD;
-			imu.eros_imu.xgyro.status = SIGNALSTATE_HOLD;
-			imu.eros_imu.ygyro.status = SIGNALSTATE_HOLD;
-			imu.eros_imu.zgyro.status = SIGNALSTATE_HOLD;
-		}	
-	}
-	{
-		double time_updated = imu.m_gazebo_imu_mag->LastUpdateTime().Double();
-		if(time_updated > imu.time_imumag_updated)
-		{
-			ignition::math::Vector3d mag = imu.m_gazebo_imu_mag->MagneticField();
-			imu.time_imumag_updated = time_updated;
-			imu.eros_imu.xmag.status = SIGNALSTATE_UPDATED;
-			imu.eros_imu.ymag.status = SIGNALSTATE_UPDATED;
-			imu.eros_imu.zmag.status = SIGNALSTATE_UPDATED;
-			imu.eros_imu.xmag.value = mag.X();
-			imu.eros_imu.ymag.value = mag.Y();
-			imu.eros_imu.zmag.value = mag.Z();
-		}
-		else
-		{
-			imu.eros_imu.xmag.status = SIGNALSTATE_HOLD;
-			imu.eros_imu.ymag.status = SIGNALSTATE_HOLD;
-			imu.eros_imu.zmag.status = SIGNALSTATE_HOLD;
-		}
-		
-	}
-	return imu;
-	
 }
 void RobotPlugin::OnUpdate()
 {
@@ -451,10 +405,23 @@ void RobotPlugin::OnUpdate()
 		}
 		if((sensors_enabled == true) and (robot_initialized == true))
 		{
-			left_imu = update_IMU(m_fastloop.get_currentTime(),left_imu);
-			pub_leftimu.publish(left_imu.eros_imu);
-			right_imu = update_IMU(m_fastloop.get_currentTime(),right_imu);
-			pub_rightimu.publish(right_imu.eros_imu);
+			//left_imu = update_IMU(m_fastloop.get_currentTime(),left_imu);
+			pub_leftimu.publish(left_imu.sensor.update_IMU(
+				m_fastloop.get_currentTime(),
+				left_imu.m_gazebo_imu->LastUpdateTime().Double(),
+				left_imu.m_gazebo_imu_mag->LastUpdateTime().Double(),
+				left_imu.m_gazebo_imu->LinearAcceleration(),
+				left_imu.m_gazebo_imu->AngularVelocity(),
+				left_imu.m_gazebo_imu_mag->MagneticField()));
+			pub_rightimu.publish(right_imu.sensor.update_IMU(
+				m_fastloop.get_currentTime(),
+				right_imu.m_gazebo_imu->LastUpdateTime().Double(),
+				right_imu.m_gazebo_imu_mag->LastUpdateTime().Double(),
+				right_imu.m_gazebo_imu->LinearAcceleration(),
+				right_imu.m_gazebo_imu->AngularVelocity(),
+				right_imu.m_gazebo_imu_mag->MagneticField()));
+			//right_imu = update_IMU(m_fastloop.get_currentTime(),right_imu);
+			//pub_rightimu.publish(right_imu.eros_imu);
 		}
 	}
 	if(m_mediumloop.run_loop())
@@ -479,6 +446,8 @@ void RobotPlugin::OnUpdate()
 	}
 	if(m_slowloop.run_loop())
 	{
+		//std::cout << "Left: " << left_imu.m_gazebo_imu->Orientation() << std::endl;
+		//std::cout << "Right: " << right_imu.m_gazebo_imu->Orientation() << std::endl;
 	}
 	if(m_veryslowloop.run_loop())
 	{
@@ -561,12 +530,21 @@ void RobotPlugin::print_loopstates(SimpleTimer timer)
 }
 void RobotPlugin::print_model()
 {
+	printf("--- JOINTS ---\n");
 	for(std::size_t i = 0; i < joints.size(); ++i)
 	{
 		printf("[%d] Type: %s Name: %s\n",
 				joints.at(i).id,
 				map_jointtype_tostring(joints.at(i).joint_type).c_str(),
 				joints.at(i).name.c_str());
+	}
+	printf("--- LINKS ---\n");
+	for(std::size_t i = 0; i < links.size(); ++i)
+	{
+		printf("[%d] Name: %s\n",
+			links.at(i).id,
+			links.at(i).name.c_str());
+		std::cout << "\tPose: " << m_model->GetLink(links.at(i).name)->GetRelativePose() << std::endl;
 	}
 }
 std::string RobotPlugin::map_jointtype_tostring(uint16_t joint_type)
@@ -606,4 +584,21 @@ double RobotPlugin::compute_distance(gazebo::math::Pose a, gazebo::math::Pose b)
 	double dz = a.pos.z-b.pos.z;
 	double d = sqrt((dx*dx)+(dy*dy)+(dz*dz));
 	return d;
+}
+bool RobotPlugin::readLinkPose(std::string shortname,math::Pose* pose)
+{
+	bool found = false;
+	auto t_links = m_model->GetLinks();
+	for(std::size_t i = 0; i < t_links.size(); ++i)
+	{	
+		std::string name = m_model->GetLinks()[i]->GetScopedName();
+		if(std::string::npos != name.find(shortname))
+		{
+			found = true;
+			*pose = m_model->GetLink(name)->GetRelativePose();
+		}
+	}
+	return found;
+
+	//m_model->GetLink(links.at(i).name)->GetRelativePose()
 }

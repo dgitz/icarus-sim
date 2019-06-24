@@ -9,7 +9,6 @@
 #define SRC_ICARUS_SIM_SRC_ROBOTPLUGIN_H_
 
 //C System Files
-#include <math.h> 
 //C++ System Files
 #include <thread>
 #include <vector>
@@ -71,22 +70,20 @@ public:
 private:
 	struct IMUStorage
 	{
-		IMUSensor sensor;
 		bool initialized;
-		double time_imu_updated;
-		double time_imumag_updated;
+		IMUSensor sensor;
 		sensors::MagnetometerSensorPtr m_gazebo_imu_mag;
 		sensors::ImuSensorPtr m_gazebo_imu;
 		eros::imu eros_imu;
 	};
 	//Initialize Functions
-	IMU initialize_imu(std::string location);
-	IMU update_IMU(double current_time,IMU imu);
+	IMUStorage initialize_imu(std::string location);
 	bool InitializePlugin();
 	bool LoadModel();
 	bool LoadSensors();
 	bool InitializeSubscriptions();
 	bool InitializePublications();
+	bool readLinkPose(std::string shortname,math::Pose* pose);
 	//Update Functions
 	void QueueThread();
 	double  compute_distance(gazebo::math::Pose a, gazebo::math::Pose b);
@@ -108,6 +105,11 @@ private:
 	{
 		JointType joint_type;
 		double poweron_setpoint;
+		uint16_t id;
+		std::string name;
+	};
+	struct link
+	{
 		uint16_t id;
 		std::string name;
 	};
@@ -141,6 +143,7 @@ private:
 	bool robot_initialized;
 	bool drivecommand_received;
 	std::vector<joint> joints;
+	std::vector<link> links;
 	common::PID drivetrain_left_pid;
 	common::PID drivetrain_right_pid;
 	double drivetrain_left_actual_velocity;
@@ -155,8 +158,8 @@ private:
 	//Sensor Variables
 	sensors::SensorManager *m_sensorManager;
 	bool sensors_enabled;
-	IMU left_imu;
-	IMU right_imu;
+	IMUStorage left_imu;
+	IMUStorage right_imu;
 	
 
 	
