@@ -100,7 +100,7 @@ bool RobotPlugin::LoadModel()
 	}
 	printf("Joint Count: %d\n",m_model->GetJointCount());
 	auto t_links = m_model->GetLinks();
-	printf("Link Count: %d\n",t_links.size());
+	printf("Link Count: %d\n",(int)t_links.size());
 	for(std::size_t i = 0; i < t_links.size(); ++i)
 	{	
 		link newlink;
