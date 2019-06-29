@@ -41,8 +41,9 @@ include_directories(include ${Boost_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
 add_library(RobotPlugin SHARED src/RobotPlugin.cpp)
 add_library(MotorControllerModel src/MotorControllerModel.cpp)
 add_library(IMUSensor src/Sensor/IMU/IMUSensor.cpp)
+add_library(TruthSensor src/Sensor/Truth/TruthSensor.cpp)
 add_library(MotorModel src/MotorModel.cpp)
-target_link_libraries(RobotPlugin ${GAZEBO_LIBRARIES} ${roscpp_LIBRARIES} ${catkin_LIBRARIES} MotorControllerModel MotorModel IMUSensor)
+target_link_libraries(RobotPlugin ${GAZEBO_LIBRARIES} ${roscpp_LIBRARIES} ${catkin_LIBRARIES} MotorControllerModel MotorModel IMUSensor TruthSensor)
 add_dependencies(RobotPlugin ${catkin_EXPORTED_TARGETS})
 
 

@@ -67,11 +67,16 @@
     </model>
     -->
     <include>
+        <uri>model://hardworld</uri>
+      <name>hardworld</name>
+      <pose>0 0 0 0 0 0 </pose>
+    </include>
+    <include>
       <uri>model://scout</uri>
         <plugin name="robot_control" filename="libRobotPlugin.so">
         </plugin>
       <name>sim_scout</name>
-      <pose>0 0 0 0 0 0</pose>
+      <pose>2 -.5 .1 0 -0.0872665 0</pose>
     </include>
   </world>
 </sdf>

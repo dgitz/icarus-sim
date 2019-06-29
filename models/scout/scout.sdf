@@ -507,7 +507,7 @@
         <!-- -->
         <include>
             <uri>model://110015-NEXT</uri>
-            <pose>0 0.07 0.08 0 0 1.570796327</pose> <!-- ROTATE LEFT 90 DEGREES -->
+            <pose>-0.043688 0.099314 0.083566 0 0 1.570796327</pose> 
         </include>
         <joint name="base_leftimu" type="fixed">
             <child>110015-NEXT::LeftIMU</child>
@@ -515,7 +515,7 @@
         </joint>
         <include>
             <uri>model://110015-3551284</uri>
-            <pose>0 -0.07 .08 0 0 -1.570796327</pose>  <!-- ROTATE RIGHT 90 DEGREES -->
+            <pose>0.043688 -0.099314 0.083566 0 0 -1.570796327</pose>  
         </include>
         <joint name="base_rightimu" type="fixed">
             <child>110015-3551284::RightIMU</child>

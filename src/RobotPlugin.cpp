@@ -98,17 +98,26 @@ bool RobotPlugin::LoadModel()
 		printf("Robot Model did not receive any info.  Exiting.\n");
 		return false;
 	}
-	printf("Joint Count: %d\n",m_model->GetJointCount());
 	auto t_links = m_model->GetLinks();
-	printf("Link Count: %d\n",t_links.size());
+	bool found_baselink = false;
 	for(std::size_t i = 0; i < t_links.size(); ++i)
 	{	
 		link newlink;
 		newlink.id = (uint16_t)i;
 		newlink.name = m_model->GetLinks()[i]->GetScopedName();
 		links.push_back(newlink);
+		if(newlink.name.find("base") != std::string::npos)
+		{
+			base_link = newlink.name;
+			found_baselink = true;
+		}
+
 	}
-	
+	if(found_baselink == false)
+	{
+		printf("Could not find link: base. Exiting.\n");
+		return false;
+	}
 	for(uint16_t i = 0; i < m_model->GetJointCount(); ++i)
 	{
 		if (m_model->GetJoints()[i]->GetScopedName().find("drivetrain") != std::string::npos)
@@ -133,6 +142,7 @@ bool RobotPlugin::LoadModel()
 				newjoint.name = m_model->GetJoints()[i]->GetScopedName();
 				joints.push_back(newjoint);
 			}
+			
 		}
 		if (m_model->GetJoints()[i]->GetScopedName().find("boom_base_joint") != std::string::npos)
 		{
@@ -159,19 +169,11 @@ bool RobotPlugin::LoadModel()
 		m_model->GetJoints()[joints.at(i).id]->SetVelocity(1,0.0);
 		m_model->GetJoints()[joints.at(i).id]->SetVelocity(2,0.0);
 	}
-	/*
-	drivetrain_left_pid = common::PID(0.1, 0, 0);
-	drivetrain_right_pid = common::PID(0.1, 0, 0);
-	boomrotate_pid = common::PID(0.3, 0.01, 0.01);
-	bucketrotate_pid = common::PID(0.3, 0.01, 0.01);
-	*/
 	for(std::size_t i = 0; i < joints.size(); ++i)
 	{
 		for(int j = 0; j < 0; ++j)
 		{
 			m_model->GetJoints()[joints.at(i).id]->SetVelocity(0,joints.at(i).poweron_setpoint);
-			//m_model->GetJoints()[joints.at(i).id]->SetVelocity(1,joints.at(i).poweron_setpoint);
-			//m_model->GetJoints()[joints.at(i).id]->SetVelocity(2,joints.at(i).poweron_setpoint);
 		}
 	}
 	{
@@ -256,6 +258,7 @@ bool RobotPlugin::InitializeSubscriptions()
 }
 bool RobotPlugin::InitializePublications()
 {
+	pub_truthpose = this->rosNode->advertise<eros::pose>("/TruthPose_Simulated",1);
 	if(sensors_enabled == true)
 	{
 		pub_leftimu = this->rosNode->advertise<eros::imu>("/LeftIMU",1);
@@ -354,7 +357,7 @@ RobotPlugin::IMUStorage RobotPlugin::initialize_imu(std::string location)
 	}
 	
 	
-
+	last_pose = truth_pose.sensor.get_pose();
 	m_imu.initialized = true;
 	return m_imu;
 }
@@ -403,9 +406,33 @@ void RobotPlugin::OnUpdate()
 			}
 			
 		}
+		for(std::size_t i = 0; i < joints.size(); ++i)
+		{
+			if(joints.at(i).joint_type == JointType::DRIVETRAIN_LEFT)
+			{
+				drivetrain_left_actual_velocity = m_model->GetJoints()[joints.at(i).id]->GetVelocity(0);
+			}
+			else if(joints.at(i).joint_type == JointType::DRIVETRAIN_RIGHT)
+			{
+				drivetrain_right_actual_velocity = m_model->GetJoints()[joints.at(i).id]->GetVelocity(0);
+			}
+			
+			
+		}
+		if(robot_initialized == true)
+		{
+			bool status = truth_pose.sensor.update_worldpose(
+				m_fastloop.get_currentTime(),
+				m_model->GetLink(base_link)->GetWorldPose(),
+				m_model->GetLink(base_link)->GetWorldAngularVel());
+			if(status == false)
+			{
+				kill_node = false;
+			}
+			pub_truthpose.publish(truth_pose.sensor.get_pose());
+		}
 		if((sensors_enabled == true) and (robot_initialized == true))
 		{
-			//left_imu = update_IMU(m_fastloop.get_currentTime(),left_imu);
 			pub_leftimu.publish(left_imu.sensor.update_IMU(
 				m_fastloop.get_currentTime(),
 				left_imu.m_gazebo_imu->LastUpdateTime().Double(),
@@ -420,41 +447,27 @@ void RobotPlugin::OnUpdate()
 				right_imu.m_gazebo_imu->LinearAcceleration(),
 				right_imu.m_gazebo_imu->AngularVelocity(),
 				right_imu.m_gazebo_imu_mag->MagneticField()));
-			//right_imu = update_IMU(m_fastloop.get_currentTime(),right_imu);
-			//pub_rightimu.publish(right_imu.eros_imu);
 		}
 	}
 	if(m_mediumloop.run_loop())
 	{
-		for(std::size_t i = 0; i < joints.size(); ++i)
-		{
-			if(joints.at(i).joint_type == JointType::DRIVETRAIN_LEFT)
-			{
-				drivetrain_left_actual_velocity = m_model->GetJoints()[joints.at(i).id]->GetVelocity(0);
-			}
-			else if(joints.at(i).joint_type == JointType::DRIVETRAIN_RIGHT)
-			{
-				drivetrain_right_actual_velocity = m_model->GetJoints()[joints.at(i).id]->GetVelocity(0);
-			}
-			
-		}
+		
+		
+		
 		m_fastloop.check_looprate();
 		m_mediumloop.check_looprate();
 		m_slowloop.check_looprate();
 		m_veryslowloop.check_looprate();
-		//printf("Left: %4.2f/%4.2f Right: %4.2f/%4.2f\n",left_cmd,drivetrain_left_actual_velocity,right_cmd,drivetrain_right_actual_velocity);
 	}
 	if(m_slowloop.run_loop())
 	{
-		//std::cout << "Left: " << left_imu.m_gazebo_imu->Orientation() << std::endl;
-		//std::cout << "Right: " << right_imu.m_gazebo_imu->Orientation() << std::endl;
 	}
 	if(m_veryslowloop.run_loop())
 	{
-		print_loopstates(m_veryslowloop);
-		print_loopstates(m_slowloop);
-		print_loopstates(m_mediumloop);
-		print_loopstates(m_fastloop);
+		//print_loopstates(m_veryslowloop);
+		//print_loopstates(m_slowloop);
+		//print_loopstates(m_mediumloop);
+		//print_loopstates(m_fastloop);
 	}
 }
 //Communication Functions
