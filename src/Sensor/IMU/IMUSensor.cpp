@@ -43,6 +43,21 @@ bool IMUSensor::init(std::string t_name)
 	
 	return true;
 }
+IMUSensor::RMS IMUSensor::compute_rms(RMS rms,double value,uint64_t update_count)
+{
+	if(update_count == 0)
+	{
+		rms.mean = pow(value,2.0);
+	}
+	else
+	{
+		double a = (pow(value,2.0)/(double)((update_count+1)));
+		double b = (rms.mean/(double)(update_count+1));
+		rms.mean += a-b;
+	}
+	rms.value = pow(rms.mean,0.5);
+	return rms;
+}
 void IMUSensor::set_pose(gazebo::math::Pose pose)
 {
 	sensor_pose = pose;
@@ -70,9 +85,6 @@ eros::imu IMUSensor::update_IMU(double current_time,double last_imu_update,doubl
 			imu_data.xgyro.status = SIGNALSTATE_UPDATED;
 			imu_data.ygyro.status = SIGNALSTATE_UPDATED;
 			imu_data.zgyro.status = SIGNALSTATE_UPDATED;
-			//imu_data.xacc.value = linear_acc.X();
-			//imu_data.yacc.value = linear_acc.Y();
-			//imu_data.zacc.value = linear_acc.Z();
 			{
 				Eigen::RowVector3f v;
 				v << linear_acc.X(),linear_acc.Y(),linear_acc.Z();
@@ -80,40 +92,13 @@ eros::imu IMUSensor::update_IMU(double current_time,double last_imu_update,doubl
 				imu_data.xacc.value = vp(0);
 				imu_data.yacc.value = vp(1);
 				imu_data.zacc.value = vp(2);
-				if(update_count == 0)
-				{
-					xacc_rms_mean1 = pow(imu_data.xacc.value,2.0);
-				}
-				else
-				{
-					xacc_rms_mean1 += (pow(imu_data.xacc.value,2.0)/(double)((update_count+1))) - (xacc_rms_mean1/(double)(update_count+1));
-				}
-				imu_data.xacc.rms = pow(xacc_rms_mean1,0.5);
-
-				if(update_count == 0)
-				{
-					yacc_rms_mean1 = pow(imu_data.yacc.value,2.0);
-				}
-				else
-				{
-					yacc_rms_mean1 += (pow(imu_data.yacc.value,2.0)/(double)((update_count+1))) - (yacc_rms_mean1/(double)(update_count+1));
-				}
-				imu_data.yacc.rms = pow(yacc_rms_mean1,0.5);
-
-				if(update_count == 0)
-				{
-					zacc_rms_mean1 = pow(imu_data.zacc.value,2.0);
-				}
-				else
-				{
-					zacc_rms_mean1 += (pow(imu_data.zacc.value,2.0)/(double)((update_count+1))) - (zacc_rms_mean1/(double)(update_count+1));
-				}
-				imu_data.zacc.rms = pow(zacc_rms_mean1,0.5);
+				xacc_rms = compute_rms(xacc_rms,imu_data.xacc.value,update_count);
+				yacc_rms = compute_rms(yacc_rms,imu_data.yacc.value,update_count);
+				zacc_rms = compute_rms(zacc_rms,imu_data.zacc.value,update_count);
+				imu_data.xacc.rms = xacc_rms.value;
+				imu_data.yacc.rms = yacc_rms.value;
+				imu_data.zacc.rms = zacc_rms.value;
 			}
-
-			//imu_data.xgyro.value = angular_rate.X()*180.0/M_PI;
-			//imu_data.ygyro.value = angular_rate.Y()*180.0/M_PI;
-			//imu_data.zgyro.value = angular_rate.Z()*180.0/M_PI;
 			{
 				Eigen::RowVector3f v;
 				v << angular_rate.X()*180.0/M_PI,angular_rate.Y()*180.0/M_PI,angular_rate.Z()*180.0/M_PI;
@@ -121,35 +106,12 @@ eros::imu IMUSensor::update_IMU(double current_time,double last_imu_update,doubl
 				imu_data.xgyro.value = vp(0);
 				imu_data.ygyro.value = vp(1);
 				imu_data.zgyro.value = vp(2);
-				if(update_count == 0)
-				{
-					xgyro_rms_mean1 = pow(imu_data.xgyro.value,2.0);
-				}
-				else
-				{
-					xgyro_rms_mean1 += (pow(imu_data.xgyro.value,2.0)/(double)((update_count+1))) - (xgyro_rms_mean1/(double)(update_count+1));
-				}
-				imu_data.xgyro.rms = pow(xgyro_rms_mean1,0.5);
-
-				if(update_count == 0)
-				{
-					ygyro_rms_mean1 = pow(imu_data.ygyro.value,2.0);
-				}
-				else
-				{
-					ygyro_rms_mean1 += (pow(imu_data.ygyro.value,2.0)/(double)((update_count+1))) - (ygyro_rms_mean1/(double)(update_count+1));
-				}
-				imu_data.ygyro.rms = pow(ygyro_rms_mean1,0.5);
-
-				if(update_count == 0)
-				{
-					zgyro_rms_mean1 = pow(imu_data.zgyro.value,2.0);
-				}
-				else
-				{
-					zgyro_rms_mean1 += (pow(imu_data.zgyro.value,2.0)/(double)((update_count+1))) - (zgyro_rms_mean1/(double)(update_count+1));
-				}
-				imu_data.zgyro.rms = pow(zgyro_rms_mean1,0.5);
+				xgyro_rms = compute_rms(xgyro_rms,imu_data.xgyro.value,update_count);
+				ygyro_rms = compute_rms(ygyro_rms,imu_data.ygyro.value,update_count);
+				zgyro_rms = compute_rms(zgyro_rms,imu_data.zgyro.value,update_count);
+				imu_data.xgyro.rms = xgyro_rms.value;
+				imu_data.ygyro.rms = ygyro_rms.value;
+				imu_data.zgyro.rms = zgyro_rms.value;
 			}
 		}
 		else
@@ -189,36 +151,12 @@ eros::imu IMUSensor::update_IMU(double current_time,double last_imu_update,doubl
 				imu_data.xmag.value = vp(0);
 				imu_data.ymag.value = vp(1);
 				imu_data.zmag.value = vp(2);
-
-				if(update_count == 0)
-				{
-					xmag_rms_mean1 = pow(imu_data.xmag.value,2.0);
-				}
-				else
-				{
-					xmag_rms_mean1 += (pow(imu_data.xmag.value,2.0)/(double)((update_count+1))) - (xmag_rms_mean1/(double)(update_count+1));
-				}
-				imu_data.xmag.rms = pow(xmag_rms_mean1,0.5);
-
-				if(update_count == 0)
-				{
-					ymag_rms_mean1 = pow(imu_data.ymag.value,2.0);
-				}
-				else
-				{
-					ymag_rms_mean1 += (pow(imu_data.ymag.value,2.0)/(double)((update_count+1))) - (ymag_rms_mean1/(double)(update_count+1));
-				}
-				imu_data.ymag.rms = pow(ymag_rms_mean1,0.5);
-
-				if(update_count == 0)
-				{
-					zmag_rms_mean1 = pow(imu_data.zmag.value,2.0);
-				}
-				else
-				{
-					zmag_rms_mean1 += (pow(imu_data.zmag.value,2.0)/(double)((update_count+1))) - (zmag_rms_mean1/(double)(update_count+1));
-				}
-				imu_data.zmag.rms = pow(zmag_rms_mean1,0.5);
+				xmag_rms = compute_rms(xmag_rms,imu_data.xmag.value,update_count);
+				ymag_rms = compute_rms(ymag_rms,imu_data.ymag.value,update_count);
+				zmag_rms = compute_rms(zmag_rms,imu_data.zmag.value,update_count);
+				imu_data.xmag.rms = xmag_rms.value;
+				imu_data.ymag.rms = ymag_rms.value;
+				imu_data.zmag.rms = zmag_rms.value;
 			}
 		}
 		else
@@ -235,8 +173,6 @@ eros::imu IMUSensor::update_IMU(double current_time,double last_imu_update,doubl
 }
 IMUSensor::RotationMatrix IMUSensor::generate_rotation_matrix(double roll,double pitch,double yaw)
 {
-
-
 	RotationMatrix R;
 	Eigen::Matrix3f X;
 	X.row(0) << 1.0,0.0,0.0;

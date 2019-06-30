@@ -43,14 +43,6 @@
                     </contact>
                 </surface>
             </collision>
-            <visual name="visual">
-                <geometry>
-                    <cylinder>
-                        <radius>0.031115</radius>
-                        <length>0.023368</length>
-                    </cylinder>
-                </geometry>
-            </visual>
         </link>
     </model>
 </sdf>

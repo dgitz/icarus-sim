@@ -33,14 +33,16 @@
 #include <eros/signal.h>
 #include <eros/imu.h>
 #include <eros/pin.h>
+#include <eros/pose.h>
 //Project
 #include "../include/SimpleTimer.h"
 #include "../../eROS/include/eROS_Definitions.h"
 #include "MotorControllerModel.h"
 #include "MotorModel.h"
+#include "Sensor/Truth/TruthSensor.h"
 #include "Sensor/IMU/IMUSensor.h"
 
-#define INITIALIZATION_TIME 20.0f
+#define INITIALIZATION_TIME 5.0f
 
 namespace gazebo
 {
@@ -68,6 +70,11 @@ public:
 	//Destructors
 
 private:
+	struct TruthPoseStorage
+	{
+		TruthSensor sensor;
+		eros::pose pose;
+	};
 	struct IMUStorage
 	{
 		bool initialized;
@@ -129,6 +136,7 @@ private:
 	ros::Subscriber sub_bucketrotate_cmd;
 	ros::Publisher pub_leftimu;
 	ros::Publisher pub_rightimu;
+	ros::Publisher pub_truthpose;
 
 	//Timing Variables
 	double run_time;
@@ -140,9 +148,11 @@ private:
 	//State Variables
 	gazebo::math::Pose initial_pose;
 	bool pose_initialized;
+	std::string base_link;
 	bool robot_initialized;
 	bool drivecommand_received;
 	std::vector<joint> joints;
+	
 	std::vector<link> links;
 	common::PID drivetrain_left_pid;
 	common::PID drivetrain_right_pid;
@@ -160,6 +170,8 @@ private:
 	bool sensors_enabled;
 	IMUStorage left_imu;
 	IMUStorage right_imu;
+	TruthPoseStorage truth_pose;
+	eros::pose last_pose;
 	
 
 	

@@ -45,6 +45,12 @@ private:
 		Eigen::Matrix3f Rotation_Mag_Z;
 		Eigen::Matrix3f Rotation_Mag;
 	};
+	struct RMS
+	{
+		double value;
+		double mean;
+	};
+	RMS compute_rms(RMS rms,double value,uint64_t update_count);
 	gazebo::math::Pose sensor_pose;
 	RotationMatrix generate_rotation_matrix(double mao_roll_rad,double mao_pitch_rad,double mao_yaw_rad);
 	RotationMatrix rotate_matrix;
@@ -54,15 +60,15 @@ private:
 	uint64_t update_count;
 	eros::imu imu_data;
 
-	double xacc_rms_mean1;
-	double yacc_rms_mean1;
-	double zacc_rms_mean1;
-	double xgyro_rms_mean1;
-	double ygyro_rms_mean1;
-	double zgyro_rms_mean1;
-	double xmag_rms_mean1;
-	double ymag_rms_mean1;
-	double zmag_rms_mean1;
+	RMS xacc_rms;
+	RMS yacc_rms;
+	RMS zacc_rms;
+	RMS xgyro_rms;
+	RMS ygyro_rms;
+	RMS zgyro_rms;
+	RMS xmag_rms;
+	RMS ymag_rms;
+	RMS zmag_rms;
 };
 
 #endif /* SRC_ICARUS_SIM_SRC_MOTORMODEL_H_ */
