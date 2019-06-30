@@ -1,6 +1,9 @@
 <?xml version="1.0" ?>
 <sdf version="1.4">
   <world name="default">
+    <gui fullscreen='0'>
+        <plugin name='keyboard' filename='libKeyboardGUIPlugin.so'/>
+    </gui>
     <model name="ground_plane">
         <static>true</static>
         <link name="link">
