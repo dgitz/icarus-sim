@@ -21,6 +21,8 @@ RobotPlugin::RobotPlugin(): ModelPlugin(),
 	kill_node = false;
 	robot_initialized = false;
 	run_time = 0.0;
+	cmd_throttle = 0.0;
+	cmd_steer = 0.0;
 	// TODO Auto-generated constructor stub
 	printf("Plugin opened\n");
 }
@@ -132,7 +134,11 @@ bool RobotPlugin::LoadModel()
 				newjoint.name = m_model->GetJoints()[i]->GetScopedName();
 				if(left_wheelencoder.sensor.is_initialized() == false)
 				{
-					left_wheelencoder.sensor.init("LeftEncoder");
+					if(left_wheelencoder.sensor.init("110003","LeftEncoder") == false)
+					{
+						printf("Could not initialize LeftEncoder.  Exiting.\n");
+						return false;
+					}
 				}
 				joints.push_back(newjoint);
 			}
@@ -146,7 +152,11 @@ bool RobotPlugin::LoadModel()
 				newjoint.name = m_model->GetJoints()[i]->GetScopedName();
 				if(right_wheelencoder.sensor.is_initialized() == false)
 				{
-					right_wheelencoder.sensor.init("RightEncoder");
+					if(right_wheelencoder.sensor.init("110003","RightEncoder") == false)
+					{
+						printf("Could not initialize LeftEncoder.  Exiting.\n");
+						return false;
+					}
 				}
 				joints.push_back(newjoint);
 			}
@@ -200,6 +210,12 @@ bool RobotPlugin::LoadModel()
 			printf("Could not Initialize Left Motor.\n");
 			return false;
 		}
+		drivetrain_left_motorcontroller_pin.pin.ParentDevice = "SimulatedRover";
+		drivetrain_left_motorcontroller_pin.pin.Name = "LeftMotorController";
+		drivetrain_left_motorcontroller_pin.pin.MinValue = 1000;
+		drivetrain_left_motorcontroller_pin.pin.MaxValue = 2000;
+		drivetrain_left_motorcontroller_pin.pin.DefaultValue = 1500;
+		drivetrain_left_motorcontroller_pin.pin.Value = drivetrain_left_motorcontroller_pin.pin.DefaultValue;
 	}
 	{
 		bool status = right_motorcontroller.init("362009");
@@ -208,6 +224,12 @@ bool RobotPlugin::LoadModel()
 			printf("Could not Initialize Right Motor Controller.\n");
 			return false;
 		}
+		drivetrain_right_motorcontroller_pin.pin.ParentDevice = "SimulatedRover";
+		drivetrain_right_motorcontroller_pin.pin.Name = "RightMotorController";
+		drivetrain_right_motorcontroller_pin.pin.MinValue = 1000;
+		drivetrain_right_motorcontroller_pin.pin.MaxValue = 2000;
+		drivetrain_right_motorcontroller_pin.pin.DefaultValue = 1500;
+		drivetrain_right_motorcontroller_pin.pin.Value = drivetrain_left_motorcontroller_pin.pin.DefaultValue;
 	}
 	{
 		bool status = right_motor.init("361006",45.0);
@@ -221,6 +243,9 @@ bool RobotPlugin::LoadModel()
 }
 bool RobotPlugin::InitializeSubscriptions()
 {
+	{
+		this->sub_keyboardevent = node->Subscribe("~/keyboard/keypress",&RobotPlugin::KeyboardEventCallback,this,true);
+	}
 	{
 		ros::SubscribeOptions so =
 				ros::SubscribeOptions::create<eros::pin>(
@@ -270,10 +295,12 @@ bool RobotPlugin::InitializePublications()
 	pub_truthpose = this->rosNode->advertise<eros::pose>("/TruthPose_Simulated",1);
 	if(sensors_enabled == true)
 	{
-		pub_leftimu = this->rosNode->advertise<eros::imu>("/LeftIMU",1);
-		pub_rightimu = this->rosNode->advertise<eros::imu>("/RightIMU",1);
+		pub_leftimu = this->rosNode->advertise<eros::imu>("/LeftIMU_Simulated",1);
+		pub_rightimu = this->rosNode->advertise<eros::imu>("/RightIMU_Simulated",1);
 		pub_leftwheelencoder = this->rosNode->advertise<eros::signal>("/LeftWheelEncoder_Simulated",1);
 		pub_rightwheelencoder = this->rosNode->advertise<eros::signal>("/RightWheelEncoder_Simulated",1);
+		pub_drivetrain_left_cmd = this->rosNode->advertise<eros::pin>("/LeftMotorController",1);
+		pub_drivetrain_right_cmd = this->rosNode->advertise<eros::pin>("/RightMotorController",1);
 	}
 	return true;
 }
@@ -421,11 +448,23 @@ void RobotPlugin::OnUpdate()
 		{
 			if(joints.at(i).joint_type == JointType::DRIVETRAIN_LEFT)
 			{
-				drivetrain_left_actual_velocity = m_model->GetJoints()[joints.at(i).id]->GetVelocity(0);
+				if(std::string::npos != joints.at(i).name.find("front"))
+				{
+					drivetrain_left_actual_velocity = m_model->GetJoints()[joints.at(i).id]->GetVelocity(0);
+				}
 			}
 			else if(joints.at(i).joint_type == JointType::DRIVETRAIN_RIGHT)
 			{
-				drivetrain_right_actual_velocity = m_model->GetJoints()[joints.at(i).id]->GetVelocity(0);
+				if(std::string::npos != joints.at(i).name.find("front"))
+				{
+					drivetrain_right_actual_velocity = m_model->GetJoints()[joints.at(i).id]->GetVelocity(0);
+				}
+				/*printf("%s %f %f %f\n",
+					joints.at(i).name.c_str(),
+					m_model->GetJoints()[joints.at(i).id]->GetVelocity(0),
+					m_model->GetJoints()[joints.at(i).id]->GetVelocity(1),
+					m_model->GetJoints()[joints.at(i).id]->GetVelocity(2));
+					*/
 			}
 			
 			
@@ -441,6 +480,15 @@ void RobotPlugin::OnUpdate()
 				kill_node = false;
 			}
 			pub_truthpose.publish(truth_pose.sensor.get_pose());
+			DrivePerc cmd = arcade_mix(cmd_throttle,cmd_steer);	
+			double left_sv = scale_value(cmd.left,1000.0,1500.0,2000.0);
+			drivetrain_left_motorcontroller_pin.pin.Value = (int32_t)left_sv;
+			pub_drivetrain_left_cmd.publish(drivetrain_left_motorcontroller_pin.pin);
+			double right_sv = scale_value(cmd.right,1000.0,1500.0,2000.0);
+			drivetrain_right_motorcontroller_pin.pin.Value = (int32_t)right_sv;
+			pub_drivetrain_right_cmd.publish(drivetrain_right_motorcontroller_pin.pin);
+			
+
 		}
 		if((sensors_enabled == true) and (robot_initialized == true))
 		{
@@ -595,12 +643,22 @@ std::string RobotPlugin::map_jointtype_tostring(uint16_t joint_type)
 	}
 }
 //Debug
-double RobotPlugin::scale_value(double x,double neutral,double x1,double x2,double y1,double y2, double deadband)
+double RobotPlugin::scale_value(double input_perc,double y1,double neutral,double y2)
 {
-	double out = 0.0;
-	double m = (y2-y1)/(x2-x1);
-	//y-y1 = m(x-x1)
-	out = m*(x-x1) + y1;
+	double m_upper,m_lower=0.0;
+	double out_upper,out_lower,out=0.0;
+	m_upper = (y2-neutral)/100.0;
+	m_lower = (neutral-y1)/100.0;
+	out_upper = (m_upper*input_perc) + neutral;
+	out_lower = (m_lower*input_perc) + neutral;
+	if(input_perc >= 0.0)
+	{
+		out = out_upper;
+	}
+	else
+	{
+		out = out_lower;
+	}
 	return out;
 }
 double RobotPlugin::compute_distance(gazebo::math::Pose a, gazebo::math::Pose b)
@@ -627,4 +685,65 @@ bool RobotPlugin::readLinkPose(std::string shortname,math::Pose* pose)
 	return found;
 
 	//m_model->GetLink(links.at(i).name)->GetRelativePose()
+}
+RobotPlugin::DrivePerc RobotPlugin::arcade_mix(double throttle_perc,double steer_perc)
+{
+	DrivePerc d;
+	double v =(100.0-fabs(steer_perc)) * (throttle_perc/100.0) + throttle_perc;
+	double w= (100.0-fabs(throttle_perc)) * (steer_perc/100.0) + steer_perc;
+	d.left = (v+w)/2.0;
+	d.right = (v-w)/2.0;
+	if(d.left > 100.0) { d.left = 100.0; }
+	if(d.left < -100.0) { d.right = -100.0; }
+	if(d.right > 100.0) { d.right = 100.0; }
+	if(d.right < -100.0) { d.right = -100.0; }
+	return d;
+}
+void RobotPlugin::KeyboardEventCallback(ConstAnyPtr &_msg)
+{
+	switch(_msg->int_value())
+	{
+		case KEYCODE_DOWNARROW:
+			drivecommand_received = true;
+			cmd_throttle-=10.0;
+			if(cmd_throttle < -100.0)
+			{
+				cmd_throttle = -100.0;
+			}
+			break;
+		case KEYCODE_LEFTARROW:
+			drivecommand_received = true;
+			cmd_steer-=10.0;
+			if(cmd_steer < -100.0)
+			{
+				cmd_steer = -100.0;
+			}
+			break;
+		case KEYCODE_RIGHTARROW:
+			drivecommand_received = true;
+			cmd_steer+=10.0;
+			if(cmd_steer > 100.0)
+			{
+				cmd_steer = 100.0;
+			}
+			break;
+		case KEYCODE_UPARROW:
+			drivecommand_received = true;
+			cmd_throttle+=10.0;
+			if(cmd_throttle > 100.0)
+			{
+				cmd_throttle = 100.0;
+			}
+			break;
+		case KEYCODE_SPACE:
+			
+			break;
+		case KEYCODE_ENTER:
+			drivecommand_received = true;
+			cmd_throttle = 0.0;
+			cmd_steer = 0.0;
+			break;
+		default:
+			break;
+	}
 }

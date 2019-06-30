@@ -1,6 +1,6 @@
 /*
  * WheelEncoderSensor.h
- *
+ WHEEL VELOCITY --> WHEEL ANGLE POSITION --> ANGLE POSITION IN UNITS OF ENCODER --> TICK VELOCITY
  */
 
 #ifndef SRC_ICARUS_SIM_SRC_WHEELENCODERSENSOR_H_
@@ -16,7 +16,7 @@
 class WheelEncoderSensor {
 public:
 	WheelEncoderSensor();
-	bool init(std::string t_name);
+	bool init(std::string partnumber,std::string t_name);
 	bool is_initialized() { return initialized; }
 	eros::signal update(double t_current_time,double wheel_velocity);
 	virtual ~WheelEncoderSensor();
@@ -26,12 +26,14 @@ private:
 		double value;
 		double mean;
 	};
+	double count_per_revolution;
 	bool initialized;
 	RMS compute_rms(RMS rms,double value,uint64_t t_update_count);
 	std::string name;
 	eros::signal signal;
 	RMS rms;
 	uint64_t update_count;
+	double position_mod;
 	double position;
 	double current_time;
 	int16_t tick_value;
