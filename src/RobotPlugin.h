@@ -41,6 +41,7 @@
 #include "MotorModel.h"
 #include "Sensor/Truth/TruthSensor.h"
 #include "Sensor/IMU/IMUSensor.h"
+#include "Sensor/WheelEncoder/WheelEncoderSensor.h"
 
 #define INITIALIZATION_TIME 5.0f
 
@@ -82,6 +83,11 @@ private:
 		sensors::MagnetometerSensorPtr m_gazebo_imu_mag;
 		sensors::ImuSensorPtr m_gazebo_imu;
 		eros::imu eros_imu;
+	};
+	struct WheelEncoderStorage
+	{
+		bool initialized;
+		WheelEncoderSensor sensor;
 	};
 	//Initialize Functions
 	IMUStorage initialize_imu(std::string location);
@@ -137,6 +143,8 @@ private:
 	ros::Publisher pub_leftimu;
 	ros::Publisher pub_rightimu;
 	ros::Publisher pub_truthpose;
+	ros::Publisher pub_leftwheelencoder;
+	ros::Publisher pub_rightwheelencoder;
 
 	//Timing Variables
 	double run_time;
@@ -186,6 +194,8 @@ private:
 	MotorModel left_motor;
 	MotorModel right_motor;
 
+	WheelEncoderStorage left_wheelencoder;
+	WheelEncoderStorage right_wheelencoder;
 
 
 

@@ -130,6 +130,10 @@ bool RobotPlugin::LoadModel()
 				newjoint.poweron_setpoint = 0.0;
 				drivetrain_left_actual_velocity = newjoint.poweron_setpoint;
 				newjoint.name = m_model->GetJoints()[i]->GetScopedName();
+				if(left_wheelencoder.sensor.is_initialized() == false)
+				{
+					left_wheelencoder.sensor.init("LeftEncoder");
+				}
 				joints.push_back(newjoint);
 			}
 			if (m_model->GetJoints()[i]->GetScopedName().find("right") != std::string::npos)
@@ -140,6 +144,10 @@ bool RobotPlugin::LoadModel()
 				newjoint.poweron_setpoint = 0.0;
 				drivetrain_right_actual_velocity = newjoint.poweron_setpoint;
 				newjoint.name = m_model->GetJoints()[i]->GetScopedName();
+				if(right_wheelencoder.sensor.is_initialized() == false)
+				{
+					right_wheelencoder.sensor.init("RightEncoder");
+				}
 				joints.push_back(newjoint);
 			}
 			
@@ -183,6 +191,7 @@ bool RobotPlugin::LoadModel()
 			printf("Could not Initialize Left Motor Controller.\n");
 			return false;
 		}
+
 	}
 	{
 		bool status = left_motor.init("361006",45.0);
@@ -263,6 +272,8 @@ bool RobotPlugin::InitializePublications()
 	{
 		pub_leftimu = this->rosNode->advertise<eros::imu>("/LeftIMU",1);
 		pub_rightimu = this->rosNode->advertise<eros::imu>("/RightIMU",1);
+		pub_leftwheelencoder = this->rosNode->advertise<eros::signal>("/LeftWheelEncoder_Simulated",1);
+		pub_rightwheelencoder = this->rosNode->advertise<eros::signal>("/RightWheelEncoder_Simulated",1);
 	}
 	return true;
 }
@@ -447,6 +458,8 @@ void RobotPlugin::OnUpdate()
 				right_imu.m_gazebo_imu->LinearAcceleration(),
 				right_imu.m_gazebo_imu->AngularVelocity(),
 				right_imu.m_gazebo_imu_mag->MagneticField()));
+			pub_leftwheelencoder.publish(left_wheelencoder.sensor.update(m_fastloop.get_currentTime(),drivetrain_left_actual_velocity));
+			pub_rightwheelencoder.publish(right_wheelencoder.sensor.update(m_fastloop.get_currentTime(),drivetrain_right_actual_velocity));
 		}
 	}
 	if(m_mediumloop.run_loop())
