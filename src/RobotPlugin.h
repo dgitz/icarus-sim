@@ -47,11 +47,13 @@
 #include <eros/imu.h>
 #include <eros/pin.h>
 #include <eros/pose.h>
+#include <eros/battery.h>
 //Project
 #include "../include/SimpleTimer.h"
 #include "../../eROS/include/eROS_Definitions.h"
-#include "MotorControllerModel.h"
-#include "MotorModel.h"
+#include "Power/MotorControllerModel/MotorControllerModel.h"
+#include "Power/MotorModel/MotorModel.h"
+#include "Power/BatteryModel/BatteryModel.h"
 #include "Sensor/Truth/TruthSensor.h"
 #include "Sensor/IMU/IMUSensor.h"
 #include "Sensor/WheelEncoder/WheelEncoderSensor.h"
@@ -90,7 +92,45 @@ public:
 	//Destructors
 
 private:
+	//Structs
+	
+	enum class JointType
+	{
+		UNKNOWN = 0,
+		DRIVETRAIN_LEFT =1,
+		DRIVETRAIN_RIGHT = 2,
+		BOOM_ROTATE = 3,
+		BUCKET_ROTATE = 4,
+	};
+	enum class LinkType
+	{
+		UNKNOWN = 0,
+		DRIVETRAIN_LEFT =1,
+		DRIVETRAIN_RIGHT = 2,
+		BOOM_ROTATE = 3,
+		BUCKET_ROTATE = 4,
+	};
+	struct joint
+	{
+		JointType joint_type;
+		double poweron_setpoint;
+		uint16_t id;
+		std::string name;
+	};
+	struct link
+	{
+		LinkType link_type;
+		uint16_t id;
+		std::string name;
+	};
+	struct DrivePerc
+	{
+		double left;
+		double right;
+	};
 	void KeyboardEventCallback(ConstAnyPtr &_msg);
+	double scale_value(double input_perc,double y1,double neutral,double y2);
+	DrivePerc arcade_mix(double throttle_perc,double steer_perc);
 	struct TruthPoseStorage
 	{
 		TruthSensor sensor;
@@ -114,7 +154,7 @@ private:
 		eros::pin pin;
 	};
 	//Initialize Functions
-	IMUStorage initialize_imu(std::string location);
+	IMUStorage initialize_imu(std::string partnumber,std::string location);
 	bool InitializePlugin();
 	bool LoadModel();
 	bool LoadSensors();
@@ -125,36 +165,9 @@ private:
 	void QueueThread();
 	double  compute_distance(gazebo::math::Pose a, gazebo::math::Pose b);
 	//Utility Functions
-	std::string map_jointtype_tostring(uint16_t joint_type);
+	std::string map_jointtype_tostring(JointType joint_type);
 	void print_loopstates(SimpleTimer timer);
-	//Structs
 	
-	enum JointType
-	{
-		UNKNOWN = 0,
-		DRIVETRAIN_LEFT =1,
-		DRIVETRAIN_RIGHT = 2,
-		BOOM_ROTATE = 3,
-		BUCKET_ROTATE = 4,
-
-	};
-	struct joint
-	{
-		JointType joint_type;
-		double poweron_setpoint;
-		uint16_t id;
-		std::string name;
-	};
-	struct link
-	{
-		uint16_t id;
-		std::string name;
-	};
-	struct DrivePerc
-	{
-		double left;
-		double right;
-	};
 	//Communication Variables
 	bool kill_node;
 	std::unique_ptr<ros::NodeHandle> rosNode;
@@ -163,7 +176,6 @@ private:
 	ros::CallbackQueue rosQueue;
 	physics::ModelPtr m_model;
 	std::thread rosQueueThread;
-
 	ros::Subscriber sub_drivetrain_left_cmd;
 	ros::Subscriber sub_drivetrain_right_cmd;
 	ros::Subscriber sub_boomrotate_cmd;
@@ -175,6 +187,7 @@ private:
 	ros::Publisher pub_rightwheelencoder;
 	ros::Publisher pub_drivetrain_left_cmd;
 	ros::Publisher pub_drivetrain_right_cmd;
+	ros::Publisher pub_batteryinfo;
 	transport::SubscriberPtr sub_keyboardevent;
 
 	//Timing Variables
@@ -214,13 +227,8 @@ private:
 	TruthPoseStorage truth_pose;
 	eros::pose last_pose;
 	
-
-	
-
-	
-	double scale_value(double input_perc,double y1,double neutral,double y2);
-	DrivePerc arcade_mix(double throttle_perc,double steer_perc);
 	//Robot Modelling
+	BatteryModel battery;
 	double cmd_throttle;
 	double cmd_steer;
 	MotorControllerModel left_motorcontroller;

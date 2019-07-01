@@ -15,9 +15,19 @@ MotorControllerModel::MotorControllerModel() {
 MotorControllerModel::~MotorControllerModel() {
 	// TODO Auto-generated destructor stub
 }
-
-bool MotorControllerModel::init(std::string part_number)
+double MotorControllerModel::get_currentconsumed()
 {
+	if(part_number == "362009")
+	{
+		return 0.01; //Guess
+	}
+	return 0.0;
+	
+}
+bool MotorControllerModel::init(std::string t_part_number,double circuitbreaker_size)
+{
+	max_currentusage = circuitbreaker_size;
+	part_number = t_part_number;
 	if(part_number == "362009")
 	{
 		type = MotorControllerType::VICTOR_SPX;

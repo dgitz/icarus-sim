@@ -21,8 +21,9 @@
 class IMUSensor {
 public:
 	IMUSensor();
-	bool init(std::string t_name);
+	bool init(std::string t_partnumber,std::string t_name);
 	void set_pose(gazebo::math::Pose pose);
+	double get_currentconsumed();
 	virtual ~IMUSensor();
 	eros::imu update_IMU(double current_time,double last_imu_update,double last_mag_update,
 	ignition::math::Vector3d linear_acc,ignition::math::Vector3d angular_rate,ignition::math::Vector3d sim_magdata);
@@ -50,6 +51,7 @@ private:
 		double value;
 		double mean;
 	};
+	std::string partnumber;
 	RMS compute_rms(RMS rms,double value,uint64_t update_count);
 	gazebo::math::Pose sensor_pose;
 	RotationMatrix generate_rotation_matrix(double mao_roll_rad,double mao_pitch_rad,double mao_yaw_rad);

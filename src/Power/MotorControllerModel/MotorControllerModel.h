@@ -16,15 +16,17 @@ public:
 		VICTOR_SPX=1,
 	};
 	MotorControllerModel();
-	bool init(std::string part_number);
+	bool init(std::string part_number,double circuitbreaker_size);
 	void set_batteryvoltage(double v)
 	{
 		battery_voltage = v;
-
 	}
 	double set_input(double v);
+	double get_currentconsumed();
 	virtual ~MotorControllerModel();
 private:
+	std::string part_number;
+	double max_currentusage;
 	double battery_voltage;
 	MotorControllerType type;
 	double pwm_in_max;

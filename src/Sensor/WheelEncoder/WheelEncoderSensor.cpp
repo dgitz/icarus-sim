@@ -14,13 +14,14 @@ WheelEncoderSensor::WheelEncoderSensor() {
 WheelEncoderSensor::~WheelEncoderSensor() {
 	// TODO Auto-generated destructor stub
 }
-bool WheelEncoderSensor::init(std::string partnumber,std::string t_name)
+bool WheelEncoderSensor::init(std::string t_partnumber,std::string t_name)
 {
 	name = t_name;
 	update_count = 0;
 	position_mod = 0.0;
 	position = 0.0;
 	tick_value = 0;
+	partnumber = t_partnumber;
 	signal.name = name;
 	signal.type = SIGNALTYPE_TICKSPEED;
 	signal.status = SIGNALSTATE_INITIALIZING;
@@ -37,6 +38,14 @@ bool WheelEncoderSensor::init(std::string partnumber,std::string t_name)
 	
 	initialized = true;
 	return true;
+}
+double WheelEncoderSensor::get_currentconsumed()
+{
+	if(partnumber == "110003")
+	{
+		return 0.025;
+	}
+	return 0.0;
 }
 eros::signal WheelEncoderSensor::update(double t_current_time,double wheel_velocity)
 {
