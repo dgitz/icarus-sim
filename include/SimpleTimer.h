@@ -65,7 +65,7 @@ public:
 		{
 			if(print_data == true)
 			{
-				printf("WARN: %s is is Running Slow: %4.2f/%4.2f\n",get_name().c_str(),actual_rate,target_rate);
+				//printf("WARN: %s is is Running Slow: %4.2f/%4.2f\n",get_name().c_str(),actual_rate,target_rate);
 			}
 			return false;
 		}

@@ -107,6 +107,18 @@ bool RobotPlugin::LoadModel()
 		link newlink;
 		newlink.id = (uint16_t)i;
 		newlink.name = m_model->GetLinks()[i]->GetScopedName();
+		newlink.link_type = LinkType::UNKNOWN;
+		if (newlink.name.find("wheel") != std::string::npos)
+		{
+			if (newlink.name.find("left") != std::string::npos)
+			{
+				newlink.link_type = LinkType::DRIVETRAIN_LEFT;
+			}
+			else if (newlink.name.find("right") != std::string::npos)
+			{
+				newlink.link_type = LinkType::DRIVETRAIN_RIGHT;
+			}
+		}
 		links.push_back(newlink);
 		if(newlink.name.find("base") != std::string::npos)
 		{
@@ -195,7 +207,16 @@ bool RobotPlugin::LoadModel()
 		}
 	}
 	{
-		bool status = left_motorcontroller.init("362009");
+		bool status = battery.init("555005");
+		if(status == false)
+		{
+			printf("Could not Initialize Battery. Exiting.\n");
+			return false;
+		}
+	}
+	double motorcontroller_circuitbreaker_size = 30.0;
+	{
+		bool status = left_motorcontroller.init("362009",motorcontroller_circuitbreaker_size);
 		if(status == false)
 		{
 			printf("Could not Initialize Left Motor Controller.\n");
@@ -204,7 +225,9 @@ bool RobotPlugin::LoadModel()
 
 	}
 	{
-		bool status = left_motor.init("361006",45.0);
+		std::vector<std::string> left_gearbox;
+		left_gearbox.push_back("542026");
+		bool status = left_motor.init("361006",left_gearbox,36.0/16.0,motorcontroller_circuitbreaker_size);
 		if(status == false)
 		{
 			printf("Could not Initialize Left Motor.\n");
@@ -218,7 +241,7 @@ bool RobotPlugin::LoadModel()
 		drivetrain_left_motorcontroller_pin.pin.Value = drivetrain_left_motorcontroller_pin.pin.DefaultValue;
 	}
 	{
-		bool status = right_motorcontroller.init("362009");
+		bool status = right_motorcontroller.init("362009",motorcontroller_circuitbreaker_size);
 		if(status == false)
 		{
 			printf("Could not Initialize Right Motor Controller.\n");
@@ -232,7 +255,9 @@ bool RobotPlugin::LoadModel()
 		drivetrain_right_motorcontroller_pin.pin.Value = drivetrain_left_motorcontroller_pin.pin.DefaultValue;
 	}
 	{
-		bool status = right_motor.init("361006",45.0);
+		std::vector<std::string> right_gearbox;
+		right_gearbox.push_back("542026");
+		bool status = right_motor.init("361006",right_gearbox,36.0/16.0,motorcontroller_circuitbreaker_size);
 		if(status == false)
 		{
 			printf("Could not Initialize Right Motor.\n");
@@ -293,6 +318,7 @@ bool RobotPlugin::InitializeSubscriptions()
 bool RobotPlugin::InitializePublications()
 {
 	pub_truthpose = this->rosNode->advertise<eros::pose>("/TruthPose_Simulated",1);
+	pub_batteryinfo = this->rosNode->advertise<eros::battery>("/MainBattery",1);
 	if(sensors_enabled == true)
 	{
 		pub_leftimu = this->rosNode->advertise<eros::imu>("/LeftIMU_Simulated",1);
@@ -308,12 +334,12 @@ bool RobotPlugin::LoadSensors()
 {
 	if(sensors_enabled == true)
 	{
-	left_imu = initialize_imu("left");
+	left_imu = initialize_imu("110015","left");
 	if(left_imu.initialized == false)
 	{
 		return false;
 	}
-	right_imu = initialize_imu("right");
+	right_imu = initialize_imu("110015","right");
 	if(right_imu.initialized == false)
 	{
 		return false;
@@ -321,7 +347,7 @@ bool RobotPlugin::LoadSensors()
 	}
 	return true;
 }
-RobotPlugin::IMUStorage RobotPlugin::initialize_imu(std::string location)
+RobotPlugin::IMUStorage RobotPlugin::initialize_imu(std::string partnumber,std::string location)
 {
 	IMUStorage m_imu;
 	m_imu.initialized = false;
@@ -346,7 +372,7 @@ RobotPlugin::IMUStorage RobotPlugin::initialize_imu(std::string location)
 			m_imu.initialized = false;
 			return m_imu;
 		}
-		m_imu.sensor.init("LeftIMU");
+		m_imu.sensor.init(partnumber,"LeftIMU");
 		m_imu.sensor.set_pose(link_pose);
 		std::cout << "LeftIMU ACC Rotation Matrix:" << std::endl << 
 			m_imu.sensor.GetRotationMatrix_Acceleration() << std::endl;
@@ -363,7 +389,7 @@ RobotPlugin::IMUStorage RobotPlugin::initialize_imu(std::string location)
 			m_imu.initialized = false;
 			return m_imu;
 		}
-		m_imu.sensor.init("RightIMU");
+		m_imu.sensor.init(partnumber,"RightIMU");
 		m_imu.sensor.set_pose(link_pose);
 		std::cout << "RightIMU ACC Rotation Matrix:" << std::endl << 
 			m_imu.sensor.GetRotationMatrix_Acceleration() << std::endl;
@@ -412,6 +438,7 @@ void RobotPlugin::OnUpdate()
 {
 	if(m_fastloop.run_loop())
 	{
+		battery.recharge_complete();
 		run_time+=m_fastloop.get_timedelta();
 		if(run_time > INITIALIZATION_TIME)
 		{
@@ -425,8 +452,8 @@ void RobotPlugin::OnUpdate()
 			}
 			robot_initialized = true;
 		}
-		left_motorcontroller.set_batteryvoltage(12.0);
-		right_motorcontroller.set_batteryvoltage(12.0);
+		left_motorcontroller.set_batteryvoltage(battery.get_voltage());
+		right_motorcontroller.set_batteryvoltage(battery.get_voltage());
 		gazebo::math::Pose pose = m_model->GetWorldPose();
 		if(pose_initialized == false)
 		{
@@ -444,6 +471,7 @@ void RobotPlugin::OnUpdate()
 			}
 			
 		}
+		
 		for(std::size_t i = 0; i < joints.size(); ++i)
 		{
 			if(joints.at(i).joint_type == JointType::DRIVETRAIN_LEFT)
@@ -469,6 +497,20 @@ void RobotPlugin::OnUpdate()
 			
 			
 		}
+		double left_torque = 0.0;
+		double right_torque = 0.0;
+		for(std::size_t i = 0; i < links.size(); ++i)
+		{
+			if(links.at(i).link_type == LinkType::DRIVETRAIN_LEFT)
+			{
+				left_torque+=m_model->GetLink(links.at(i).name)->GetRelativeTorque().x;
+			}
+			if(links.at(i).link_type == LinkType::DRIVETRAIN_RIGHT)
+			{
+				right_torque+=m_model->GetLink(links.at(i).name)->GetRelativeTorque().x;
+			}
+		}
+		//printf("Left: %f/%f Right: %f/%f\n",left_torque,drivetrain_left_actual_velocity*60.0/(2*M_PI),right_torque,drivetrain_right_actual_velocity*60.0/(2*M_PI));
 		if(robot_initialized == true)
 		{
 			bool status = truth_pose.sensor.update_worldpose(
@@ -512,9 +554,21 @@ void RobotPlugin::OnUpdate()
 	}
 	if(m_mediumloop.run_loop())
 	{
-		
-		
-		
+		double current_consumed = 0.0;
+		current_consumed+= left_motorcontroller.get_currentconsumed();
+		current_consumed+= right_motorcontroller.get_currentconsumed();
+		current_consumed+= right_motorcontroller.get_currentconsumed();
+		current_consumed+= left_imu.sensor.get_currentconsumed();
+		current_consumed+= right_imu.sensor.get_currentconsumed();
+		current_consumed+= left_wheelencoder.sensor.get_currentconsumed();
+		current_consumed+= right_wheelencoder.sensor.get_currentconsumed();
+		current_consumed+= left_motor.get_currentconsumed();
+		current_consumed+= right_motor.get_currentconsumed();
+		if(battery.update(m_mediumloop.get_timedelta(),current_consumed) == false)
+		{
+			printf("[WARN]: BATTERY DEPLETED!\n");
+		}
+		pub_batteryinfo.publish(battery.get_batteryinfo());
 		m_fastloop.check_looprate();
 		m_mediumloop.check_looprate();
 		m_slowloop.check_looprate();
@@ -522,6 +576,7 @@ void RobotPlugin::OnUpdate()
 	}
 	if(m_slowloop.run_loop())
 	{
+		battery.print_info();
 	}
 	if(m_veryslowloop.run_loop())
 	{
@@ -621,7 +676,7 @@ void RobotPlugin::print_model()
 		std::cout << "\tPose: " << m_model->GetLink(links.at(i).name)->GetRelativePose() << std::endl;
 	}
 }
-std::string RobotPlugin::map_jointtype_tostring(uint16_t joint_type)
+std::string RobotPlugin::map_jointtype_tostring(JointType joint_type)
 {
 	switch(joint_type)
 	{
@@ -705,7 +760,7 @@ void RobotPlugin::KeyboardEventCallback(ConstAnyPtr &_msg)
 	{
 		case KEYCODE_DOWNARROW:
 			drivecommand_received = true;
-			cmd_throttle-=10.0;
+			cmd_throttle-=5.0;
 			if(cmd_throttle < -100.0)
 			{
 				cmd_throttle = -100.0;
@@ -713,7 +768,7 @@ void RobotPlugin::KeyboardEventCallback(ConstAnyPtr &_msg)
 			break;
 		case KEYCODE_LEFTARROW:
 			drivecommand_received = true;
-			cmd_steer-=10.0;
+			cmd_steer-=5.0;
 			if(cmd_steer < -100.0)
 			{
 				cmd_steer = -100.0;
@@ -721,7 +776,7 @@ void RobotPlugin::KeyboardEventCallback(ConstAnyPtr &_msg)
 			break;
 		case KEYCODE_RIGHTARROW:
 			drivecommand_received = true;
-			cmd_steer+=10.0;
+			cmd_steer+=5.0;
 			if(cmd_steer > 100.0)
 			{
 				cmd_steer = 100.0;
@@ -729,7 +784,7 @@ void RobotPlugin::KeyboardEventCallback(ConstAnyPtr &_msg)
 			break;
 		case KEYCODE_UPARROW:
 			drivecommand_received = true;
-			cmd_throttle+=10.0;
+			cmd_throttle+=5.0;
 			if(cmd_throttle > 100.0)
 			{
 				cmd_throttle = 100.0;

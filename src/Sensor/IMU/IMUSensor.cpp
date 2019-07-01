@@ -13,8 +13,18 @@ IMUSensor::IMUSensor() {
 IMUSensor::~IMUSensor() {
 	// TODO Auto-generated destructor stub
 }
-bool IMUSensor::init(std::string t_name)
+bool IMUSensor::init(std::string t_partnumber,std::string t_name)
 {
+	partnumber = t_partnumber;
+	if(partnumber == "110015")
+	{
+
+	}
+	else
+	{
+		printf("[ERROR]: IMU PN: %s Not Supported.\n",partnumber.c_str());
+	}
+	
 	name = t_name;
 	time_imu_updated = -1.0;
 	time_imumag_updated = -1.0;
@@ -40,6 +50,7 @@ bool IMUSensor::init(std::string t_name)
 	imu_data.ymag.status = SIGNALSTATE_INITIALIZING;
 	imu_data.zmag.type = SIGNALTYPE_MAGNETIC_FIELD;
 	imu_data.zmag.status = SIGNALSTATE_INITIALIZING;
+
 	
 	return true;
 }
@@ -57,6 +68,14 @@ IMUSensor::RMS IMUSensor::compute_rms(RMS rms,double value,uint64_t update_count
 	}
 	rms.value = pow(rms.mean,0.5);
 	return rms;
+}
+double IMUSensor::get_currentconsumed()
+{
+	if(partnumber == "110015")
+	{
+		return 0.05;
+	}
+	return 0.0;
 }
 void IMUSensor::set_pose(gazebo::math::Pose pose)
 {
