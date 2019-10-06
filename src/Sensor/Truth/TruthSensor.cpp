@@ -43,16 +43,16 @@ TruthSensor::~TruthSensor() {
 }
 bool TruthSensor::update_worldpose(
 	double t_current_time,
-	gazebo::math::Pose pose,
-	gazebo::math::Vector3 rate)
+	ignition::math::Pose3d pose,
+	ignition::math::Vector3d rate)
 {
 	current_time = t_current_time;
 	world_pose = pose;
 	angular_rate = rate;
 	{	//Angular Rate
-		eros_pose.rollrate.value = rate.x*180.0/M_PI;
-		eros_pose.pitchrate.value = rate.y*180.0/M_PI;
-		eros_pose.yawrate.value = rate.z*180.0/M_PI;
+		eros_pose.rollrate.value = rate.X()*180.0/M_PI;
+		eros_pose.pitchrate.value = rate.Y()*180.0/M_PI;
+		eros_pose.yawrate.value = rate.Z()*180.0/M_PI;
 		rollrate_rms = compute_rms(rollrate_rms,eros_pose.rollrate.value,update_count);
 		pitchrate_rms = compute_rms(pitchrate_rms,eros_pose.pitchrate.value,update_count);
 		yawrate_rms = compute_rms(yawrate_rms,eros_pose.yawrate.value,update_count);
@@ -64,9 +64,9 @@ bool TruthSensor::update_worldpose(
 		eros_pose.yawrate.status = SIGNALSTATE_UPDATED;
 	}
 	{	//Orientation
-		eros_pose.roll.value = pose.rot.GetRoll()*180.0/M_PI;
-		eros_pose.pitch.value = pose.rot.GetPitch()*180.0/M_PI;
-		eros_pose.yaw.value = pose.rot.GetYaw()*180.0/M_PI;
+		eros_pose.roll.value = pose.Rot().Roll()*180.0/M_PI;
+		eros_pose.pitch.value = pose.Rot().Pitch()*180.0/M_PI;
+		eros_pose.yaw.value = pose.Rot().Yaw()*180.0/M_PI;
 		roll_rms = compute_rms(roll_rms,eros_pose.roll.value,update_count);
 		pitch_rms = compute_rms(pitch_rms,eros_pose.pitch.value,update_count);
 		yaw_rms = compute_rms(yaw_rms,eros_pose.yaw.value,update_count);
@@ -78,9 +78,9 @@ bool TruthSensor::update_worldpose(
 		eros_pose.yaw.status = SIGNALSTATE_UPDATED;
 	}
 	{	//Position
-		eros_pose.east.value = pose.pos.x;
-		eros_pose.north.value = pose.pos.y;
-		eros_pose.elev.value = pose.pos.z;
+		eros_pose.east.value = pose.Pos().X();
+		eros_pose.north.value = pose.Pos().Y();
+		eros_pose.elev.value = pose.Pos().Y();
 		east_rms = compute_rms(east_rms,eros_pose.east.value,update_count);
 		north_rms = compute_rms(north_rms,eros_pose.north.value,update_count);
 		elev_rms = compute_rms(elev_rms,eros_pose.elev.value,update_count);

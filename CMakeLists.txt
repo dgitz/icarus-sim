@@ -37,7 +37,6 @@ include_directories(include ${Boost_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
 
 
 
-
 add_library(RobotPlugin SHARED src/RobotPlugin.cpp)
 add_library(MotorControllerModel src/Power/MotorControllerModel/MotorControllerModel.cpp)
 add_library(IMUSensor src/Sensor/IMU/IMUSensor.cpp)

@@ -53,11 +53,7 @@ bool RobotPlugin::InitializePlugin()
 	}
 	print_model();
 	this->node = transport::NodePtr(new transport::Node());
-#if GAZEBO_MAJOR_VERSION < 8
-	this->node->Init(m_model->GetWorld()->GetName());
-#else
-	this->node->Init(this->model->GetWorld()->Name());
-#endif
+	this->node->Init(m_model->GetName());
 	printf("Starting ros\n");
 	if (!ros::isInitialized())
 	{
@@ -365,7 +361,7 @@ RobotPlugin::IMUStorage RobotPlugin::initialize_imu(std::string partnumber,std::
 		main_imu_name = "left_imu";
 		main_magnetometer_name = "left_imu_mag";
 		topic_name = "/LeftIMU";
-		math::Pose link_pose;
+		ignition::math::Pose3d link_pose;
 		bool v = readLinkPose("LeftIMU",&link_pose);
 		if(v == false)
 		{
@@ -382,7 +378,7 @@ RobotPlugin::IMUStorage RobotPlugin::initialize_imu(std::string partnumber,std::
 		main_imu_name = "right_imu";
 		main_magnetometer_name = "right_imu_mag";
 		topic_name = "/RightIMU";
-		math::Pose link_pose;
+		ignition::math::Pose3d link_pose;
 		bool v = readLinkPose("RightIMU",&link_pose);
 		if(v == false)
 		{
@@ -454,7 +450,7 @@ void RobotPlugin::OnUpdate()
 		}
 		left_motorcontroller.set_batteryvoltage(battery.get_voltage());
 		right_motorcontroller.set_batteryvoltage(battery.get_voltage());
-		gazebo::math::Pose pose = m_model->GetWorldPose();
+		ignition::math::Pose3d pose = m_model->WorldPose();
 		if(pose_initialized == false)
 		{
 			initial_pose = pose;
@@ -503,11 +499,11 @@ void RobotPlugin::OnUpdate()
 		{
 			if(links.at(i).link_type == LinkType::DRIVETRAIN_LEFT)
 			{
-				left_torque+=m_model->GetLink(links.at(i).name)->GetRelativeTorque().x;
+				left_torque+=m_model->GetLink(links.at(i).name)->RelativeTorque().X();
 			}
 			if(links.at(i).link_type == LinkType::DRIVETRAIN_RIGHT)
 			{
-				right_torque+=m_model->GetLink(links.at(i).name)->GetRelativeTorque().x;
+				right_torque+=m_model->GetLink(links.at(i).name)->RelativeTorque().X();
 			}
 		}
 		//printf("Left: %f/%f Right: %f/%f\n",left_torque,drivetrain_left_actual_velocity*60.0/(2*M_PI),right_torque,drivetrain_right_actual_velocity*60.0/(2*M_PI));
@@ -515,8 +511,8 @@ void RobotPlugin::OnUpdate()
 		{
 			bool status = truth_pose.sensor.update_worldpose(
 				m_fastloop.get_currentTime(),
-				m_model->GetLink(base_link)->GetWorldPose(),
-				m_model->GetLink(base_link)->GetWorldAngularVel());
+				m_model->GetLink(base_link)->WorldPose(),
+				m_model->GetLink(base_link)->WorldAngularVel());
 			if(status == false)
 			{
 				kill_node = false;
@@ -673,7 +669,7 @@ void RobotPlugin::print_model()
 		printf("[%d] Name: %s\n",
 			links.at(i).id,
 			links.at(i).name.c_str());
-		std::cout << "\tPose: " << m_model->GetLink(links.at(i).name)->GetRelativePose() << std::endl;
+		std::cout << "\tPose: " << m_model->GetLink(links.at(i).name)->RelativePose() << std::endl;
 	}
 }
 std::string RobotPlugin::map_jointtype_tostring(JointType joint_type)
@@ -716,15 +712,15 @@ double RobotPlugin::scale_value(double input_perc,double y1,double neutral,doubl
 	}
 	return out;
 }
-double RobotPlugin::compute_distance(gazebo::math::Pose a, gazebo::math::Pose b)
+double RobotPlugin::compute_distance(ignition::math::Pose3d a, ignition::math::Pose3d b)
 {
-	double dx = a.pos.x-b.pos.x;
-	double dy = a.pos.y-b.pos.y;
-	double dz = a.pos.z-b.pos.z;
+	double dx = a.Pos().X()-b.Pos().X();
+	double dy = a.Pos().Y()-b.Pos().Y();
+	double dz = a.Pos().Z()-b.Pos().Z();
 	double d = sqrt((dx*dx)+(dy*dy)+(dz*dz));
 	return d;
 }
-bool RobotPlugin::readLinkPose(std::string shortname,math::Pose* pose)
+bool RobotPlugin::readLinkPose(std::string shortname,ignition::math::Pose3d* pose)
 {
 	bool found = false;
 	auto t_links = m_model->GetLinks();
@@ -734,7 +730,7 @@ bool RobotPlugin::readLinkPose(std::string shortname,math::Pose* pose)
 		if(std::string::npos != name.find(shortname))
 		{
 			found = true;
-			*pose = m_model->GetLink(name)->GetRelativePose();
+			*pose = m_model->GetLink(name)->RelativePose();
 		}
 	}
 	return found;

@@ -22,6 +22,7 @@
 #include <gazebo/util/system.hh>
 #include <gazebo/sensors/sensors.hh>
 #include <ignition/math.hh>
+#include <ignition/math/Vector3.hh>
 
 #include <gazebo/gazebo.hh>
 #include <gazebo/transport/transport.hh>
@@ -160,10 +161,10 @@ private:
 	bool LoadSensors();
 	bool InitializeSubscriptions();
 	bool InitializePublications();
-	bool readLinkPose(std::string shortname,math::Pose* pose);
+	bool readLinkPose(std::string shortname,ignition::math::Pose3d* pose);
 	//Update Functions
 	void QueueThread();
-	double  compute_distance(gazebo::math::Pose a, gazebo::math::Pose b);
+	double  compute_distance(ignition::math::Pose3d a, ignition::math::Pose3d b);
 	//Utility Functions
 	std::string map_jointtype_tostring(JointType joint_type);
 	void print_loopstates(SimpleTimer timer);
@@ -198,7 +199,7 @@ private:
 	SimpleTimer m_veryslowloop;
 
 	//State Variables
-	gazebo::math::Pose initial_pose;
+	ignition::math::Pose3d initial_pose;
 	bool pose_initialized;
 	std::string base_link;
 	bool robot_initialized;
