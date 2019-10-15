@@ -170,31 +170,63 @@ bool RobotPlugin::LoadModel()
 			}
 			
 		}
-		if (m_model->GetJoints()[i]->GetScopedName().find("boom_base_joint") != std::string::npos)
+		if (m_model->GetJoints()[i]->GetScopedName().find("actuator") != std::string::npos)
 		{
 			joint newjoint;
-			newjoint.joint_type = JointType::BOOM_ROTATE;
+			newjoint.joint_type = JointType::LINEAR_ACTUATOR;
 			newjoint.id = i;
-			newjoint.poweron_setpoint = -1.0;
-			newjoint.name = m_model->GetJoints()[i]->GetScopedName();
-			joints.push_back(newjoint);
-		}
-		if (m_model->GetJoints()[i]->GetScopedName().find("bucket_boom_joint") != std::string::npos)
-		{
-			joint newjoint;
-			newjoint.joint_type = JointType::BUCKET_ROTATE;
-			newjoint.id = i;
-			newjoint.poweron_setpoint = 0.0;
-			newjoint.name = m_model->GetJoints()[i]->GetScopedName();
+			newjoint.poweron_setpoint = 0.1;
+			std::string joint_scopedname = m_model->GetJoints()[i]->GetScopedName();
+			newjoint.name = "";
+			LinearActuatorModel actuator;	
+			if(joint_scopedname == "sim_scout::actuator_left_liftarm_base_joint")
+			{
+				newjoint.name = "LiftCylinder";
+			}
+			else if(joint_scopedname == "sim_scout::actuator_leftbellcrank_implementcylinder_joint")
+			{
+				newjoint.name = "ImplementCylinder";
+			}
+			else
+			{
+				printf("Unable to parse Joint: %s. Exiting.\n",joint_scopedname.c_str());
+				return false;
+			}
+			bool status = actuator.init("361008",newjoint.name,joint_scopedname);
+			if(status == false)
+			{
+				printf("Could not Initialize Linear Actuator: %s. Exiting.\n",newjoint.name.c_str());
+				return false;
+			}
+			LinearActuatorStorage linear_actuator_storage;
+			linear_actuator_storage.linear_actuator = actuator;
+			linear_actuator_storage.initialized = false;
+			linear_actuator_storage.actuator_id = newjoint.id;
+			for(uint16_t j = 0; j < m_model->GetJointCount(); ++j)
+			{
+				if (m_model->GetJoints()[j]->GetScopedName().find("sensor") != std::string::npos)
+				{
+					std::string tempstr = m_model->GetJoints()[j]->GetScopedName();
+					if((newjoint.name == "LiftCylinder") && (tempstr == "sim_scout::sensor_left_liftcylinder_prism"))
+					{
+						linear_actuator_storage.sensor_id = j;
+					}
+					if((newjoint.name == "ImplementCylinder") && (tempstr == "sim_scout::sensor_implementcylinder_implementbase_prism"))
+					{
+						linear_actuator_storage.sensor_id = j;
+					}
+				}
+			}
+			printf("Created new Joint: %s (Real Name: %s) Sensor ID: %ld Actuator ID: %ld\n",
+				newjoint.name.c_str(),
+				joint_scopedname.c_str(),
+				linear_actuator_storage.sensor_id,
+				linear_actuator_storage.actuator_id);
+			linear_actuators.push_back(linear_actuator_storage);
 			joints.push_back(newjoint);
 		}
 	}
-	for(std::size_t i = 0; i < joints.size(); ++i)
-	{
-		m_model->GetJoints()[joints.at(i).id]->SetVelocity(0,0.0);
-		m_model->GetJoints()[joints.at(i).id]->SetVelocity(1,0.0);
-		m_model->GetJoints()[joints.at(i).id]->SetVelocity(2,0.0);
-	}
+	
 	for(std::size_t i = 0; i < joints.size(); ++i)
 	{
 		for(int j = 0; j < 0; ++j)
@@ -202,6 +234,15 @@ bool RobotPlugin::LoadModel()
 			m_model->GetJoints()[joints.at(i).id]->SetVelocity(0,joints.at(i).poweron_setpoint);
 		}
 	}
+	//print_jointinfo();
+	/*for(std::size_t i = 0; i < joints.size(); ++i)
+	{
+		if(joints.at(i).joint_type == JointType::LINEAR_ACTUATOR)
+		{
+			m_model->GetJoints()[joints.at(i).id]->SetPosition(1,.122);
+		}
+	}
+	*/
 	{
 		bool status = battery.init("555005");
 		if(status == false)
@@ -260,6 +301,11 @@ bool RobotPlugin::LoadModel()
 			return false;
 		}
 	}
+	if(linear_actuators.size() == 0)
+	{
+		printf("Did not find any Linear Actuators. Exiting.\n");
+		return false;
+	}
 	return true;
 }
 bool RobotPlugin::InitializeSubscriptions()
@@ -285,30 +331,27 @@ bool RobotPlugin::InitializeSubscriptions()
 						ros::VoidPtr(), &this->rosQueue);
 		sub_drivetrain_right_cmd = this->rosNode->subscribe(so);
 	}
-	{
-		ros::SubscribeOptions so =
-				ros::SubscribeOptions::create<eros::pin>(
-						"/" +  m_model->GetName() + "/boomrotate_cmd",
-						1,
-						boost::bind(&RobotPlugin::boom_rotate_cmd, this, _1),
-						ros::VoidPtr(), &this->rosQueue);
-		sub_boomrotate_cmd = this->rosNode->subscribe(so);
-	}
-	{
-		ros::SubscribeOptions so =
-				ros::SubscribeOptions::create<eros::pin>(
-						"/" +  m_model->GetName() + "/bucketrotate_cmd",
-						1,
-						boost::bind(&RobotPlugin::bucket_rotate_cmd, this, _1),
-						ros::VoidPtr(), &this->rosQueue);
-		sub_bucketrotate_cmd = this->rosNode->subscribe(so);
-	}
+
 
 	this->rosQueueThread =
 			std::thread(std::bind(&RobotPlugin::QueueThread, this));
 
 	this->updateConnection = event::Events::ConnectWorldUpdateBegin(
 			std::bind(&RobotPlugin::OnUpdate, this));
+	
+	for(std::size_t i = 0; i < linear_actuators.size(); ++i)
+	{
+		std::string command_name = linear_actuators.at(i).linear_actuator.get_commandname();
+		printf("sub: %s\n",command_name.c_str());
+		ros::SubscribeOptions so =
+				ros::SubscribeOptions::create<eros::pin>(
+						"/" + command_name,
+						1,
+						boost::bind(&RobotPlugin::implement_cmd, this, _1),
+						ros::VoidPtr(), &this->rosQueue);
+		ros::Subscriber sub = this->rosNode->subscribe(so);
+		linear_actuators.at(i).command_sub = sub;
+	}
 	return true;
 }
 bool RobotPlugin::InitializePublications()
@@ -323,6 +366,12 @@ bool RobotPlugin::InitializePublications()
 		pub_rightwheelencoder = this->rosNode->advertise<eros::signal>("/RightWheelEncoder_Simulated",1);
 		pub_drivetrain_left_cmd = this->rosNode->advertise<eros::pin>("/LeftMotorController",1);
 		pub_drivetrain_right_cmd = this->rosNode->advertise<eros::pin>("/RightMotorController",1);
+	}
+	for(std::size_t i = 0; i < linear_actuators.size(); ++i)
+	{
+		eros::signal current_signal = linear_actuators.at(i).linear_actuator.get_currentsignal();
+		ros::Publisher current_pub = this->rosNode->advertise<eros::signal>("/" + current_signal.name,1);
+		linear_actuators.at(i).current_pub = current_pub;
 	}
 	return true;
 }
@@ -434,6 +483,23 @@ void RobotPlugin::OnUpdate()
 {
 	if(m_fastloop.run_loop())
 	{
+		for(std::size_t i = 0; i < linear_actuators.size(); ++i)
+		{
+			//linear_actuators.at(i).linear_actuator.set_targetforce(-30.0);  //KEEP FOR DEBUGGING
+		}
+		/*
+		for(std::size_t i = 0; i < joints.size(); ++i)
+		{
+			if(joints.at(i).joint_type == JointType::LINEAR_ACTUATOR)
+			{
+				//printf("setting: %d\n",joints.at(i).id);
+				//m_model->GetJoints()[joints.at(i).id]->SetForce(0,-20.0);
+				//m_model->GetJoints()[joints.at(i).id]->SetForce(1,-30.0);
+				//m_model->GetJoints()[joints.at(i).id]->SetForce(2,-30.0);
+			}
+		}
+		*/
+		
 		battery.recharge_complete();
 		run_time+=m_fastloop.get_timedelta();
 		if(run_time > INITIALIZATION_TIME)
@@ -547,6 +613,21 @@ void RobotPlugin::OnUpdate()
 			pub_leftwheelencoder.publish(left_wheelencoder.sensor.update(m_fastloop.get_currentTime(),drivetrain_left_actual_velocity));
 			pub_rightwheelencoder.publish(right_wheelencoder.sensor.update(m_fastloop.get_currentTime(),drivetrain_right_actual_velocity));
 		}
+		if((robot_initialized == true))
+		{
+			for(std::size_t i = 0; i < linear_actuators.size(); ++i)
+			{
+				ignition::math::Pose3d parent_pose = m_model->GetJoints()[linear_actuators.at(i).sensor_id]->GetParent()->WorldPose();
+				ignition::math::Pose3d child_pose = m_model->GetJoints()[linear_actuators.at(i).sensor_id]->GetChild()->WorldPose();
+				double parent_child_distance = compute_distance(parent_pose,child_pose);
+				linear_actuators.at(i).linear_actuator.update(m_fastloop.get_currentTime(),
+					battery.get_voltage(),parent_child_distance);
+				linear_actuators.at(i).current_pub.publish(linear_actuators.at(i).linear_actuator.get_currentsignal());
+				m_model->GetJoints()[linear_actuators.at(i).actuator_id]->SetForce(0,linear_actuators.at(i).linear_actuator.get_targetforce());
+				//printf("act: %s %d\n",linear_actuators.at(i).linear_actuator.get_commandname().c_str(),linear_actuators.at(i).joint_id);
+				//m_model->GetJoints()[linear_actuators.at(i).joint_id]->SetForce(1,50.0);
+			}
+		}
 	}
 	if(m_mediumloop.run_loop())
 	{
@@ -573,6 +654,13 @@ void RobotPlugin::OnUpdate()
 	if(m_slowloop.run_loop())
 	{
 		battery.print_info();
+		
+		for(std::size_t i = 0; i < linear_actuators.size(); ++i)
+		{
+			linear_actuators.at(i).linear_actuator.print_info();
+		}
+		
+		//print_jointinfo(true);
 	}
 	if(m_veryslowloop.run_loop())
 	{
@@ -582,7 +670,112 @@ void RobotPlugin::OnUpdate()
 		//print_loopstates(m_fastloop);
 	}
 }
+void RobotPlugin::print_jointinfo(bool all_joints)
+{
+	printf("--- JOINT INFO ---\n");
+	if(all_joints == false)
+	{
+		for(std::size_t i = 0; i < joints.size(); ++i)
+		{
+			ignition::math::Pose3d parent_pose = m_model->GetJoints()[joints.at(i).id]->GetParent()->WorldPose();
+			ignition::math::Pose3d child_pose = m_model->GetJoints()[joints.at(i).id]->GetChild()->WorldPose();
+			ignition::math::Vector3d parent_link_force = m_model->GetJoints()[joints.at(i).id]->GetParent()->RelativeForce();
+			ignition::math::Vector3d child_link_force = m_model->GetJoints()[joints.at(i).id]->GetChild()->RelativeForce();
+			double parent_child_distance = compute_distance(parent_pose,child_pose);
+			printf("[%d/%d] Joint: (%d)%s\n"
+					"\tVel X: %4.2f Y:%4.2f Z: %4.2f\n"
+					"\tPos X: %4.2f Y: %4.2f Z: %4.2f\n"
+					"\tDist: %4.4f\n"
+					"\tParent Force: X: %4.4f Y: %4.4f Z: %4.4f Mag: %4.4f\n"
+					"\tChild Force: X: %4.4f Y: %4.4f Z: %4.4f Mag: %4.4f\n",
+				(int)i+1,(int)joints.size(),
+				m_model->GetJoints()[joints.at(i).id]->GetType(),
+				joints.at(i).name.c_str(),
+				m_model->GetJoints()[joints.at(i).id]->GetVelocity(0),
+				m_model->GetJoints()[joints.at(i).id]->GetVelocity(1),
+				m_model->GetJoints()[joints.at(i).id]->GetVelocity(2),
+				m_model->GetJoints()[joints.at(i).id]->Position(0),
+				m_model->GetJoints()[joints.at(i).id]->Position(1),
+				m_model->GetJoints()[joints.at(i).id]->Position(2),
+				parent_child_distance,
+				parent_link_force.X(),
+				parent_link_force.Y(),
+				parent_link_force.Z(),
+				compute_magnitude(parent_link_force),
+				child_link_force.X(),
+				child_link_force.Y(),
+				child_link_force.Z(),
+				compute_magnitude(child_link_force));
+				//m_model->GetJoints()[joints.at(i).id]->GetForce(0),
+				//m_model->GetJoints()[joints.at(i).id]->GetForce(1),
+				//m_model->GetJoints()[joints.at(i).id]->GetForce(2));//link_force.X(),link_force.Y(),link_force.Z());
+		}
+	}
+	else
+	{
+		for(uint16_t i = 0; i < m_model->GetJointCount(); ++i)
+		{
+			ignition::math::Pose3d parent_pose = m_model->GetJoints()[i]->GetParent()->WorldPose();
+			ignition::math::Pose3d child_pose = m_model->GetJoints()[i]->GetChild()->WorldPose();
+			ignition::math::Vector3d parent_link_force = m_model->GetJoints()[i]->GetParent()->RelativeForce();
+			ignition::math::Vector3d child_link_force = m_model->GetJoints()[i]->GetChild()->RelativeForce();
+			double parent_child_distance = compute_distance(parent_pose,child_pose);
+			printf("[%d/%d] Joint: (%d)%s\n"
+					"\tVel X: %4.2f Y:%4.2f Z: %4.2f\n"
+					"\tPos X: %4.2f Y: %4.2f Z: %4.2f\n"
+					"\tDist: %4.4f\n"
+					"\tParent Force: X: %4.4f Y: %4.4f Z: %4.4f Mag: %4.4f\n"
+					"\tChild Force: X: %4.4f Y: %4.4f Z: %4.4f Mag: %4.4f\n",
+				(int)i+1,m_model->GetJointCount(),
+				m_model->GetJoints()[i]->GetType(),
+				m_model->GetJoints()[i]->GetScopedName().c_str(),
+				m_model->GetJoints()[i]->GetVelocity(0),
+				m_model->GetJoints()[i]->GetVelocity(1),
+				m_model->GetJoints()[i]->GetVelocity(2),
+				m_model->GetJoints()[i]->Position(0),
+				m_model->GetJoints()[i]->Position(1),
+				m_model->GetJoints()[i]->Position(2),
+				parent_child_distance,
+				parent_link_force.X(),
+				parent_link_force.Y(),
+				parent_link_force.Z(),
+				compute_magnitude(parent_link_force),
+				child_link_force.X(),
+				child_link_force.Y(),
+				child_link_force.Z(),
+				compute_magnitude(child_link_force));
+		}
+	}
+}
 //Communication Functions
+void RobotPlugin::implement_cmd(const eros::pin::ConstPtr& _msg)
+{
+	bool found = false;
+	for(std::size_t i = 0; i < linear_actuators.size(); ++i)
+	{
+		if(_msg->ConnectedDevice == linear_actuators.at(i).linear_actuator.get_commandname())
+		{
+			found = true;
+			eros::pin pin;
+			pin.Name = _msg->Name;
+			pin.ParentDevice = _msg->ParentDevice;
+			pin.Function = _msg->Function;
+			pin.Value = _msg->Value;
+			pin.DefaultValue = _msg->DefaultValue;
+			pin.MaxValue = _msg->MaxValue;
+			pin.MinValue = _msg->MinValue;
+			pin.ConnectedDevice = _msg->ConnectedDevice;
+			pin.ConnectedSensor = _msg->ConnectedSensor;
+			pin.AuxTopic = _msg->AuxTopic;
+			pin.ScaleFactor = _msg->ScaleFactor;
+			linear_actuators.at(i).linear_actuator.set_targetpinvalue(pin);
+		}
+	}
+	if(found == false)
+	{
+		printf("[WARN] Couldn't parse pin: %s\n",_msg->ConnectedDevice.c_str());
+	}
+}
 void RobotPlugin::drivetrain_left_cmd(const eros::pin::ConstPtr& _msg)
 {
 	drivecommand_received = true;
@@ -610,38 +803,6 @@ void RobotPlugin::drivetrain_right_cmd(const eros::pin::ConstPtr& _msg)
 			m_model->GetJoints()[joints.at(i).id]->SetVelocity(0,right_cmd);
 		}
 	}
-}
-void RobotPlugin::boom_rotate_cmd(const eros::pin::ConstPtr& _msg)
-{
-	drivecommand_received = true;
-	/*
-	boomrotate_cmd = _msg->data;
-	for(std::size_t i = 0; i < joints.size(); ++i)
-	{
-		if(joints.at(i).joint_type == JointType::BOOM_ROTATE)
-		{
-			printf("BoomRotate: %f\n",boomrotate_cmd);
-			m_model->GetJointController()->SetPositionTarget(
-					m_model->GetJoints()[joints.at(i).id]->GetScopedName(), _msg->data);
-		}
-	}
-	 */
-}
-void RobotPlugin::bucket_rotate_cmd(const eros::pin::ConstPtr& _msg)
-{
-	drivecommand_received = true;
-	/*
-	bucketrotate_cmd = _msg->data;
-	for(std::size_t i = 0; i < joints.size(); ++i)
-	{
-		if(joints.at(i).joint_type == JointType::BUCKET_ROTATE)
-		{
-			printf("BucketRotate: %f\n",bucketrotate_cmd);
-			m_model->GetJointController()->SetPositionTarget(
-					m_model->GetJoints()[joints.at(i).id]->GetScopedName(), _msg->data);
-		}
-	}
-	 */
 }
 
 
@@ -676,11 +837,8 @@ std::string RobotPlugin::map_jointtype_tostring(JointType joint_type)
 {
 	switch(joint_type)
 	{
-	case JointType::BOOM_ROTATE:
-		return "BOOM ROTATE";
-		break;
-	case JointType::BUCKET_ROTATE:
-		return "BUCKET ROTATE";
+	case JointType::LINEAR_ACTUATOR:
+		return "LINEAR ACTUATOR";
 		break;
 	case JointType::DRIVETRAIN_LEFT:
 		return "DRIVETRAIN LEFT";
@@ -711,6 +869,11 @@ double RobotPlugin::scale_value(double input_perc,double y1,double neutral,doubl
 		out = out_lower;
 	}
 	return out;
+}
+double RobotPlugin::compute_magnitude(ignition::math::Vector3d a)
+{
+	double d = sqrt((a.X()*a.X()) + (a.Y()*a.Y()) + (a.Z()*a.Z()));
+	return d;
 }
 double RobotPlugin::compute_distance(ignition::math::Pose3d a, ignition::math::Pose3d b)
 {

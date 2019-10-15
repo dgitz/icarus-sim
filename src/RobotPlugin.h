@@ -58,6 +58,7 @@
 #include "Sensor/Truth/TruthSensor.h"
 #include "Sensor/IMU/IMUSensor.h"
 #include "Sensor/WheelEncoder/WheelEncoderSensor.h"
+#include "Actuator/LinearActuatorModel/LinearActuatorModel.h"
 
 #define INITIALIZATION_TIME 5.0f
 #define KEYCODE_UPARROW 16777235
@@ -87,6 +88,7 @@ public:
 	//Message Functions
 	void drivetrain_left_cmd(const eros::pin::ConstPtr& _msg);
 	void drivetrain_right_cmd(const eros::pin::ConstPtr& _msg);
+	void implement_cmd(const eros::pin::ConstPtr& _msg);
 	void boom_rotate_cmd(const eros::pin::ConstPtr& _msg);
 	void bucket_rotate_cmd(const eros::pin::ConstPtr& _msg);
 	
@@ -100,8 +102,7 @@ private:
 		UNKNOWN = 0,
 		DRIVETRAIN_LEFT =1,
 		DRIVETRAIN_RIGHT = 2,
-		BOOM_ROTATE = 3,
-		BUCKET_ROTATE = 4,
+		LINEAR_ACTUATOR = 3,
 	};
 	enum class LinkType
 	{
@@ -154,6 +155,15 @@ private:
 	{
 		eros::pin pin;
 	};
+	struct LinearActuatorStorage
+	{
+		bool initialized;
+		uint64_t actuator_id;
+		uint64_t sensor_id;
+		LinearActuatorModel linear_actuator;
+		ros::Publisher current_pub;
+		ros::Subscriber command_sub;
+	};
 	//Initialize Functions
 	IMUStorage initialize_imu(std::string partnumber,std::string location);
 	bool InitializePlugin();
@@ -165,9 +175,11 @@ private:
 	//Update Functions
 	void QueueThread();
 	double  compute_distance(ignition::math::Pose3d a, ignition::math::Pose3d b);
+	double compute_magnitude(ignition::math::Vector3d a);
 	//Utility Functions
 	std::string map_jointtype_tostring(JointType joint_type);
 	void print_loopstates(SimpleTimer timer);
+	void print_jointinfo(bool v);
 	
 	//Communication Variables
 	bool kill_node;
@@ -241,6 +253,7 @@ private:
 	WheelEncoderStorage left_wheelencoder;
 	WheelEncoderStorage right_wheelencoder;
 
+	std::vector<LinearActuatorStorage> linear_actuators;
 
 
 
