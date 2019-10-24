@@ -44,6 +44,7 @@
 //Gazebo Messages
 #include <gazebo/msgs/msgs.hh>
 //ROS Messages
+#include "std_msgs/Float64.h"
 #include <eros/signal.h>
 #include <eros/imu.h>
 #include <eros/pin.h>
@@ -52,6 +53,8 @@
 //Project
 #include "../include/SimpleTimer.h"
 #include "../../eROS/include/eROS_Definitions.h"
+#include "../../eROS/include/logger.h"
+#include "../../eROS/include/eros_math.h"
 #include "Power/MotorControllerModel/MotorControllerModel.h"
 #include "Power/MotorModel/MotorModel.h"
 #include "Power/BatteryModel/BatteryModel.h"
@@ -60,6 +63,7 @@
 #include "Sensor/WheelEncoder/WheelEncoderSensor.h"
 #include "Actuator/LinearActuatorModel/LinearActuatorModel.h"
 
+#define ALLOW_INCOMPLETEMODEL_INITIALIZATION false
 #define INITIALIZATION_TIME 5.0f
 #define KEYCODE_UPARROW 16777235
 #define KEYCODE_LEFTARROW 16777234
@@ -85,6 +89,7 @@ public:
 	
 	//Utility Functions
 	void print_model();
+	Logger* get_logger() { return logger; }
 	//Message Functions
 	void drivetrain_left_cmd(const eros::pin::ConstPtr& _msg);
 	void drivetrain_right_cmd(const eros::pin::ConstPtr& _msg);
@@ -130,6 +135,8 @@ private:
 		double left;
 		double right;
 	};
+	Logger *logger;
+	bool logger_initialized;
 	void KeyboardEventCallback(ConstAnyPtr &_msg);
 	double scale_value(double input_perc,double y1,double neutral,double y2);
 	DrivePerc arcade_mix(double throttle_perc,double steer_perc);
@@ -181,6 +188,8 @@ private:
 	void print_loopstates(SimpleTimer timer);
 	void print_jointinfo(bool v);
 	
+	//Model Variables
+	Compute_Average compute_average;
 	//Communication Variables
 	bool kill_node;
 	std::unique_ptr<ros::NodeHandle> rosNode;
@@ -201,10 +210,13 @@ private:
 	ros::Publisher pub_drivetrain_left_cmd;
 	ros::Publisher pub_drivetrain_right_cmd;
 	ros::Publisher pub_batteryinfo;
+	ros::Publisher pub_gazebofps;
 	transport::SubscriberPtr sub_keyboardevent;
 
 	//Timing Variables
 	double run_time;
+	double last_simtime;
+	uint64_t last_iterationcount;
 	SimpleTimer m_fastloop;
 	SimpleTimer m_mediumloop;
 	SimpleTimer m_slowloop;

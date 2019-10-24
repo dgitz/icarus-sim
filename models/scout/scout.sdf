@@ -666,7 +666,7 @@
         <link name="bucket">
             <pose>0.39894 0 0.19197 0 -0.205948678 0</pose>
             <inertial>
-                <mass>0.4232 0 .00713 0 0 0</mass>
+                <mass>0.4232 0 .00713 0 0 0</mass> 
                 <inertia>
                     <ixx>.005016</ixx>
                     <ixy>0.0</ixy> 
@@ -708,168 +708,41 @@
             </visual>
         </link>
         <!-- Left Lift Arm Joints -->
-        
-         
-        <joint type="revolute" name="left_liftcylinder_cylinder_joint">
-            <pose>0 0 0 0 0 0</pose>
-            <child>left_liftcylinder_cylinder</child>
-            <parent>left_liftarm</parent>
-            <axis>
-                <xyz>0 1 0</xyz>
-                <dynamics>
-                    <friction>0.2</friction>
-                </dynamics>
-            </axis>
-            <physics>
-                <ode>
-                    <limit>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </limit>
-                    <suspension>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </suspension>
-                </ode>
-            </physics>
-        </joint>
-         <joint type="revolute" name="left_liftcylinder_base_joint">
-            <pose>0 0 0 0 0 0</pose>
-            <child>left_liftcylinder_base</child>
-            <parent>base</parent>
-            <axis>
-                <xyz>0 1 0</xyz>
-                <dynamics>
-                    <friction>0.2</friction>
-                </dynamics>
-            </axis>
-            <physics>
-                <ode>
-                    <limit>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </limit>
-                    <suspension>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </suspension>
-                </ode>
-            </physics>
-        </joint>
-       <joint type="revolute" name="left_liftarm_bellcrank_joint">
-            <child>left_liftarm</child>
-            <parent>bellcrank</parent>
-            <axis>
-                <xyz>0 1 0</xyz>
-            </axis>
-        </joint>
-        <joint type="revolute" name="left_liftarm_bucket_joint">
-            <pose>0 0 0 0 0 0</pose>
-            <child>bucket</child>
-            <parent>left_liftarm</parent>
-            <axis>
-                <xyz>0 1 0</xyz>
-                <dynamics>
-                    <friction>0.2</friction>
-                </dynamics>
-            </axis>
-            <physics>
-                <ode>
-                    <limit>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </limit>
-                    <suspension>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </suspension>
-                </ode>
-            </physics>
-        </joint>
-        <!-- Right Lift Arm Joints -->
-        
-        <joint type="revolute" name="right_liftarm_base_joint">
-            <pose>0 0 0 0 0 0</pose>
-            <child>right_liftarm</child>
-            <parent>base</parent>
-            <axis>
-                <xyz>0 1 0</xyz>
-                <dynamics>
-                    <friction>0.2</friction>
-                </dynamics>
-            </axis>
-            <physics>
-                <ode>
-                    <limit>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </limit>
-                    <suspension>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </suspension>
-                </ode>
-            </physics>
-        </joint>
-        <joint type="revolute" name="right_liftcylinder_base_joint">
-            <pose>0 0 0 0 0 0</pose>
-            <child>right_liftcylinder_base</child>
-            <parent>base</parent>
-            <axis>
-                <xyz>0 1 0</xyz>
-                <dynamics>
-                    <friction>0.2</friction>
-                </dynamics>
-            </axis>
-            <physics>
-                <ode>
-                    <limit>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </limit>
-                    <suspension>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </suspension>
-                </ode>
-            </physics>
-        </joint>
-        <joint type="revolute" name="right_liftcylinder_cylinder_joint">
-            <pose>0 0 0 0 0 0</pose>
-            <child>right_liftcylinder_cylinder</child>
-            <parent>right_liftarm</parent>
-            <axis>
-                <xyz>0 1 0</xyz>
-                <dynamics>
-                    <friction>0.2</friction>
-                </dynamics>
-            </axis>
-            <physics>
-                <ode>
-                    <limit>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </limit>
-                    <suspension>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </suspension>
-                </ode>
-            </physics>
-        </joint>
-        
         <joint type="prismatic" name="right_liftcylinder_prism">
-            <pose>0 0 0 0 0 0</pose>
+            <pose>-0.047 0 0 0 0 0</pose>
             <child>right_liftcylinder_cylinder</child>
             <parent>right_liftcylinder_base</parent>
             <axis>
                 <xyz>1 0 0</xyz>
-                <!--
-                <limit>
-                    <lower>.097</lower>
-                    <upper>.147</upper>
-                </limit>
-                -->
+                <dynamics>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
+                </dynamics>
+            </axis>
+        </joint>
+        <joint type="prismatic" name="sensor_left_liftcylinder_prism">
+            <pose>-0.047 0 0 0 0 0</pose>
+            <child>left_liftcylinder_cylinder</child>
+            <parent>left_liftcylinder_base</parent>
+            <axis>
+                <xyz>1 0 0</xyz>
+                <dynamics>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
+                </dynamics>
+            </axis>
+        </joint>
+        
+        <joint type="prismatic" name="sensor_implementcylinder_implementbase_prism">
+            <pose>-0.047 0 0 0 0 0</pose>
+            <child>implementcylinder_cylinder</child>
+            <parent>implementcylinder_base</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+                <dynamics>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
+                </dynamics>
             </axis>
         </joint>
         <joint type="revolute" name="right_liftarm_bucket_joint">
@@ -879,62 +752,85 @@
             <axis>
                 <xyz>0 1 0</xyz>
                 <dynamics>
+                    <damping>0.1</damping>
                     <friction>0.2</friction>
                 </dynamics>
             </axis>
-            <physics>
-                <ode>
-                    <limit>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </limit>
-                    <suspension>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </suspension>
-                </ode>
-            </physics>
         </joint>
-        <joint type="prismatic" name="sensor_implementcylinder_implementbase_prism">
+        <joint type="revolute" name="left_liftcylinder_cylinder_joint">
             <pose>0 0 0 0 0 0</pose>
-            <child>implementcylinder_cylinder</child>
-            <parent>implementcylinder_base</parent>
-            <axis>
-                <xyz>1 0 0</xyz>
-            </axis>
-        </joint>
-        <!-- Implement Joints -->
-        <joint type="revolute" name="bucket_implementlink_joint">
-            <pose>0 0 0 0 0 0</pose>
-            <child>implement_link</child>
-            <parent>bucket</parent>
-            <axis>
-                <xyz>1 0 0</xyz>
-            </axis>
-        </joint>
-        
-        <joint type="revolute" name="actuator_leftbellcrank_implementcylinder_joint">
-            <pose>0 0 0 0 0 0</pose>
-            <child>implementcylinder_cylinder</child>
-            <parent>bellcrank</parent>
+            <child>left_liftcylinder_cylinder</child>
+            <parent>left_liftarm</parent>
             <axis>
                 <xyz>0 1 0</xyz>
                 <dynamics>
+                    <damping>0.1</damping>
                     <friction>0.2</friction>
                 </dynamics>
             </axis>
-            <physics>
-                <ode>
-                    <limit>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </limit>
-                    <suspension>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </suspension>
-                </ode>
-            </physics>
+        </joint>
+         <joint type="revolute" name="left_liftcylinder_base_joint">
+            <pose>0 0 0 0 0 0</pose>
+            <child>left_liftcylinder_base</child>
+            <parent>base</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+                <dynamics>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
+                </dynamics>
+            </axis>
+        </joint>
+      
+        <joint type="revolute" name="left_liftarm_bucket_joint">
+            <pose>0 0 0 0 0 0</pose>
+            <child>bucket</child>
+            <parent>left_liftarm</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+                <dynamics>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
+                </dynamics>
+            </axis>
+        </joint>
+        <!-- Right Lift Arm Joints -->
+        <joint type="revolute" name="right_liftcylinder_base_joint">
+            <pose>0 0 0 0 0 0</pose>
+            <child>right_liftcylinder_base</child>
+            <parent>base</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+                <dynamics>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
+                </dynamics>
+            </axis>
+        </joint>
+        <joint type="revolute" name="right_liftcylinder_cylinder_joint">
+            <pose>0 0 0 0 0 0</pose>
+            <child>right_liftcylinder_cylinder</child>
+            <parent>right_liftarm</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+                <dynamics>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
+                </dynamics>
+            </axis>
+        </joint>
+        <!-- Implement Joints -->
+        <joint type="revolute" name="actuator_bucket_implementlink_joint">
+            <pose>0.09652 0 0 0 0 0</pose>
+            <child>implement_link</child>
+            <parent>bucket</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+                <dynamics>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
+                </dynamics>
+            </axis>
         </joint>
         <joint type="revolute" name="implementcylinder_base_joint">
             <pose>0 0 0 0 0 0</pose>
@@ -943,34 +839,22 @@
             <axis>
                 <xyz>0 1 0</xyz>
                 <dynamics>
+                    <damping>0.1</damping>
                     <friction>0.2</friction>
                 </dynamics>
             </axis>
-            <physics>
-                <ode>
-                    <limit>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </limit>
-                    <suspension>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </suspension>
-                </ode>
-            </physics>
         </joint>
-        <joint type="prismatic" name="sensor_left_liftcylinder_prism">
-            <pose>0.0 0 0 0 0 0</pose>
-            <child>left_liftcylinder_cylinder</child>
-            <parent>left_liftcylinder_base</parent>
+        
+         <joint type="revolute" name="right_liftarm_base_joint">
+            <pose>0 0 0 0 0 0</pose>
+            <child>right_liftarm</child>
+            <parent>base</parent>
             <axis>
-                <xyz>1 0 0</xyz>
-                <!--
-                <limit>
-                    <lower>.097</lower>
-                    <upper>.147</upper>
-                </limit>
-                -->
+                <xyz>0 1 0</xyz>
+                <dynamics>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
+                </dynamics>
             </axis>
         </joint>
         <joint type="revolute" name="actuator_left_liftarm_base_joint">
@@ -980,65 +864,40 @@
             <axis>
                 <xyz>0 1 0</xyz>
                 <dynamics>
+                    <damping>0.1</damping>
                     <friction>0.2</friction>
                 </dynamics>
             </axis>
-            <physics>
-                <ode>
-                    <limit>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </limit>
-                    <suspension>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </suspension>
-                </ode>
-            </physics>
         </joint>
-        <joint type="revolute" name="actuator_leftbellcrank_implementcylinder_joint">
+        <joint type="revolute" name="leftbellcrank_implementcylinder_joint">
             <pose>0 0 0 0 0 0</pose>
             <child>implementcylinder_cylinder</child>
             <parent>bellcrank</parent>
             <axis>
                 <xyz>0 1 0</xyz>
-                <dynamics>
-                    <friction>0.2</friction>
-                </dynamics>
             </axis>
-            <physics>
-                <ode>
-                    <limit>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </limit>
-                    <suspension>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </suspension>
-                </ode>
-            </physics>
         </joint>
         <joint type="revolute" name="implementlink_leftbellcrank_joint">
-            <pose>0 0 0 0 0 0</pose>
+            <pose>0.0635 0 0 0 0 0</pose>
             <child>bellcrank</child>
             <parent>implement_link</parent>
             <axis>
-                <xyz>1 0 0</xyz>
+                <xyz>0 1 0</xyz>
+                <dynamics>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
+                </dynamics>
             </axis>
         </joint>
-        <!--
         
-        
-        
-        
-        
-        
-        
-       
-       
-        
-        -->
+         <joint type="revolute" name="left_liftarm_bellcrank_joint">
+            <pose>0.0332 0 0 0 0 0</pose>
+            <child>bellcrank</child>
+            <parent>left_liftarm</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+            </axis>
+        </joint>
         <!-- SENSORS -->
         <!-- -->
         <include>
