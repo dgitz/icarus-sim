@@ -1,13 +1,11 @@
 ## Author: David Gitz <robot@dgitzdev>
 ## Created: 2019-11-05
 
-function [signal_vector,time_compensation_method_enum,signalstate_enum,name,time_compensation_method] = create_dummydata_timecompensatorblock ()
+function [signal_vector,name] = create_dummydata_timecompensatorblock ()
 global TIMINGCOMPENSATION_METHOD;
 global SignalState;
 global SignalType;
-time_compensation_method_enum = TIMINGCOMPENSATION_METHOD;
-signalstate_enum = SignalState;
-time_compensation_method = TIMINGCOMPENSATION_METHOD.SampleAndHold;
+global Config;
 sig = Initialize_Signal;
 sig.name = 'DummyData';
 name = sig.name;
@@ -16,9 +14,21 @@ sig.type = SignalType.SIGNALTYPE_ACCELERATION;
 sig.value = 0.0;
 sig.status = SignalState.SIGNALSTATE_UPDATED;
 signal_vector = [];
-for i = 1:100
-  sig.tov = i/10;
-  sig.value = i*rand;
+counter = 0;
+signal_time = 100.0;
+dt = 1;
+elap_time = 0;
+i = 0;
+while(elap_time < signal_time)
+
+  sig.tov = elap_time;
+  %sig.value = counter;
+  sig.value = sin(elap_time/4);
   signal_vector = [signal_vector sig];
+  counter = counter+1;
+  if(counter > 10)
+    counter = 0;
+  end
+  elap_time = elap_time+dt+rand/100;
 end
 endfunction
