@@ -77,12 +77,12 @@ double IMUSensor::get_currentconsumed()
 	}
 	return 0.0;
 }
-void IMUSensor::set_pose(gazebo::math::Pose pose)
+void IMUSensor::set_pose(ignition::math::Pose3d pose)
 {
 	sensor_pose = pose;
-	double roll = pose.rot.GetRoll();
-	double pitch = pose.rot.GetPitch();
-	double yaw = pose.rot.GetYaw();
+	double roll = pose.Rot().Roll();
+	double pitch = pose.Rot().Pitch();
+	double yaw = pose.Rot().Yaw();
 	printf("IMU: %s Roll: %f Pitch: %f Yaw: %f\n",
 		name.c_str(),roll*180.0/M_PI,pitch*180.0/M_PI,yaw*180.0/M_PI);
 	rotate_matrix = generate_rotation_matrix(roll,pitch,yaw);

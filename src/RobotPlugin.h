@@ -22,6 +22,7 @@
 #include <gazebo/util/system.hh>
 #include <gazebo/sensors/sensors.hh>
 #include <ignition/math.hh>
+#include <ignition/math/Vector3.hh>
 
 #include <gazebo/gazebo.hh>
 #include <gazebo/transport/transport.hh>
@@ -43,6 +44,7 @@
 //Gazebo Messages
 #include <gazebo/msgs/msgs.hh>
 //ROS Messages
+#include "std_msgs/Float64.h"
 #include <eros/signal.h>
 #include <eros/imu.h>
 #include <eros/pin.h>
@@ -51,13 +53,17 @@
 //Project
 #include "../include/SimpleTimer.h"
 #include "../../eROS/include/eROS_Definitions.h"
+#include "../../eROS/include/logger.h"
+#include "../../eROS/include/eros_math.h"
 #include "Power/MotorControllerModel/MotorControllerModel.h"
 #include "Power/MotorModel/MotorModel.h"
 #include "Power/BatteryModel/BatteryModel.h"
 #include "Sensor/Truth/TruthSensor.h"
 #include "Sensor/IMU/IMUSensor.h"
 #include "Sensor/WheelEncoder/WheelEncoderSensor.h"
+#include "Actuator/LinearActuatorModel/LinearActuatorModel.h"
 
+#define ALLOW_INCOMPLETEMODEL_INITIALIZATION false
 #define INITIALIZATION_TIME 5.0f
 #define KEYCODE_UPARROW 16777235
 #define KEYCODE_LEFTARROW 16777234
@@ -83,9 +89,11 @@ public:
 	
 	//Utility Functions
 	void print_model();
+	Logger* get_logger() { return logger; }
 	//Message Functions
 	void drivetrain_left_cmd(const eros::pin::ConstPtr& _msg);
 	void drivetrain_right_cmd(const eros::pin::ConstPtr& _msg);
+	void implement_cmd(const eros::pin::ConstPtr& _msg);
 	void boom_rotate_cmd(const eros::pin::ConstPtr& _msg);
 	void bucket_rotate_cmd(const eros::pin::ConstPtr& _msg);
 	
@@ -99,8 +107,7 @@ private:
 		UNKNOWN = 0,
 		DRIVETRAIN_LEFT =1,
 		DRIVETRAIN_RIGHT = 2,
-		BOOM_ROTATE = 3,
-		BUCKET_ROTATE = 4,
+		LINEAR_ACTUATOR = 3,
 	};
 	enum class LinkType
 	{
@@ -128,6 +135,8 @@ private:
 		double left;
 		double right;
 	};
+	Logger *logger;
+	bool logger_initialized;
 	void KeyboardEventCallback(ConstAnyPtr &_msg);
 	double scale_value(double input_perc,double y1,double neutral,double y2);
 	DrivePerc arcade_mix(double throttle_perc,double steer_perc);
@@ -153,6 +162,15 @@ private:
 	{
 		eros::pin pin;
 	};
+	struct LinearActuatorStorage
+	{
+		bool initialized;
+		uint64_t actuator_id;
+		uint64_t sensor_id;
+		LinearActuatorModel linear_actuator;
+		ros::Publisher current_pub;
+		ros::Subscriber command_sub;
+	};
 	//Initialize Functions
 	IMUStorage initialize_imu(std::string partnumber,std::string location);
 	bool InitializePlugin();
@@ -160,14 +178,18 @@ private:
 	bool LoadSensors();
 	bool InitializeSubscriptions();
 	bool InitializePublications();
-	bool readLinkPose(std::string shortname,math::Pose* pose);
+	bool readLinkPose(std::string shortname,ignition::math::Pose3d* pose);
 	//Update Functions
 	void QueueThread();
-	double  compute_distance(gazebo::math::Pose a, gazebo::math::Pose b);
+	double  compute_distance(ignition::math::Pose3d a, ignition::math::Pose3d b);
+	double compute_magnitude(ignition::math::Vector3d a);
 	//Utility Functions
 	std::string map_jointtype_tostring(JointType joint_type);
 	void print_loopstates(SimpleTimer timer);
+	void print_jointinfo(bool v);
 	
+	//Model Variables
+	Compute_Average compute_average;
 	//Communication Variables
 	bool kill_node;
 	std::unique_ptr<ros::NodeHandle> rosNode;
@@ -188,17 +210,20 @@ private:
 	ros::Publisher pub_drivetrain_left_cmd;
 	ros::Publisher pub_drivetrain_right_cmd;
 	ros::Publisher pub_batteryinfo;
+	ros::Publisher pub_gazebofps;
 	transport::SubscriberPtr sub_keyboardevent;
 
 	//Timing Variables
 	double run_time;
+	double last_simtime;
+	uint64_t last_iterationcount;
 	SimpleTimer m_fastloop;
 	SimpleTimer m_mediumloop;
 	SimpleTimer m_slowloop;
 	SimpleTimer m_veryslowloop;
 
 	//State Variables
-	gazebo::math::Pose initial_pose;
+	ignition::math::Pose3d initial_pose;
 	bool pose_initialized;
 	std::string base_link;
 	bool robot_initialized;
@@ -240,6 +265,7 @@ private:
 	WheelEncoderStorage left_wheelencoder;
 	WheelEncoderStorage right_wheelencoder;
 
+	std::vector<LinearActuatorStorage> linear_actuators;
 
 
 

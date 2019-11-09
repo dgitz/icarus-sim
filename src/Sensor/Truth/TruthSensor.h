@@ -22,8 +22,8 @@ public:
 	virtual ~TruthSensor();
 	bool update_worldpose(
 		double t_current_time,
-		gazebo::math::Pose pose,
-		gazebo::math::Vector3 rate);
+		ignition::math::Pose3d pose,
+		ignition::math::Vector3d rate);
 	eros::pose get_pose() { return eros_pose; }
 private:
 	struct RMS
@@ -36,8 +36,8 @@ private:
 	RMS compute_rms(RMS rms,double value,uint64_t t_update_count);
 	eros::pose eros_pose;
 	
-	gazebo::math::Pose world_pose;
-	gazebo::math::Vector3 angular_rate;
+	ignition::math::Pose3d world_pose;
+	ignition::math::Vector3d angular_rate;
 	RMS rollrate_rms;
 	RMS pitchrate_rms;
 	RMS yawrate_rms;
