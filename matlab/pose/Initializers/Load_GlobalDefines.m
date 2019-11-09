@@ -4,6 +4,7 @@ eROS_Definitions;
 global MODELEXECUTION_MODE;
 MODELEXECUTION_MODE.Standard_PoseModel=1;
 MODELEXECUTION_MODE.DummyData_TimeCompensate=10;
+MODELEXECUTION_MODE.DummyData_SensorPostProcess=20;
 global RINGBUFFER_SIZE;
 RINGBUFFER_SIZE = 500;
 
