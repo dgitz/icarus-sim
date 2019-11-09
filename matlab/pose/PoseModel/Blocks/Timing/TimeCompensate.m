@@ -13,6 +13,7 @@ classdef TimeCompensate
     valid_buffer;
     buffer_size;
     prev_value;
+    prev_sequence_number;
    end
    methods
     function obj = TimeCompensate(_signal_vector,_TIMINGCOMPENSATION_METHOD,_SignalState,_SignalClass,_name,_time_compensation_method)
@@ -20,8 +21,9 @@ classdef TimeCompensate
         obj.TIMINGCOMPENSATION_METHOD = _TIMINGCOMPENSATION_METHOD;
         obj.SignalState = _SignalState;
         obj.SignalClass = _SignalClass;
-        obj.debug=0;
+        obj.debug=1;
         obj.buffer_size=10;
+        obj.prev_sequence_number = 0;
         obj.name = _name;
         obj.time_compensation_method = _time_compensation_method; 
         if((_time_compensation_method == obj.TIMINGCOMPENSATION_METHOD.SampleAndHold) ||
@@ -36,9 +38,7 @@ classdef TimeCompensate
         obj.prev_value.x=0;
     end
     function obj = new_input(obj,log_start_time,time)
-      index_updated = 0;
       if(obj.current_index == 0)
-        index_updated = 1;
         obj.current_index=obj.current_index+1;
       end
       time_found = 0;
@@ -52,17 +52,18 @@ classdef TimeCompensate
           end
         end
         if(new_index <= length(obj.signal_vector))
-          if(obj.current_index ~= new_index)
-            index_updated = 1;
-          end
           obj.current_index = new_index;
         end
       end
       input = obj.signal_vector(obj.current_index);
-      
+      sensor_updated = 0;
+      if(input.sequence_number ~= obj.prev_sequence_number)
+        sensor_updated = 1;
+      end
+      obj.prev_sequence_number = input.sequence_number;
       output = input;
       output.class = obj.SignalClass.SIGNALCLASS_TIMEDSIGNAL;
-      if(index_updated == 1)
+      if(sensor_updated == 1)
         output.tov = time;
         output.value = input.value;
         output.rms = input.rms;
@@ -80,14 +81,7 @@ classdef TimeCompensate
           output.value = input.value;
           output.rms = input.rms;
         elseif(obj.time_compensation_method == obj.TIMINGCOMPENSATION_METHOD.LinearExtrapolate)
-          if(length(obj.valid_buffer.t) == 0)
-            obj.valid_buffer.t(length(obj.valid_buffer.t)+1) = obj.prev_value.t;
-            obj.valid_buffer.x(length(obj.valid_buffer.t)+1) = obj.prev_value.x;
-            output.tov = input.tov-log_start_time;
-            output.value = input.value;
-            output.rms = input.rms;
-            output.status = obj.SignalState.SIGNALSTATE_HOLD;
-          elseif((length(obj.valid_buffer.t) == obj.buffer_size))
+          if((length(obj.valid_buffer.t) == obj.buffer_size))
             t_mean = mean(obj.valid_buffer.t(end)-(obj.valid_buffer.t(end-1)));
             x_mean = mean(obj.valid_buffer.x(end)-(obj.valid_buffer.x(end-1)));
             m = x_mean/t_mean;

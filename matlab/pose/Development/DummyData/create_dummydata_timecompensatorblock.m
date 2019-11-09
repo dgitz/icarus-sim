@@ -12,16 +12,17 @@ name = sig.name;
 sig.tov = 0.0;
 sig.type = SignalType.SIGNALTYPE_ACCELERATION;
 sig.value = 0.0;
+sig.sequence_number = 0;
 sig.status = SignalState.SIGNALSTATE_UPDATED;
 signal_vector = [];
 counter = 0;
-signal_time = 100.0;
+signal_time = 75.0;
 dt = 1;
 elap_time = 0;
 i = 0;
 while(elap_time < signal_time)
-
   sig.tov = elap_time;
+  sig.sequence_number = sig.sequence_number+1;
   %sig.value = counter;
   sig.value = sin(elap_time/4);
   signal_vector = [signal_vector sig];
