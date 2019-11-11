@@ -73,4 +73,31 @@ elseif(Config.PoseModelMode == MODELEXECUTION_MODE.DummyData_SensorPostProcess)
   plot([out_vector.tov],[out_vector.status],'r');
   hold off
   Load_Data=0;
+elseif(Config.PoseModelMode == MODELEXECUTION_MODE.DummyData_SensorLinker)
+  Sensor_Signals = [];
+  Timed_Signals = [];
+  Processed_Signals = [];
+  Input_Signals = [];
+  [Processed_Signals] = create_dummydata_signallinkerblock;
+  signal_linker = MasterLinker;
+  new_input_vector = [];
+  for i = 1:length(Processed_Signals)
+    new_input_vector = [new_input_vector Processed_Signals{i}(1)];
+  end
+  signal_linker = signal_linker.new_input(new_input_vector);
+  log_start_time = 0;
+  elap_time = 0;
+  time_to_run = 100;
+  dt = .05;
+  out_vector = [];
+  for t = 1:length(Processed_Signals{1})
+    new_input_vector = [];
+    for i = 1:length(Processed_Signals)
+      new_input_vector = [new_input_vector Processed_Signals{i}(t)];
+    end
+    signal_linker = signal_linker.new_input(new_input_vector);
+    elap_time = elap_time+dt;
+  end
+  %DrawGraphs
+  Load_Data=0;
 end
