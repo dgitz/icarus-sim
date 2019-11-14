@@ -21,7 +21,7 @@ classdef TimeCompensate
         obj.TIMINGCOMPENSATION_METHOD = _TIMINGCOMPENSATION_METHOD;
         obj.SignalState = _SignalState;
         obj.SignalClass = _SignalClass;
-        obj.debug=1;
+        obj.debug=0;
         obj.buffer_size=10;
         obj.prev_sequence_number = 0;
         obj.name = _name;

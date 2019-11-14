@@ -2,8 +2,8 @@ function [figs] = draw_rotationrate_graphs (log_start_time,signals)
   global SignalClass;
   figs = [];
   %Draw X-Axis
-  xgyro_signals = subset_signals(signals,'xgyro');
-  [~,sz] = size(xgyro_signals);
+  x_signals = subset_signals(signals,'xgyro');
+  [~,sz] = size(x_signals);
   cm = jet(sz);
   fig_title = 'Rotation Rate-X';
   figure('Name',fig_title,'NumberTitle','off')
@@ -13,11 +13,11 @@ function [figs] = draw_rotationrate_graphs (log_start_time,signals)
   leg = [];
   for i = 1:sz
     offset_time = 0;
-    if(xgyro_signals{i}(1).class == SignalClass.SIGNALCLASS_SENSORSIGNAL)
+    if(x_signals{i}(1).class == SignalClass.SIGNALCLASS_SENSORSIGNAL)
       offset_time=log_start_time;
     end
-    plot([xgyro_signals{i}.tov]-offset_time,[xgyro_signals{i}.value],'color',cm(i,:));
-    leg{i} = [map_signalclass_tostring(xgyro_signals{i}(1).class) ': ' xgyro_signals{i}(1).name];
+    plot([x_signals{i}.tov]-offset_time,[x_signals{i}.value],'color',cm(i,:));
+    leg{i} = [map_signalclass_tostring(x_signals{i}(1).class) ': ' x_signals{i}(1).name];
   end  
   legend(leg)
   ylabel("Rotation Rate (deg/s)")
@@ -27,11 +27,11 @@ function [figs] = draw_rotationrate_graphs (log_start_time,signals)
   leg = [];
   for i = 1:sz
     offset_time = 0;
-    if(xgyro_signals{i}(1).class == SignalClass.SIGNALCLASS_SENSORSIGNAL)
+    if(x_signals{i}(1).class == SignalClass.SIGNALCLASS_SENSORSIGNAL)
       offset_time=log_start_time;
     end
-    plot([xgyro_signals{i}.tov]-offset_time,[xgyro_signals{i}.rms],'color',cm(i,:));
-    leg{i} = [map_signalclass_tostring(xgyro_signals{i}(1).class) ': ' xgyro_signals{i}(1).name];
+    plot([x_signals{i}.tov]-offset_time,[x_signals{i}.rms],'color',cm(i,:));
+    leg{i} = [map_signalclass_tostring(x_signals{i}(1).class) ': ' x_signals{i}(1).name];
   end  
   legend(leg)
   ylabel("RMS (deg/s)")
@@ -41,19 +41,19 @@ function [figs] = draw_rotationrate_graphs (log_start_time,signals)
   leg = [];
   for i = 1:sz
     offset_time = 0;
-    if(xgyro_signals{i}(1).class == SignalClass.SIGNALCLASS_SENSORSIGNAL)
+    if(x_signals{i}(1).class == SignalClass.SIGNALCLASS_SENSORSIGNAL)
       offset_time=log_start_time;
     end
-    plot([xgyro_signals{i}.tov]-offset_time,[xgyro_signals{i}.status],'color',cm(i,:));
-    leg{i} = [map_signalclass_tostring(xgyro_signals{i}(1).class) ': ' xgyro_signals{i}(1).name];
+    plot([x_signals{i}.tov]-offset_time,[x_signals{i}.status],'color',cm(i,:));
+    leg{i} = [map_signalclass_tostring(x_signals{i}(1).class) ': ' x_signals{i}(1).name];
   end  
   legend(leg)
   xlabel("Time (s)")
   ylabel("Status")
   hold off  
 %Draw Y-Axis
-  ygyro_signals = subset_signals(signals,'ygyro');
-  [~,sz] = size(xgyro_signals);
+  y_signals = subset_signals(signals,'ygyro');
+  [~,sz] = size(y_signals);
   cm = jet(sz);
   fig_title = 'Rotation Rate-Y';
   figure('Name',fig_title,'NumberTitle','off')
@@ -63,11 +63,11 @@ function [figs] = draw_rotationrate_graphs (log_start_time,signals)
   leg = [];
   for i = 1:sz
     offset_time = 0;
-    if(ygyro_signals{i}(1).class == SignalClass.SIGNALCLASS_SENSORSIGNAL)
+    if(y_signals{i}(1).class == SignalClass.SIGNALCLASS_SENSORSIGNAL)
       offset_time=log_start_time;
     end
-    plot([ygyro_signals{i}.tov]-offset_time,[ygyro_signals{i}.value],'color',cm(i,:));
-    leg{i} = [map_signalclass_tostring(ygyro_signals{i}(1).class) ': ' ygyro_signals{i}(1).name];
+    plot([y_signals{i}.tov]-offset_time,[y_signals{i}.value],'color',cm(i,:));
+    leg{i} = [map_signalclass_tostring(y_signals{i}(1).class) ': ' y_signals{i}(1).name];
   end  
   legend(leg)
   ylabel("Rotation Rate (deg/s)")
@@ -77,11 +77,11 @@ function [figs] = draw_rotationrate_graphs (log_start_time,signals)
   leg = [];
   for i = 1:sz
     offset_time = 0;
-    if(ygyro_signals{i}(1).class == SignalClass.SIGNALCLASS_SENSORSIGNAL)
+    if(y_signals{i}(1).class == SignalClass.SIGNALCLASS_SENSORSIGNAL)
       offset_time=log_start_time;
     end
-    plot([ygyro_signals{i}.tov]-offset_time,[ygyro_signals{i}.rms],'color',cm(i,:));
-    leg{i} = [map_signalclass_tostring(ygyro_signals{i}(1).class) ': ' ygyro_signals{i}(1).name];
+    plot([y_signals{i}.tov]-offset_time,[y_signals{i}.rms],'color',cm(i,:));
+    leg{i} = [map_signalclass_tostring(y_signals{i}(1).class) ': ' y_signals{i}(1).name];
   end  
   legend(leg)
   ylabel("RMS (deg/s)")
@@ -91,19 +91,19 @@ function [figs] = draw_rotationrate_graphs (log_start_time,signals)
   leg = [];
   for i = 1:sz
     offset_time = 0;
-    if(ygyro_signals{i}(1).class == SignalClass.SIGNALCLASS_SENSORSIGNAL)
+    if(y_signals{i}(1).class == SignalClass.SIGNALCLASS_SENSORSIGNAL)
       offset_time=log_start_time;
     end
-    plot([ygyro_signals{i}.tov]-offset_time,[ygyro_signals{i}.status],'color',cm(i,:));
-    leg{i} = [map_signalclass_tostring(ygyro_signals{i}(1).class) ': ' ygyro_signals{i}(1).name];
+    plot([y_signals{i}.tov]-offset_time,[y_signals{i}.status],'color',cm(i,:));
+    leg{i} = [map_signalclass_tostring(y_signals{i}(1).class) ': ' y_signals{i}(1).name];
   end  
   legend(leg)
   xlabel("Time (s)")
   ylabel("Status")
   hold off  
 %Draw Z-Axis
-  zgyro_signals = subset_signals(signals,'zgyro');
-  [~,sz] = size(xgyro_signals);
+  z_signals = subset_signals(signals,'zgyro');
+  [~,sz] = size(z_signals);
   cm = jet(sz);
   fig_title = 'Rotation Rate-Z';
   figure('Name',fig_title,'NumberTitle','off')
@@ -113,11 +113,11 @@ function [figs] = draw_rotationrate_graphs (log_start_time,signals)
   leg = [];
   for i = 1:sz
     offset_time = 0;
-    if(zgyro_signals{i}(1).class == SignalClass.SIGNALCLASS_SENSORSIGNAL)
+    if(z_signals{i}(1).class == SignalClass.SIGNALCLASS_SENSORSIGNAL)
       offset_time=log_start_time;
     end
-    plot([zgyro_signals{i}.tov]-offset_time,[zgyro_signals{i}.value],'color',cm(i,:));
-    leg{i} = [map_signalclass_tostring(zgyro_signals{i}(1).class) ': ' zgyro_signals{i}(1).name];
+    plot([z_signals{i}.tov]-offset_time,[z_signals{i}.value],'color',cm(i,:));
+    leg{i} = [map_signalclass_tostring(z_signals{i}(1).class) ': ' z_signals{i}(1).name];
   end  
   legend(leg)
   ylabel("Rotation Rate (deg/s)")
@@ -127,11 +127,11 @@ function [figs] = draw_rotationrate_graphs (log_start_time,signals)
   leg = [];
   for i = 1:sz
     offset_time = 0;
-    if(zgyro_signals{i}(1).class == SignalClass.SIGNALCLASS_SENSORSIGNAL)
+    if(z_signals{i}(1).class == SignalClass.SIGNALCLASS_SENSORSIGNAL)
       offset_time=log_start_time;
     end
-    plot([zgyro_signals{i}.tov]-offset_time,[zgyro_signals{i}.rms],'color',cm(i,:));
-    leg{i} = [map_signalclass_tostring(zgyro_signals{i}(1).class) ': ' zgyro_signals{i}(1).name];
+    plot([z_signals{i}.tov]-offset_time,[z_signals{i}.rms],'color',cm(i,:));
+    leg{i} = [map_signalclass_tostring(z_signals{i}(1).class) ': ' z_signals{i}(1).name];
   end  
   legend(leg)
   ylabel("RMS (deg/s)")
@@ -141,11 +141,11 @@ function [figs] = draw_rotationrate_graphs (log_start_time,signals)
   leg = [];
   for i = 1:sz
     offset_time = 0;
-    if(zgyro_signals{i}(1).class == SignalClass.SIGNALCLASS_SENSORSIGNAL)
+    if(z_signals{i}(1).class == SignalClass.SIGNALCLASS_SENSORSIGNAL)
       offset_time=log_start_time;
     end
-    plot([zgyro_signals{i}.tov]-offset_time,[zgyro_signals{i}.status],'color',cm(i,:));
-    leg{i} = [map_signalclass_tostring(zgyro_signals{i}(1).class) ': ' zgyro_signals{i}(1).name];
+    plot([z_signals{i}.tov]-offset_time,[z_signals{i}.status],'color',cm(i,:));
+    leg{i} = [map_signalclass_tostring(z_signals{i}(1).class) ': ' z_signals{i}(1).name];
   end  
   legend(leg)
   xlabel("Time (s)")
