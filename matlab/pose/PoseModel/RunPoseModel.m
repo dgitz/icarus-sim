@@ -1,7 +1,9 @@
 %RunPoseModel
 %Calculate time to run: This should be fixed in US: 85
 global Config
-
+Timed_Signals = [];
+Processed_Signals = [];
+Input_Signals = [];
 start_times_vector=[];
 end_times_vector=[];
 for i = 1:length(Sensor_Signals)
@@ -14,21 +16,29 @@ start_time = 0;
 end_time = log_end_time-log_start_time;
 %% Initialize all Pose Model Signals, Objects
 time_compensators = [];
+sensor_postprocessors = [];
 for i = 1:length(Sensor_Signals)
   %% Time Compensator Objects
   tc = TimeCompensate(Sensor_Signals{i}(:),TIMINGCOMPENSATION_METHOD,SignalState,SignalClass,Sensor_Signals{i}(1).name,Config.TimeCompensation_Method);
   time_compensators{i} = tc;
+  sp = SensorPostProcess;
+  sp = sp.init(SignalClass);
+  sensor_postprocessors{i} = sp;
 end
 %% Run Pose Model
 disp(['Log Start Time: ' num2str(log_start_time) '(s) Log End Time: ' num2str(log_end_time) '(s)']);
 disp(["Running Pose Model for: " num2str(end_time) " seconds (simulation time)"]);
 counter = 0;
 sim_time = start_time;
+sensor_postprocess = SensorPostProcess;
+signal_linker = MasterLinker;
+signal_linker = signal_linker.init(SignalClass,SignalType,SignalState);
 while(sim_time < end_time)
   fixed_dt = 1.0/Config.Pose_UpdateRate;
   dt = fixed_dt;
   
   %% Time Compensator Calls
+  signal_vector = [];
   for i = 1:length(Sensor_Signals)
     time_compensators{i} = time_compensators{i}.new_input(log_start_time,sim_time);
     if(counter == 0)
@@ -39,8 +49,28 @@ while(sim_time < end_time)
     end
   end
   
+  %% Sensor Post-Processor Calls
+  signal_vector = [];
+  for i = 1:length(Timed_Signals)
+    sensor_postprocessors{i} = sensor_postprocessors{i}.new_input(Timed_Signals{i}(counter+1));
+    if(counter == 0)
+      Processed_Signals{i} = sensor_postprocessors{i}.output;
+    else
+      signal_vector = [Processed_Signals{i} sensor_postprocessors{i}.output];
+      Processed_Signals{i} = signal_vector;
+    end
+  end
   
-  
+  %% Signal Linker Calls
+  signal_vector = [];
+  for i = 1:length(Processed_Signals)
+    signal_vector = [signal_vector Processed_Signals{i}(counter+1)];
+  end
+  signal_linker = signal_linker.new_input(signal_vector);
+  linked.linear_accelerations = signal_linker.linearacceleration_linker.linear_accelerations;
+  linked.rotation_rates = signal_linker.rotationrate_linker.rotation_rates;
+  linked.orientations = signal_linker.orientation_linker.orientations;
+  Input_Signals = [Input_Signals linked];
   sim_time += dt;
   if((mod(counter,100) == 0) && (sim_time > 0.0))
     disp(["Still Running Simulation... at time: " num2str(sim_time) "/" num2str(end_time)]);
