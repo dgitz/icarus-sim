@@ -24,9 +24,13 @@ RobotPlugin::RobotPlugin() : ModelPlugin(),
 	kill_node = false;
 	robot_initialized = false;
 	run_time = 0.0;
-	cmd_throttle = 0.0;
-	cmd_steer = 0.0;
 	compute_average.init();
+	std::vector<uint8_t> diagnostic_types;
+	diagnostic_types.push_back(DATA_STORAGE);
+	diagnostic_types.push_back(SENSORS);
+	diagnostic_types.push_back(ACTUATORS);
+	diagnostic_types.push_back(POSE);
+	enable_diagnostics(diagnostic_types);
 	// TODO Auto-generated constructor stub
 }
 
@@ -42,12 +46,16 @@ void RobotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 	pose_initialized = false;
 	drivecommand_received = false;
 	InitializePlugin();
+	
 
 	return;
 }
 bool RobotPlugin::InitializePlugin()
 {
+	eros::diagnostic diag = root_diagnostic;
 	std::string node_name = "gazebo_client";
+	heartbeat.BaseNode_Name = "gazebo";
+	heartbeat.Node_Name = node_name;
 	logger = new Logger("DEBUG", "/" + node_name);
 	logger_initialized = true;
 	if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == true)
@@ -57,11 +65,14 @@ bool RobotPlugin::InitializePlugin()
 	sensors_enabled = true;
 	if (LoadModel() == false)
 	{
-		logger->log_error("Model Failed to Load. Exiting.");
+		
 		if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 		{
+			logger->log_error("Model Failed to Load. Exiting.");
 			return false;
 		}
+		diag = update_diagnostic(DATA_STORAGE,WARN,INITIALIZING_ERROR,"Simulation Failed to Load Correctly but Continuing anyways.");
+		logger->log_diagnostic(diag);
 	}
 	print_model();
 	this->node = transport::NodePtr(new transport::Node());
@@ -106,6 +117,7 @@ bool RobotPlugin::InitializePlugin()
 }
 bool RobotPlugin::LoadModel()
 {
+	eros::diagnostic diag = root_diagnostic;
 	logger->log_notice("Initializing Model.");
 	if (LoadSensors() == false)
 	{
@@ -367,6 +379,10 @@ bool RobotPlugin::LoadModel()
 			return false;
 		}
 	}
+	diag = update_diagnostic(SENSORS,INFO,NOERROR,"Sensors Loaded.");
+	diag = update_diagnostic(ACTUATORS,INFO,NOERROR,"Actuators Loaded.");
+	diag = update_diagnostic(DATA_STORAGE,INFO,NOERROR,"Simulation Loaded.");
+	diag = update_diagnostic(POSE,INFO,NOERROR,"No Error.");
 	return true;
 }
 bool RobotPlugin::InitializeSubscriptions()
@@ -376,10 +392,6 @@ bool RobotPlugin::InitializeSubscriptions()
 
 	this->updateConnection = event::Events::ConnectWorldUpdateBegin(
 		std::bind(&RobotPlugin::OnUpdate, this));
-	//return true;
-	{
-		this->sub_keyboardevent = node->Subscribe("~/keyboard/keypress", &RobotPlugin::KeyboardEventCallback, this, true);
-	}
 	{
 		ros::SubscribeOptions so =
 			ros::SubscribeOptions::create<eros::pin>(
@@ -416,6 +428,11 @@ bool RobotPlugin::InitializeSubscriptions()
 }
 bool RobotPlugin::InitializePublications()
 {
+	pub_heartbeat = this->rosNode->advertise<eros::heartbeat>("/gazebo/heartbeat",1);
+	heartbeat.stamp = ros::Time::now();
+	heartbeat.TaskState = TASKSTATE_INITIALIZING;
+	pub_heartbeat.publish(heartbeat);
+	pub_diagnostic = this->rosNode->advertise<eros::diagnostic>("/gazebo/diagnostic",1);
 	pub_gazebofps = this->rosNode->advertise<std_msgs::Float64>("/gazebo/update_rate", 1);
 	pub_truthpose = this->rosNode->advertise<eros::pose>("/TruthPose_Simulated", 1);
 	pub_batteryinfo = this->rosNode->advertise<eros::battery>("/MainBattery", 1);
@@ -425,8 +442,6 @@ bool RobotPlugin::InitializePublications()
 		pub_rightimu = this->rosNode->advertise<eros::imu>("/RightIMU_Simulated", 1);
 		pub_leftwheelencoder = this->rosNode->advertise<eros::signal>("/LeftWheelEncoder_Simulated", 1);
 		pub_rightwheelencoder = this->rosNode->advertise<eros::signal>("/RightWheelEncoder_Simulated", 1);
-		pub_drivetrain_left_cmd = this->rosNode->advertise<eros::pin>("/LeftMotorController", 1);
-		pub_drivetrain_right_cmd = this->rosNode->advertise<eros::pin>("/RightMotorController", 1);
 	}
 	for (std::size_t i = 0; i < linear_actuators.size(); ++i)
 	{
@@ -541,6 +556,7 @@ void RobotPlugin::QueueThread()
 }
 void RobotPlugin::OnUpdate()
 {
+	eros::diagnostic diag = root_diagnostic;
 	if (m_fastloop.run_loop())
 	{
 
@@ -588,9 +604,8 @@ void RobotPlugin::OnUpdate()
 			double d = compute_distance(pose, initial_pose);
 			if (d > 1)
 			{
-				kill_node = true;
-				logger->log_warn("Model Pose has drifted with no input command.  Likely a model sdf problem.  Please adjust.");
-				return;
+				diag = update_diagnostic(POSE,WARN,DIAGNOSTIC_FAILED,"Model Pose has drifted with no input command.  Likely a model sdf problem.  Please adjust.");
+				logger->log_diagnostic(diag);
 			}
 		}
 
@@ -642,13 +657,6 @@ void RobotPlugin::OnUpdate()
 				kill_node = false;
 			}
 			pub_truthpose.publish(truth_pose.sensor.get_pose());
-			DrivePerc cmd = arcade_mix(cmd_throttle, cmd_steer);
-			double left_sv = scale_value(cmd.left, 1000.0, 1500.0, 2000.0);
-			drivetrain_left_motorcontroller_pin.pin.Value = (int32_t)left_sv;
-			pub_drivetrain_left_cmd.publish(drivetrain_left_motorcontroller_pin.pin);
-			double right_sv = scale_value(cmd.right, 1000.0, 1500.0, 2000.0);
-			drivetrain_right_motorcontroller_pin.pin.Value = (int32_t)right_sv;
-			pub_drivetrain_right_cmd.publish(drivetrain_right_motorcontroller_pin.pin);
 		}
 		if ((sensors_enabled == true) and (robot_initialized == true))
 		{
@@ -687,6 +695,9 @@ void RobotPlugin::OnUpdate()
 	}
 	if (m_mediumloop.run_loop())
 	{
+		heartbeat.TaskState = TASKSTATE_RUNNING;
+		heartbeat.stamp = ros::Time::now();
+		pub_heartbeat.publish(heartbeat);
 		double current_consumed = 0.0;
 		current_consumed += left_motorcontroller.get_currentconsumed();
 		current_consumed += right_motorcontroller.get_currentconsumed();
@@ -745,6 +756,12 @@ void RobotPlugin::OnUpdate()
 	}
 	if (m_veryslowloop.run_loop())
 	{
+		std::vector<eros::diagnostic> diaglist = get_diagnostics();
+		for (std::size_t i = 0; i < diaglist.size(); ++i)
+		{
+			logger->log_diagnostic(diaglist.at(i));
+			pub_diagnostic.publish(diaglist.at(i));
+		}
 		//print_loopstates(m_veryslowloop);
 		//print_loopstates(m_slowloop);
 		//print_loopstates(m_mediumloop);
@@ -983,76 +1000,63 @@ bool RobotPlugin::readLinkPose(std::string shortname, ignition::math::Pose3d *po
 
 	//m_model->GetLink(links.at(i).name)->GetRelativePose()
 }
-RobotPlugin::DrivePerc RobotPlugin::arcade_mix(double throttle_perc, double steer_perc)
+eros::diagnostic RobotPlugin::update_diagnostic(uint8_t diagnostic_type, uint8_t level, uint8_t message, std::string description)
 {
-	DrivePerc d;
-	double v = (100.0 - fabs(steer_perc)) * (throttle_perc / 100.0) + throttle_perc;
-	double w = (100.0 - fabs(throttle_perc)) * (steer_perc / 100.0) + steer_perc;
-	d.left = (v + w) / 2.0;
-	d.right = (v - w) / 2.0;
-	if (d.left > 100.0)
-	{
-		d.left = 100.0;
-	}
-	if (d.left < -100.0)
-	{
-		d.right = -100.0;
-	}
-	if (d.right > 100.0)
-	{
-		d.right = 100.0;
-	}
-	if (d.right < -100.0)
-	{
-		d.right = -100.0;
-	}
-	return d;
+	return update_diagnostic(root_diagnostic.DeviceName,diagnostic_type,level,message,description);
 }
-void RobotPlugin::KeyboardEventCallback(ConstAnyPtr &_msg)
+eros::diagnostic RobotPlugin::update_diagnostic(eros::diagnostic diag)
 {
-	switch (_msg->int_value())
+	return update_diagnostic(diag.DeviceName,diag.Diagnostic_Type,diag.Level,diag.Diagnostic_Message,diag.Description);
+}
+eros::diagnostic RobotPlugin::update_diagnostic(std::string device_name, uint8_t diagnostic_type, uint8_t level, uint8_t message, std::string description)
+{
+	bool devicetype_found = false;
+	bool devicename_found = false;
+	eros::diagnostic diag;
+	uint8_t insert_index = -1;
+	for (std::size_t i = 0; i < diagnostics.size(); ++i)
 	{
-	case KEYCODE_DOWNARROW:
-		drivecommand_received = true;
-		cmd_throttle -= 5.0;
-		if (cmd_throttle < -100.0)
+		if (diagnostic_type == diagnostics.at(i).Diagnostic_Type)
 		{
-			cmd_throttle = -100.0;
+			devicetype_found = true;
+			insert_index = i;
+			if (diagnostics.at(i).DeviceName == device_name)
+			{
+				devicename_found = true;
+				diag = diagnostics.at(i);
+				diag.Level = level;
+				diag.Diagnostic_Message = message;
+				diag.Description = description;
+				diagnostics.at(i) = diag;
+			}
 		}
-		break;
-	case KEYCODE_LEFTARROW:
-		drivecommand_received = true;
-		cmd_steer -= 5.0;
-		if (cmd_steer < -100.0)
-		{
-			cmd_steer = -100.0;
-		}
-		break;
-	case KEYCODE_RIGHTARROW:
-		drivecommand_received = true;
-		cmd_steer += 5.0;
-		if (cmd_steer > 100.0)
-		{
-			cmd_steer = 100.0;
-		}
-		break;
-	case KEYCODE_UPARROW:
-		drivecommand_received = true;
-		cmd_throttle += 5.0;
-		if (cmd_throttle > 100.0)
-		{
-			cmd_throttle = 100.0;
-		}
-		break;
-	case KEYCODE_SPACE:
-
-		break;
-	case KEYCODE_ENTER:
-		drivecommand_received = true;
-		cmd_throttle = 0.0;
-		cmd_steer = 0.0;
-		break;
-	default:
-		break;
+	}
+	if((devicetype_found == true) and (devicename_found == false))
+	{
+		diag = root_diagnostic;
+		diag.Diagnostic_Type = diagnostic_type;
+		diag.DeviceName = device_name;
+		diag.Level = level;
+		diag.Diagnostic_Message = message;
+		diag.Description = description;
+		std::vector<eros::diagnostic>::iterator it;
+		it = diagnostics.begin();
+		diagnostics.insert(it+insert_index,diag);
+	}
+	if (devicetype_found == true)
+	{
+		return diag;
+	}
+	else
+	{
+		diag = root_diagnostic;
+		diag.Diagnostic_Type = diagnostic_type;
+		diag.Level = ERROR;
+		diag.Diagnostic_Message = UNKNOWN_MESSAGE;
+		char tempstr[512];
+		sprintf(tempstr, "Unsupported Diagnostic Type: %s(%d).  Did you forget to enable it?", 
+			diagnostic_helper.get_DiagTypeString(diagnostic_type).c_str(),diagnostic_type);
+		diag.Description = std::string(tempstr);
+		return diag;
 	}
 }

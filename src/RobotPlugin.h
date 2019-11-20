@@ -49,6 +49,7 @@
 #include <eros/imu.h>
 #include <eros/pin.h>
 #include <eros/pose.h>
+#include <eros/heartbeat.h>
 #include <eros/battery.h>
 //Project
 #include "../include/SimpleTimer.h"
@@ -62,7 +63,7 @@
 #include "Sensor/IMU/IMUSensor.h"
 #include "Sensor/WheelEncoder/WheelEncoderSensor.h"
 #include "Actuator/LinearActuatorModel/LinearActuatorModel.h"
-
+#include "../../eROS/include/DiagnosticClass.h"
 #define ALLOW_INCOMPLETEMODEL_INITIALIZATION false
 #define INITIALIZATION_TIME 5.0f
 #define KEYCODE_UPARROW 16777235
@@ -84,6 +85,33 @@ public:
 	//Structs
 	//Initialization Functions
 	virtual void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf);
+	void enable_diagnostics(std::vector<uint8_t> diagnostic_types)
+	{
+		root_diagnostic.Node_Name = "gazebo_client";
+		root_diagnostic.DeviceName = "SimRover";
+		root_diagnostic.System = SIMROVER;
+		root_diagnostic.SubSystem = ENTIRE_SYSTEM;
+		root_diagnostic.Component = ENTIRE_SUBSYSTEM;
+		std::sort(diagnostic_types.begin(),diagnostic_types.end());
+		for(std::size_t i = 0; i < diagnostic_types.size(); ++i)
+		{
+			eros::diagnostic diag = root_diagnostic;
+			diag.Diagnostic_Type = diagnostic_types.at(i);
+			if(diagnostic_types.at(i) == SYSTEM_RESOURCE) //This is special, so we don't throw a ton of warn messages when the system launches.
+			{
+				diag.Level = NOTICE;
+				diag.Diagnostic_Message = INITIALIZING;
+				diag.Description = "Initializing Resource Monitor.";
+			}
+			else
+			{
+				diag.Level = WARN;
+				diag.Diagnostic_Message = INITIALIZING;
+				diag.Description = "Initializing Diagnostic.";
+			}	
+			diagnostics.push_back(diag);
+		}
+	}
 	//Update Functions
 	virtual void OnUpdate();
 	
@@ -97,6 +125,8 @@ public:
 	void boom_rotate_cmd(const eros::pin::ConstPtr& _msg);
 	void bucket_rotate_cmd(const eros::pin::ConstPtr& _msg);
 	
+	//Attributes
+	std::vector<eros::diagnostic> get_diagnostics() { return diagnostics; }
 	//Destructors
 
 private:
@@ -137,9 +167,7 @@ private:
 	};
 	Logger *logger;
 	bool logger_initialized;
-	void KeyboardEventCallback(ConstAnyPtr &_msg);
 	double scale_value(double input_perc,double y1,double neutral,double y2);
-	DrivePerc arcade_mix(double throttle_perc,double steer_perc);
 	struct TruthPoseStorage
 	{
 		TruthSensor sensor;
@@ -183,6 +211,9 @@ private:
 	void QueueThread();
 	double  compute_distance(ignition::math::Pose3d a, ignition::math::Pose3d b);
 	double compute_magnitude(ignition::math::Vector3d a);
+	eros::diagnostic update_diagnostic(uint8_t diagnostic_type,uint8_t level,uint8_t message,std::string description);
+	eros::diagnostic update_diagnostic(std::string device_name,uint8_t diagnostic_type,uint8_t level,uint8_t message,std::string description);
+	eros::diagnostic update_diagnostic(eros::diagnostic diag);
 	//Utility Functions
 	std::string map_jointtype_tostring(JointType joint_type);
 	void print_loopstates(SimpleTimer timer);
@@ -198,6 +229,8 @@ private:
 	ros::CallbackQueue rosQueue;
 	physics::ModelPtr m_model;
 	std::thread rosQueueThread;
+	ros::Publisher pub_heartbeat;
+	ros::Publisher pub_diagnostic;
 	ros::Subscriber sub_drivetrain_left_cmd;
 	ros::Subscriber sub_drivetrain_right_cmd;
 	ros::Subscriber sub_boomrotate_cmd;
@@ -207,12 +240,15 @@ private:
 	ros::Publisher pub_truthpose;
 	ros::Publisher pub_leftwheelencoder;
 	ros::Publisher pub_rightwheelencoder;
-	ros::Publisher pub_drivetrain_left_cmd;
-	ros::Publisher pub_drivetrain_right_cmd;
 	ros::Publisher pub_batteryinfo;
 	ros::Publisher pub_gazebofps;
 	transport::SubscriberPtr sub_keyboardevent;
 
+	//Diagnostic Variables
+	eros::heartbeat heartbeat;
+	DiagnosticClass diagnostic_helper;
+	eros::diagnostic root_diagnostic;
+	std::vector<eros::diagnostic> diagnostics;
 	//Timing Variables
 	double run_time;
 	double last_simtime;
@@ -254,8 +290,6 @@ private:
 	
 	//Robot Modelling
 	BatteryModel battery;
-	double cmd_throttle;
-	double cmd_steer;
 	MotorControllerModel left_motorcontroller;
 	MotorControllerModel right_motorcontroller;
 
@@ -266,15 +300,6 @@ private:
 	WheelEncoderStorage right_wheelencoder;
 
 	std::vector<LinearActuatorStorage> linear_actuators;
-
-
-
-
-
-
-
-
-
 
 };
 GZ_REGISTER_MODEL_PLUGIN(RobotPlugin)
