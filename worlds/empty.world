@@ -6,9 +6,6 @@
         <real_time_factor>1</real_time_factor>
         <real_time_update_rate>200</real_time_update_rate>
     </physics>
-    <gui fullscreen='0'>
-        <plugin name='keyboard' filename='libKeyboardGUIPlugin.so'/>
-    </gui>
     <model name="ground_plane">
         <static>true</static>
         <link name="link">
