@@ -1,11 +1,6 @@
 <?xml version="1.0" ?>
 <sdf version="1.4">
   <world name="default">
-    <physics type='ode'>
-        <max_step_size>0.005</max_step_size>
-        <real_time_factor>1</real_time_factor>
-        <real_time_update_rate>200</real_time_update_rate>
-    </physics>
     <model name="ground_plane">
         <static>true</static>
         <link name="link">
@@ -76,7 +71,7 @@
         <plugin name="robot_control" filename="libRobotPlugin.so">
         </plugin>
       <name>sim_scout</name>
-      <pose>0 0 0 0 0 0</pose>
+      <pose>0.0 0.0 .01 0 0 0</pose>
     </include>
   </world>
 </sdf>
