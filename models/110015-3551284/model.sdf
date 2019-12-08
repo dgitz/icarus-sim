@@ -21,46 +21,46 @@
           <angular_velocity>
             <x>
               <noise type="gaussian_quantized">
-                <mean>0.0</mean>
-                <stddev>0.014622</stddev>
-                <precision>0.122070313</precision>
+                <mean>0.0</mean> <!--assumed calibrated out -->
+                <stddev>0.05645735</stddev>
+                <precision>0.061035</precision>
               </noise>
             </x>
             <y>
               <noise type="gaussian_quantized">
-                <mean>0.0</mean>
-                <stddev>0.015377</stddev>
-                <precision>0.122070313</precision>
+                <mean>0.0</mean> <!--assumed calibrated out -->
+                <stddev>0.07339414</stddev>
+                <precision>0.061035</precision>
               </noise>
             </y>
             <z>
               <noise type="gaussian_quantized">
-                <mean>0.0</mean>
-                <stddev>0.022808</stddev>
-                <precision>0.122070313</precision>
+                <mean>0.0</mean> <!--assumed calibrated out -->
+                <stddev>0.06702133</stddev>
+                <precision>0.061035</precision>
               </noise>
             </z>
           </angular_velocity>
           <linear_acceleration>
             <x>
               <noise type="gaussian_quantized">
-                <mean>-0.029807</mean>
-                <stddev>0.056973</stddev>
-                <precision>0.000598755</precision>
+                <mean>0.0</mean>
+                <stddev>0.01466293</stddev>
+                <precision>0.00059795</precision>
               </noise>
             </x>
             <y>
               <noise type="gaussian_quantized">
-                <mean>-0.047906</mean>
-                <stddev>0.074346</stddev>
-                <precision>0.000598755</precision>
+                <mean>0.0</mean>
+                <stddev>0.01499929</stddev>
+                <precision>0.00059795</precision>
               </noise>
             </y>
             <z>
               <noise type="gaussian_quantized">
-                <mean>-0.036439</mean>
-                <stddev>0.067145</stddev>
-                <precision>0.000598755</precision>
+                <mean>0.0</mean>
+                <stddev>0.02270911</stddev>
+                <precision>0.00059795</precision>
               </noise>
             </z>
           </linear_acceleration>

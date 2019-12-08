@@ -52,10 +52,10 @@
 #include <eros/heartbeat.h>
 #include <eros/battery.h>
 //Project
-#include "../include/SimpleTimer.h"
-#include "../../eROS/include/eROS_Definitions.h"
-#include "../../eROS/include/logger.h"
-#include "../../eROS/include/eros_math.h"
+#include "../../include/SimpleTimer.h"
+#include "../../../eROS/include/eROS_Definitions.h"
+#include "../../../eROS/include/logger.h"
+#include "../../../eROS/include/eros_math.h"
 #include "Power/MotorControllerModel/MotorControllerModel.h"
 #include "Power/MotorModel/MotorModel.h"
 #include "Power/BatteryModel/BatteryModel.h"
@@ -63,8 +63,8 @@
 #include "Sensor/IMU/IMUSensor.h"
 #include "Sensor/WheelEncoder/WheelEncoderSensor.h"
 #include "Actuator/LinearActuatorModel/LinearActuatorModel.h"
-#include "../../eROS/include/DiagnosticClass.h"
-#define ALLOW_INCOMPLETEMODEL_INITIALIZATION false
+#include "../../../eROS/include/DiagnosticClass.h"
+#define ALLOW_INCOMPLETEMODEL_INITIALIZATION true
 #define INITIALIZATION_TIME 5.0f
 #define KEYCODE_UPARROW 16777235
 #define KEYCODE_LEFTARROW 16777234

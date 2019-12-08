@@ -12,7 +12,7 @@
 #include <ignition/math/Vector3.hh>
 #include <gazebo/gazebo.hh>
 
-#include "../../../../eROS/include/eROS_Definitions.h"
+#include "../../../../../eROS/include/eROS_Definitions.h"
 class WheelEncoderSensor {
 public:
 	WheelEncoderSensor();
