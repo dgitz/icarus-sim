@@ -1,0 +1,11 @@
+add_library(sensorarm_controller_process src/SensorArmControllerProcess.cpp)
+target_link_libraries(sensorarm_controller_process ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+add_dependencies(sensorarm_controller_process eros_generate_messages_cpp)
+
+add_executable(sensorarm_controller_node src/sensorarm_controller_node.cpp)
+add_dependencies(sensorarm_controller_node eros_generate_messages_cpp)
+target_link_libraries(sensorarm_controller_node ${GAZEBO_LIBRARIES} ${roscpp_LIBRARIES} ${catkin_LIBRARIES} logger eros_math sensorarm_controller_process)
+add_dependencies(sensorarm_controller_node ${catkin_EXPORTED_TARGETS})
+
+
+

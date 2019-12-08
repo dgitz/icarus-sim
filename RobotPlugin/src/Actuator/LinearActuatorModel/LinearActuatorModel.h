@@ -9,7 +9,7 @@
 #include "vector"
 #include <eros/signal.h>
 #include <eros/pin.h>
-#include "../../../../eROS/include/eROS_Definitions.h"
+#include "../../../../../eROS/include/eROS_Definitions.h"
 class LinearActuatorModel {
 public:
 	LinearActuatorModel();

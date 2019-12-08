@@ -13,7 +13,7 @@
 #include <ignition/math/Vector3.hh>
 #include <gazebo/gazebo.hh>
 
-#include "../../../../eROS/include/eROS_Definitions.h"
+#include "../../../../../eROS/include/eROS_Definitions.h"
 #define TRANSMIT_RATE 50.0 //Hz
 
 class TruthSensor {
