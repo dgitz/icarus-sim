@@ -49,7 +49,7 @@ eros::diagnostic SensorArmControllerNode::read_launchparameters()
 	std::string param_holdtime = node_name +"/holdtime_step";
 	if(n->getParam(param_holdtime,hold_time) == false)
 	{
-		logger->log_error("Param: " + param_holdtime + " Not Found. Exiting.");
+		logger->log_error(__FILE__,__LINE__,"Param: " + param_holdtime + " Not Found. Exiting.");
 		diag.Diagnostic_Type = DATA_STORAGE;
 		diag.Level = ERROR;
 		diag.Diagnostic_Message = INITIALIZING_ERROR;
@@ -62,7 +62,7 @@ eros::diagnostic SensorArmControllerNode::read_launchparameters()
 		std::string param_start_angle = node_name +"/joint" + std::to_string(i) + "_start_angle";
 		if(n->getParam(param_start_angle,start_angle) == false)
 		{
-			logger->log_error("Param: " + param_start_angle + " Not Found. Exiting.");
+			logger->log_error(__FILE__,__LINE__,"Param: " + param_start_angle + " Not Found. Exiting.");
 			diag.Diagnostic_Type = DATA_STORAGE;
 			diag.Level = ERROR;
 			diag.Diagnostic_Message = INITIALIZING_ERROR;
@@ -71,7 +71,7 @@ eros::diagnostic SensorArmControllerNode::read_launchparameters()
 		std::string param_stop_angle = node_name +"/joint" + std::to_string(i) + "_stop_angle";
 		if(n->getParam(param_stop_angle,stop_angle) == false)
 		{
-			logger->log_error("Param: " + param_stop_angle + " Not Found. Exiting.");
+			logger->log_error(__FILE__,__LINE__,"Param: " + param_stop_angle + " Not Found. Exiting.");
 			diag.Diagnostic_Type = DATA_STORAGE;
 			diag.Level = ERROR;
 			diag.Diagnostic_Message = INITIALIZING_ERROR;
@@ -80,7 +80,7 @@ eros::diagnostic SensorArmControllerNode::read_launchparameters()
 		std::string param_step_angle = node_name +"/joint" + std::to_string(i) + "_step_angle";
 		if(n->getParam(param_step_angle,step_angle) == false)
 		{
-			logger->log_error("Param: " + param_step_angle + " Not Found. Exiting.");
+			logger->log_error(__FILE__,__LINE__,"Param: " + param_step_angle + " Not Found. Exiting.");
 			diag.Diagnostic_Type = DATA_STORAGE;
 			diag.Level = ERROR;
 			diag.Diagnostic_Message = INITIALIZING_ERROR;
@@ -89,7 +89,7 @@ eros::diagnostic SensorArmControllerNode::read_launchparameters()
 		bool v = process->set_jointproperties(i,start_angle,stop_angle,step_angle);
 		if(v == false)
 		{
-			logger->log_error("Unable to Set Joint Properties for Joint: " + std::to_string(i));
+			logger->log_error(__FILE__,__LINE__,"Unable to Set Joint Properties for Joint: " + std::to_string(i));
 			diag.Diagnostic_Type = DATA_STORAGE;
 			diag.Level = ERROR;
 			diag.Diagnostic_Message = INITIALIZING_ERROR;
@@ -97,7 +97,7 @@ eros::diagnostic SensorArmControllerNode::read_launchparameters()
 		}
 
 	}
-	get_logger()->log_notice("Configuration Files Loaded.");
+	get_logger()->log_notice(__FILE__,__LINE__,"Configuration Files Loaded.");
 	return diagnostic;
 }
 eros::diagnostic SensorArmControllerNode::finish_initialization()
@@ -155,7 +155,7 @@ bool SensorArmControllerNode::run_1hz()
 				if (srv.response.data.size() != 1)
 				{
 
-					get_logger()->log_error("Got unexpected device message.");
+					get_logger()->log_error(__FILE__,__LINE__,"Got unexpected device message.");
 				}
 				else
 				{
@@ -261,7 +261,7 @@ eros::diagnostic SensorArmControllerNode::rescan_topics()
 			found_new_topics++;
 			char tempstr[255];
 			sprintf(tempstr,"Subscribing to command topic: %s",info.name.c_str());
-			logger->log_info(tempstr);
+			logger->log_info(__FILE__,__LINE__,tempstr);
 			ros::Subscriber sub = n->subscribe<eros::command>(info.name,20,&SensorArmControllerNode::Command_Callback,this);
 			multiple_subs.push_back(sub);
 		}
@@ -277,7 +277,7 @@ eros::diagnostic SensorArmControllerNode::rescan_topics()
 		sprintf(tempstr,"Rescanned and found no new topics.");
 	}
 	diag = process->update_diagnostic(SOFTWARE,INFO,NOERROR,std::string(tempstr));
-	logger->log_info(tempstr);
+	logger->log_info(__FILE__,__LINE__,tempstr);
 	return diag;
 }
 void SensorArmControllerNode::thread_loop()
@@ -290,7 +290,7 @@ void SensorArmControllerNode::thread_loop()
 void SensorArmControllerNode::cleanup()
 {
 	base_cleanup();
-	get_logger()->log_info("Node Finished Safely.");
+	get_logger()->log_info(__FILE__,__LINE__,"Node Finished Safely.");
 }
 /*! \brief Attempts to kill a node when an interrupt is received.
  *

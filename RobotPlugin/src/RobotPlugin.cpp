@@ -60,7 +60,7 @@ bool RobotPlugin::InitializePlugin()
 	logger_initialized = true;
 	if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == true)
 	{
-		logger->log_warn("ALLOWING MODEL TO INITIALIZE EVEN IF DESCRIPTION FILES ARE INCOMPLETE/INVALID.");
+		logger->log_warn(__FILE__,__LINE__,"ALLOWING MODEL TO INITIALIZE EVEN IF DESCRIPTION FILES ARE INCOMPLETE/INVALID.");
 	}
 	sensors_enabled = true;
 	if (LoadModel() == false)
@@ -68,7 +68,7 @@ bool RobotPlugin::InitializePlugin()
 		
 		if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 		{
-			logger->log_error("Model Failed to Load. Exiting.");
+			logger->log_error(__FILE__,__LINE__,"Model Failed to Load. Exiting.");
 			return false;
 		}
 		diag = update_diagnostic(DATA_STORAGE,WARN,INITIALIZING_ERROR,"Simulation Failed to Load Correctly but Continuing anyways.");
@@ -77,7 +77,7 @@ bool RobotPlugin::InitializePlugin()
 	print_model();
 	this->node = transport::NodePtr(new transport::Node());
 	this->node->Init(m_model->GetName());
-	logger->log_debug("Starting ros");
+	logger->log_debug(__FILE__,__LINE__,"Starting ros");
 
 	if (!ros::isInitialized())
 	{
@@ -89,7 +89,7 @@ bool RobotPlugin::InitializePlugin()
 	rosNode.reset(new ros::NodeHandle(node_name));
 	if (InitializeSubscriptions() == false)
 	{
-		logger->log_error("Not able to initialize Subscriptions. Exiting.");
+		logger->log_error(__FILE__,__LINE__,"Not able to initialize Subscriptions. Exiting.");
 		if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 		{
 			return false;
@@ -97,7 +97,7 @@ bool RobotPlugin::InitializePlugin()
 	}
 	if (InitializePublications() == false)
 	{
-		logger->log_error("Not able to initialize Publications. Exiting.");
+		logger->log_error(__FILE__,__LINE__,"Not able to initialize Publications. Exiting.");
 		if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 		{
 			return false;
@@ -112,16 +112,16 @@ bool RobotPlugin::InitializePlugin()
 	m_veryslowloop.set_name("VERYSLOWLOOP");
 	m_veryslowloop.set_targetrate(0.1);
 
-	logger->log_notice("Plugin Started.  Waiting " + std::to_string(INITIALIZATION_TIME) + " seconds from Start before Initialization is complete.");
+	logger->log_notice(__FILE__,__LINE__,"Plugin Started.  Waiting " + std::to_string(INITIALIZATION_TIME) + " seconds from Start before Initialization is complete.");
 	return true;
 }
 bool RobotPlugin::LoadModel()
 {
 	eros::diagnostic diag = root_diagnostic;
-	logger->log_notice("Initializing Model.");
+	logger->log_notice(__FILE__,__LINE__,"Initializing Model.");
 	if (LoadSensors() == false)
 	{
-		logger->log_error("Could not load sensors. Exiting.");
+		logger->log_error(__FILE__,__LINE__,"Could not load sensors. Exiting.");
 		if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 		{
 			return false;
@@ -129,7 +129,7 @@ bool RobotPlugin::LoadModel()
 	}
 	if (m_model->GetJointCount() == 0)
 	{
-		logger->log_error("Robot Model did not receive any info.  Exiting.");
+		logger->log_error(__FILE__,__LINE__,"Robot Model did not receive any info.  Exiting.");
 		if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 		{
 			return false;
@@ -163,7 +163,7 @@ bool RobotPlugin::LoadModel()
 	}
 	if (found_baselink == false)
 	{
-		logger->log_error("Could not find link: base. Exiting.");
+		logger->log_error(__FILE__,__LINE__,"Could not find link: base. Exiting.");
 		if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 		{
 			return false;
@@ -186,7 +186,7 @@ bool RobotPlugin::LoadModel()
 				{
 					if (left_wheelencoder.sensor.init("110003", "LeftEncoder") == false)
 					{
-						logger->log_error("Could not initialize LeftEncoder.  Exiting.");
+						logger->log_error(__FILE__,__LINE__,"Could not initialize LeftEncoder.  Exiting.");
 						if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 						{
 							return false;
@@ -207,7 +207,7 @@ bool RobotPlugin::LoadModel()
 				{
 					if (right_wheelencoder.sensor.init("110003", "RightEncoder") == false)
 					{
-						logger->log_error("Could not initialize RightEncoder.  Exiting.");
+						logger->log_error(__FILE__,__LINE__,"Could not initialize RightEncoder.  Exiting.");
 						if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 						{
 							return false;
@@ -236,7 +236,7 @@ bool RobotPlugin::LoadModel()
 			}
 			else
 			{
-				logger->log_error("Unable to parse Joint: " + joint_scopedname + " Exiting.");
+				logger->log_error(__FILE__,__LINE__,"Unable to parse Joint: " + joint_scopedname + " Exiting.");
 				if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 				{
 					return false;
@@ -245,7 +245,7 @@ bool RobotPlugin::LoadModel()
 			bool status = actuator.init("361008", newjoint.name, joint_scopedname);
 			if (status == false)
 			{
-				logger->log_error("Could not Initialize Linear Actuator: " + newjoint.name + " Exiting.");
+				logger->log_error(__FILE__,__LINE__,"Could not Initialize Linear Actuator: " + newjoint.name + " Exiting.");
 				if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 				{
 					return false;
@@ -277,7 +277,7 @@ bool RobotPlugin::LoadModel()
 					joint_scopedname.c_str(),
 					linear_actuator_storage.sensor_id,
 					linear_actuator_storage.actuator_id);
-			logger->log_notice(std::string(tempstr));
+			logger->log_notice(__FILE__,__LINE__,std::string(tempstr));
 			linear_actuators.push_back(linear_actuator_storage);
 			joints.push_back(newjoint);
 		}
@@ -303,7 +303,7 @@ bool RobotPlugin::LoadModel()
 		bool status = battery.init("555005");
 		if (status == false)
 		{
-			logger->log_error("Could not Initialize Battery. Exiting.");
+			logger->log_error(__FILE__,__LINE__,"Could not Initialize Battery. Exiting.");
 			if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 			{
 				return false;
@@ -315,7 +315,7 @@ bool RobotPlugin::LoadModel()
 		bool status = left_motorcontroller.init("362009", motorcontroller_circuitbreaker_size);
 		if (status == false)
 		{
-			logger->log_error("Could not Initialize Left Motor Controller.");
+			logger->log_error(__FILE__,__LINE__,"Could not Initialize Left Motor Controller.");
 			if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 			{
 				return false;
@@ -328,7 +328,7 @@ bool RobotPlugin::LoadModel()
 		bool status = left_motor.init("361006", left_gearbox, 36.0 / 16.0, motorcontroller_circuitbreaker_size);
 		if (status == false)
 		{
-			logger->log_error("Could not Initialize Left Motor.");
+			logger->log_error(__FILE__,__LINE__,"Could not Initialize Left Motor.");
 			if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 			{
 				return false;
@@ -345,7 +345,7 @@ bool RobotPlugin::LoadModel()
 		bool status = right_motorcontroller.init("362009", motorcontroller_circuitbreaker_size);
 		if (status == false)
 		{
-			logger->log_error("Could not Initialize Right Motor Controller.");
+			logger->log_error(__FILE__,__LINE__,"Could not Initialize Right Motor Controller.");
 			if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 			{
 				return false;
@@ -364,7 +364,7 @@ bool RobotPlugin::LoadModel()
 		bool status = right_motor.init("361006", right_gearbox, 36.0 / 16.0, motorcontroller_circuitbreaker_size);
 		if (status == false)
 		{
-			logger->log_error("Could not Initialize Right Motor.");
+			logger->log_error(__FILE__,__LINE__,"Could not Initialize Right Motor.");
 			if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 			{
 				return false;
@@ -373,7 +373,7 @@ bool RobotPlugin::LoadModel()
 	}
 	if (linear_actuators.size() == 0)
 	{
-		logger->log_error("Did not find any Linear Actuators. Exiting.");
+		logger->log_error(__FILE__,__LINE__,"Did not find any Linear Actuators. Exiting.");
 		if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 		{
 			return false;
@@ -414,7 +414,7 @@ bool RobotPlugin::InitializeSubscriptions()
 	for (std::size_t i = 0; i < linear_actuators.size(); ++i)
 	{
 		std::string command_name = linear_actuators.at(i).linear_actuator.get_commandname();
-		logger->log_debug("Subscribing to: " + command_name);
+		logger->log_debug(__FILE__,__LINE__,"Subscribing to: " + command_name);
 		ros::SubscribeOptions so =
 			ros::SubscribeOptions::create<eros::pin>(
 				"/" + command_name,
@@ -524,7 +524,7 @@ RobotPlugin::IMUStorage RobotPlugin::initialize_imu(std::string partnumber, std:
 		sensors::SensorPtr _sensor = m_sensorManager->GetSensor(main_imu_name);
 		if (_sensor == nullptr)
 		{
-			logger->log_error("Could not load " + main_imu_name + " IMU.  Exiting.");
+			logger->log_error(__FILE__,__LINE__,"Could not load " + main_imu_name + " IMU.  Exiting.");
 			m_imu.initialized = false;
 			return m_imu;
 		}
@@ -534,7 +534,7 @@ RobotPlugin::IMUStorage RobotPlugin::initialize_imu(std::string partnumber, std:
 		sensors::SensorPtr _sensor = m_sensorManager->GetSensor(main_magnetometer_name);
 		if (_sensor == nullptr)
 		{
-			logger->log_error("Could not load " + main_magnetometer_name + " IMU Magnetometer.  Exiting.");
+			logger->log_error(__FILE__,__LINE__,"Could not load " + main_magnetometer_name + " IMU Magnetometer.  Exiting.");
 			m_imu.initialized = false;
 			return m_imu;
 		}
@@ -587,7 +587,7 @@ void RobotPlugin::OnUpdate()
 				m_mediumloop.enable_printing();
 				m_slowloop.enable_printing();
 				m_veryslowloop.enable_printing();
-				logger->log_notice("Robot Initialized.");
+				logger->log_notice(__FILE__,__LINE__,"Robot Initialized.");
 			}
 			robot_initialized = true;
 		}
@@ -710,7 +710,7 @@ void RobotPlugin::OnUpdate()
 		current_consumed += right_motor.get_currentconsumed();
 		if (battery.update(m_mediumloop.get_timedelta(), current_consumed) == false)
 		{
-			logger->log_warn("BATTERY DEPLETED");
+			logger->log_warn(__FILE__,__LINE__,"BATTERY DEPLETED");
 		}
 		pub_batteryinfo.publish(battery.get_batteryinfo());
 		m_fastloop.check_looprate();
@@ -847,7 +847,7 @@ void RobotPlugin::print_jointinfo(bool all_joints)
 					compute_magnitude(child_link_force));
 		}
 	}
-	logger->log_info(std::string(tempstr));
+	logger->log_info(__FILE__,__LINE__,std::string(tempstr));
 }
 //Communication Functions
 void RobotPlugin::implement_cmd(const eros::pin::ConstPtr &_msg)
@@ -875,7 +875,7 @@ void RobotPlugin::implement_cmd(const eros::pin::ConstPtr &_msg)
 	}
 	if (found == false)
 	{
-		logger->log_error("Couldn't parse pin: " + _msg->ConnectedDevice);
+		logger->log_error(__FILE__,__LINE__,"Couldn't parse pin: " + _msg->ConnectedDevice);
 	}
 }
 void RobotPlugin::drivetrain_left_cmd(const eros::pin::ConstPtr &_msg)
@@ -912,7 +912,7 @@ void RobotPlugin::print_loopstates(SimpleTimer timer)
 	char tempstr[1024];
 	sprintf(tempstr, "%s: Error: %4.2f%% Target Rate: %4.2f Actual Rate: %4.2f Set Rate: %4.2f", timer.get_name().c_str(), fabs(timer.get_timingerrorperc()),
 			timer.get_rate(), timer.get_actualrate(), timer.get_setrate());
-	logger->log_info(std::string(tempstr));
+	logger->log_info(__FILE__,__LINE__,std::string(tempstr));
 }
 void RobotPlugin::print_model()
 {
