@@ -42,6 +42,7 @@ RobotPlugin::~RobotPlugin()
 //Initialize Functions
 void RobotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 {
+	printf("Starting Plugin\n");
 	m_model = _model;
 	pose_initialized = false;
 	drivecommand_received = false;
@@ -242,7 +243,7 @@ bool RobotPlugin::LoadModel()
 					return false;
 				}
 			}
-			bool status = actuator.init("361008", newjoint.name, joint_scopedname);
+			bool status = actuator.init(PN_361008, newjoint.name, joint_scopedname);
 			if (status == false)
 			{
 				logger->log_error(__FILE__,__LINE__,"Could not Initialize Linear Actuator: " + newjoint.name + " Exiting.");
@@ -300,7 +301,7 @@ bool RobotPlugin::LoadModel()
 	}
 	*/
 	{
-		bool status = battery.init("555005");
+		bool status = battery.init(PN_555005);
 		if (status == false)
 		{
 			logger->log_error(__FILE__,__LINE__,"Could not Initialize Battery. Exiting.");
@@ -312,7 +313,7 @@ bool RobotPlugin::LoadModel()
 	}
 	double motorcontroller_circuitbreaker_size = 30.0;
 	{
-		bool status = left_motorcontroller.init("362009", motorcontroller_circuitbreaker_size);
+		bool status = left_motorcontroller.init(PN_362009, motorcontroller_circuitbreaker_size);
 		if (status == false)
 		{
 			logger->log_error(__FILE__,__LINE__,"Could not Initialize Left Motor Controller.");
@@ -324,8 +325,8 @@ bool RobotPlugin::LoadModel()
 	}
 	{
 		std::vector<std::string> left_gearbox;
-		left_gearbox.push_back("542026");
-		bool status = left_motor.init("361006", left_gearbox, 36.0 / 16.0, motorcontroller_circuitbreaker_size);
+		left_gearbox.push_back(PN_542026);
+		bool status = left_motor.init(PN_361006, left_gearbox, 36.0 / 16.0, motorcontroller_circuitbreaker_size);
 		if (status == false)
 		{
 			logger->log_error(__FILE__,__LINE__,"Could not Initialize Left Motor.");
@@ -342,7 +343,7 @@ bool RobotPlugin::LoadModel()
 		drivetrain_left_motorcontroller_pin.pin.Value = drivetrain_left_motorcontroller_pin.pin.DefaultValue;
 	}
 	{
-		bool status = right_motorcontroller.init("362009", motorcontroller_circuitbreaker_size);
+		bool status = right_motorcontroller.init(PN_362009, motorcontroller_circuitbreaker_size);
 		if (status == false)
 		{
 			logger->log_error(__FILE__,__LINE__,"Could not Initialize Right Motor Controller.");
@@ -360,8 +361,8 @@ bool RobotPlugin::LoadModel()
 	}
 	{
 		std::vector<std::string> right_gearbox;
-		right_gearbox.push_back("542026");
-		bool status = right_motor.init("361006", right_gearbox, 36.0 / 16.0, motorcontroller_circuitbreaker_size);
+		right_gearbox.push_back(PN_542026);
+		bool status = right_motor.init(PN_361006, right_gearbox, 36.0 / 16.0, motorcontroller_circuitbreaker_size);
 		if (status == false)
 		{
 			logger->log_error(__FILE__,__LINE__,"Could not Initialize Right Motor.");
@@ -455,18 +456,58 @@ bool RobotPlugin::LoadSensors()
 {
 	if (sensors_enabled == true)
 	{
-		left_imu = initialize_imu("110015", "left");
+		left_imu = initialize_imu(PN_110015, "left");
 		if (left_imu.initialized == false)
 		{
 			return false;
 		}
-		right_imu = initialize_imu("110015", "right");
+		right_imu = initialize_imu(PN_110015, "right");
 		if (right_imu.initialized == false)
 		{
 			return false;
 		}
+		{
+			SonarStorage sonar = initialize_sonar(PN_110001,"frontleft");
+			sonar_sensors.push_back(sonar);
+		}
 	}
 	return true;
+}
+RobotPlugin::SonarStorage RobotPlugin::initialize_sonar(std::string partnumber,std::string location)
+{
+	SonarStorage m_sonar;
+	m_sonar.initialized = false;
+	m_sensorManager = sensors::SensorManager::Instance();
+	if (m_sensorManager == nullptr)
+	{
+		m_sonar.initialized = false;
+		return m_sonar;
+	}
+	std::string sonar_name;
+	std::string topic_name;
+	if (location == "frontleft")
+	{
+		sonar_name = "frontleft_sonar";
+		m_sonar.sensor.init(partnumber, "FLSonar");
+	}
+	else
+	{
+		m_sonar.initialized = false;
+		return m_sonar;
+	}
+	{
+		sensors::SensorPtr _sensor = m_sensorManager->GetSensor(sonar_name);
+		if (_sensor == nullptr)
+		{
+			logger->log_error(__FILE__,__LINE__,"Could not load " + sonar_name + " Sonar.  Exiting.");
+			m_sonar.initialized = false;
+			return m_sonar;
+		}
+		m_sonar.m_gazebo_sonar = dynamic_pointer_cast<sensors::SonarSensor, sensors::Sensor>(_sensor);
+	}
+	last_pose = truth_pose.sensor.get_pose();
+	m_sonar.initialized = true;
+	return m_sonar;
 }
 RobotPlugin::IMUStorage RobotPlugin::initialize_imu(std::string partnumber, std::string location)
 {

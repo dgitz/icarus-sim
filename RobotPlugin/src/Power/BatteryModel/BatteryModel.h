@@ -8,6 +8,7 @@
 #include "string"
 #include "vector"
 #include <eros/battery.h>
+#include "../../../../../eROS/include/Supported_PN.h"
 #define DEPLETED_THRESHOLD 5.0f
 class BatteryModel {
 public:

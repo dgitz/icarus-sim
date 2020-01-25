@@ -17,7 +17,7 @@ MotorControllerModel::~MotorControllerModel() {
 }
 double MotorControllerModel::get_currentconsumed()
 {
-	if(part_number == "362009")
+	if(part_number == PN_362009)
 	{
 		return 0.01; //Guess
 	}
@@ -28,7 +28,7 @@ bool MotorControllerModel::init(std::string t_part_number,double circuitbreaker_
 {
 	max_currentusage = circuitbreaker_size;
 	part_number = t_part_number;
-	if(part_number == "362009")
+	if(part_number == PN_362009)
 	{
 		type = MotorControllerType::VICTOR_SPX;
 		pwm_in_max = 2000.0;

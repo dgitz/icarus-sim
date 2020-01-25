@@ -63,9 +63,8 @@ bool LinearActuatorModel::init(std::string part_number,std::string t_joint_name,
 {
 	joint_name = t_joint_name;
 	real_jointname = t_realjoint_name;
-	if(part_number == "361008")
+	if(part_number == PN_361008)
 	{
-		partnumber = SupportedPartNumber::PN_361008;	
 		upper_position_limit = 0.147; // meters
 		lower_position_limit = 0.97; // meters
 		peak_power_point_force = 250; // Newtons

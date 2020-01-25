@@ -8,6 +8,7 @@
 #ifndef SRC_ICARUS_SIM_SRC_MOTORCONTROLLERMODEL_H_
 #define SRC_ICARUS_SIM_SRC_MOTORCONTROLLERMODEL_H_
 #include "string"
+#include "../../../../../eROS/include/Supported_PN.h"
 class MotorControllerModel {
 public:
 	enum class MotorControllerType

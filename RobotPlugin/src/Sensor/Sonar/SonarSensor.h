@@ -1,10 +1,9 @@
 /*
- * WheelEncoderSensor.h
- WHEEL VELOCITY --> WHEEL ANGLE POSITION --> ANGLE POSITION IN UNITS OF ENCODER --> TICK VELOCITY
+ * SonarSensor.h
  */
 
-#ifndef SRC_ICARUS_SIM_SRC_WHEELENCODERSENSOR_H_
-#define SRC_ICARUS_SIM_SRC_WHEELENCODERSENSOR_H_
+#ifndef SRC_ICARUS_SIM_SRC_SONARSENSOR_H_
+#define SRC_ICARUS_SIM_SRC_SONARSENSOR_H_
 #include "string"
 #include <math.h> 
 #include <eros/signal.h>
@@ -14,14 +13,14 @@
 
 #include "../../../../../eROS/include/eROS_Definitions.h"
 #include "../../../../../eROS/include/Supported_PN.h"
-class WheelEncoderSensor {
+class SonarSensor {
 public:
-	WheelEncoderSensor();
+	SonarSensor();
 	bool init(std::string t_partnumber,std::string t_name);
 	bool is_initialized() { return initialized; }
 	double get_currentconsumed();
-	eros::signal update(double t_current_time,double wheel_velocity);
-	virtual ~WheelEncoderSensor();
+	eros::signal update(double t_current_time,double sensor_value);
+	virtual ~SonarSensor();
 private:
 	struct RMS
 	{
@@ -36,10 +35,7 @@ private:
 	eros::signal signal;
 	RMS rms;
 	uint64_t update_count;
-	double position_mod;
-	double position;
 	double current_time;
-	int16_t tick_value;
 };
 
-#endif /* SRC_ICARUS_SIM_SRC_WHEELENCODERSENSOR_H_ */
+#endif /* SRC_ICARUS_SIM_SRC_SONARSENSOR_H_ */

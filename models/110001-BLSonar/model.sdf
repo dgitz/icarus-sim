@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="110001-BLSonar">
+    <static>false</static>
+    
+    <link name="BLSonar">
+      <inertial>
+          <mass>0.01</mass>
+        </inertial>
+ 
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.010 0.010 0.010</size>
+          </box>
+        </geometry>
+      </visual>
+      <sensor name="blsonar" type="sonar">
+        <visualize>true</visualize>
+        <sonar>
+            <min>.0254</min>
+            <max>2.286</max>
+            <radius>1.6764</radius>
+        </sonar>
+        <always_on>1</always_on>
+        <update_rate>5</update_rate>
+      </sensor>
+
+    </link>
+  </model>
+</sdf>

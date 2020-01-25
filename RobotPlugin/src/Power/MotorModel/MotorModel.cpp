@@ -26,7 +26,7 @@ bool MotorModel::init(std::string motor_part_number,std::vector<std::string> gea
 	gearbox_ratio = 1.0;
 	for(std::size_t i = 0; i < gearbox_partnumbers.size(); ++i)
 	{
-		if(gearbox_partnumbers.at(i) == "542026")
+		if(gearbox_partnumbers.at(i) == PN_542026)
 		{
 			gearbox_ratio = gearbox_ratio*20.0;
 		}
@@ -38,7 +38,7 @@ bool MotorModel::init(std::string motor_part_number,std::vector<std::string> gea
 	}
 	gearbox_ratio = gearbox_ratio * extra_gearbox;
 	
-	if(motor_part_number == "361006")
+	if(motor_part_number == PN_361006)
 	{
 		type = MotorModelType::REDLINE775;
 		rated_voltage = 12.0;
