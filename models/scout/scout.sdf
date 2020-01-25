@@ -1,8 +1,6 @@
 <?xml version='1.0'?>
 <sdf version="1.6">
     <model name="sim_scout">
-        <plugin name="robot_control" filename="libRayPlugin.so"/>
-        <!--<plugin name="robot_control" filename="libDepthCameraPluginlibRobotPlugin.so"/>-->
         <static>false</static>
         <link name="base">
             <pose>0 0 0 0 0 0</pose>
@@ -522,6 +520,7 @@
             <child>110015-3551284::RightIMU</child>
             <parent>base</parent>
         </joint>
+         <!-- SONAR SENSORS -->
         
         <include>
             <uri>model://110001-FLSonar</uri>
@@ -531,7 +530,6 @@
             <child>110001-FLSonar::FLSonar</child>
             <parent>base</parent>
         </joint>
-        
         <include>
             <uri>model://110001-FRSonar</uri>
             <pose>0.22169 -0.10960 0.15401 0 -2.0943 0</pose> 
@@ -540,7 +538,6 @@
             <child>110001-FRSonar::FRSonar</child>
             <parent>base</parent>
         </joint>
-        
         <include>
             <uri>model://110001-BLSonar</uri>
             <pose>-0.22169 0.10960 0.15401 3.14159 -1.0471 0</pose> 
@@ -549,7 +546,6 @@
             <child>110001-BLSonar::BLSonar</child>
             <parent>base</parent>
         </joint>
-        <!--
         <include>
             <uri>model://110001-BRSonar</uri>
             <pose>-0.22169 -0.10960 0.15401 3.14159 -1.0471 0</pose> 
@@ -558,7 +554,6 @@
             <child>110001-BRSonar::BRSonar</child>
             <parent>base</parent>
         </joint>
-        -->
         <!-- -->
         
         

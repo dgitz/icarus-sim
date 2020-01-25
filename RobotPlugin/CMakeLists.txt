@@ -6,6 +6,8 @@ add_library(MotorControllerModel src/Power/MotorControllerModel/MotorControllerM
 add_dependencies(MotorControllerModel eros_generate_messages_cpp)
 add_library(IMUSensor src/Sensor/IMU/IMUSensor.cpp)
 add_dependencies(IMUSensor eros_generate_messages_cpp)
+add_library(SonarSensor src/Sensor/Sonar/SonarSensor.cpp)
+add_dependencies(SonarSensor eros_generate_messages_cpp)
 add_library(TruthSensor src/Sensor/Truth/TruthSensor.cpp)
 add_dependencies(TruthSensor eros_generate_messages_cpp)
 add_library(WheelEncoderSensor src/Sensor/WheelEncoder/WheelEncoderSensor.cpp)
@@ -14,7 +16,7 @@ add_library(MotorModel src/Power/MotorModel/MotorModel.cpp)
 add_dependencies(MotorModel eros_generate_messages_cpp)
 add_library(BatteryModel src/Power/BatteryModel/BatteryModel.cpp)
 add_dependencies(BatteryModel eros_generate_messages_cpp)
-target_link_libraries(RobotPlugin ${GAZEBO_LIBRARIES} ${roscpp_LIBRARIES} ${catkin_LIBRARIES} logger eros_math MotorControllerModel MotorModel IMUSensor TruthSensor WheelEncoderSensor BatteryModel LinearActuatorModel)
+target_link_libraries(RobotPlugin ${GAZEBO_LIBRARIES} ${roscpp_LIBRARIES} ${catkin_LIBRARIES} logger eros_math MotorControllerModel MotorModel IMUSensor SonarSensor TruthSensor WheelEncoderSensor BatteryModel LinearActuatorModel)
 add_dependencies(RobotPlugin ${catkin_EXPORTED_TARGETS})
 
 

@@ -20,6 +20,7 @@ public:
 	bool is_initialized() { return initialized; }
 	double get_currentconsumed();
 	eros::signal update(double t_current_time,double sensor_value);
+	eros::signal get_currentsignal() { return signal; }
 	virtual ~SonarSensor();
 private:
 	struct RMS

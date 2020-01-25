@@ -193,6 +193,7 @@ private:
 		bool initialized;
 		SonarSensor sensor;
 		sensors::SonarSensorPtr m_gazebo_sonar;
+		ros::Publisher pub;
 	};
 	struct PinStorage
 	{
@@ -266,6 +267,7 @@ private:
 	SimpleTimer m_mediumloop;
 	SimpleTimer m_slowloop;
 	SimpleTimer m_veryslowloop;
+	SimpleTimer m_20hzloop;
 
 	//State Variables
 	ignition::math::Pose3d initial_pose;

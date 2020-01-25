@@ -3,11 +3,7 @@
   <model name="110001-FRSonar">
     <static>false</static>
     
-    <link name="FRSonar">
-      <inertial>
-          <mass>0.01</mass>
-        </inertial>
- 
+    <link name="FRSonar"> 
       <visual name="visual">
         <geometry>
           <box>

@@ -14,13 +14,13 @@ SonarSensor::SonarSensor() {
 SonarSensor::~SonarSensor() {
 	// TODO Auto-generated destructor stub
 }
-bool WheelEncoderSensor::init(std::string t_partnumber,std::string t_name)
+bool SonarSensor::init(std::string t_partnumber,std::string t_name)
 {
 	name = t_name;
 	update_count = 0;
 	partnumber = t_partnumber;
 	signal.name = name;
-	signal.type = SIGNALTYPE_TICKSPEED;
+	signal.type = SIGNALTYPE_DISTANCE;
 	signal.status = SIGNALSTATE_INITIALIZING;
 	signal.value = 0.0;
 	if(partnumber == PN_110001)
