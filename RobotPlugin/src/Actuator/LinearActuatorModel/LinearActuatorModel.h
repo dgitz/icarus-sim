@@ -10,6 +10,7 @@
 #include <eros/signal.h>
 #include <eros/pin.h>
 #include "../../../../../eROS/include/eROS_Definitions.h"
+#include "../../../../../eROS/include/Supported_PN.h"
 class LinearActuatorModel {
 public:
 	LinearActuatorModel();
@@ -26,11 +27,6 @@ public:
 	void set_targetforce(double v) { target_force = v; }
 private:
 	double convert_pwmvalue(double v);
-	enum class SupportedPartNumber
-	{
-		UNKNOWN=0,
-		PN_361008=1
-	};
 	/*
 	enum class BatteryModelMode
 	{
@@ -49,7 +45,6 @@ private:
 		std::vector<double> voltage_output;
 	};
 	*/
-	SupportedPartNumber partnumber;
 	std::string real_jointname;
 	std::string joint_name;
 	double current_voltage;

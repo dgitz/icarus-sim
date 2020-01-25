@@ -3,11 +3,7 @@
   <model name="110015-3551284">
     <static>false</static>
     
-    <link name="RightIMU">
-      <inertial>
-          <mass>0.01</mass>
-        </inertial>
- 
+    <link name="RightIMU"> 
       <visual name="visual">
         <geometry>
           <box>

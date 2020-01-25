@@ -54,6 +54,7 @@
 //Project
 #include "../../include/SimpleTimer.h"
 #include "../../../eROS/include/eROS_Definitions.h"
+#include "../../../eROS/include/Supported_PN.h"
 #include "../../../eROS/include/logger.h"
 #include "../../../eROS/include/eros_math.h"
 #include "Power/MotorControllerModel/MotorControllerModel.h"
@@ -61,6 +62,7 @@
 #include "Power/BatteryModel/BatteryModel.h"
 #include "Sensor/Truth/TruthSensor.h"
 #include "Sensor/IMU/IMUSensor.h"
+#include "Sensor/Sonar/SonarSensor.h"
 #include "Sensor/WheelEncoder/WheelEncoderSensor.h"
 #include "Actuator/LinearActuatorModel/LinearActuatorModel.h"
 #include "../../../eROS/include/DiagnosticClass.h"
@@ -186,6 +188,13 @@ private:
 		bool initialized;
 		WheelEncoderSensor sensor;
 	};
+	struct SonarStorage
+	{
+		bool initialized;
+		SonarSensor sensor;
+		sensors::SonarSensorPtr m_gazebo_sonar;
+		ros::Publisher pub;
+	};
 	struct PinStorage
 	{
 		eros::pin pin;
@@ -201,6 +210,7 @@ private:
 	};
 	//Initialize Functions
 	IMUStorage initialize_imu(std::string partnumber,std::string location);
+	SonarStorage initialize_sonar(std::string partnumber,std::string location);
 	bool InitializePlugin();
 	bool LoadModel();
 	bool LoadSensors();
@@ -257,6 +267,7 @@ private:
 	SimpleTimer m_mediumloop;
 	SimpleTimer m_slowloop;
 	SimpleTimer m_veryslowloop;
+	SimpleTimer m_20hzloop;
 
 	//State Variables
 	ignition::math::Pose3d initial_pose;
@@ -300,6 +311,7 @@ private:
 	WheelEncoderStorage right_wheelencoder;
 
 	std::vector<LinearActuatorStorage> linear_actuators;
+	std::vector<SonarStorage> sonar_sensors;
 
 };
 GZ_REGISTER_MODEL_PLUGIN(RobotPlugin)

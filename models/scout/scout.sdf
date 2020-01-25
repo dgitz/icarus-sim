@@ -1,10 +1,9 @@
 <?xml version='1.0'?>
-<sdf version="1.4">
+<sdf version="1.6">
     <model name="sim_scout">
-        
         <static>false</static>
         <link name="base">
-            <pose>0 0 0.104902 1.570796327 0 1.570796327</pose>
+            <pose>0 0 0 0 0 0</pose>
             <inertial>
                 <mass>5.119</mass>
                 <inertia>
@@ -45,16 +44,12 @@
                     </mesh>
                 </geometry>
             </visual>
-            
-
-
 
         </link>
-        <include>
-            <uri>model://110015-3551284</uri>
-            <name>RightIMU</name>
-            <pose>0 0 0 0 0 0</pose>
-        </include>
+
+        
+        
+        <!-- DRIVETRAIN -->
         <include>
             <uri>model://mid_wheel</uri>
             <name>midleft_wheel</name>
@@ -85,6 +80,147 @@
             <name>backright_wheel</name>
             <pose>-0.1143 -0.176911 0.079502 0 1.5707 1.5707</pose>
         </include>
+        <joint type="revolute" name="drivetrain_frontleft_wheel_joint">
+            <pose frame=''>0 0 0 0 0 0</pose>
+            <child>frontleft_wheel::large_wheel</child>
+            <parent>base</parent>
+            <axis>
+                <xyz>0 0 1</xyz>
+                <dynamics>
+                    <friction>0.2</friction>
+                </dynamics>
+            </axis>
+            <physics>
+                <ode>
+                    <limit>
+                        <cfm>0</cfm>
+                        <erp>0.2</erp>
+                    </limit>
+                    <suspension>
+                        <cfm>0</cfm>
+                        <erp>0.2</erp>
+                    </suspension>
+                </ode>
+            </physics>
+        </joint>
+        <joint type="revolute" name="drivetrain_frontright_wheel_joint">
+            <pose frame=''>0 0 0 0 0 0</pose>
+            <child>frontright_wheel::large_wheel</child>
+            <parent>base</parent>
+            <axis>
+                <xyz>0 0 1</xyz>
+                <dynamics>
+                    <friction>0.2</friction>
+                </dynamics>
+            </axis>
+            <physics>
+                <ode>
+                    <limit>
+                        <cfm>0</cfm>
+                        <erp>0.2</erp>
+                    </limit>
+                    <suspension>
+                        <cfm>0</cfm>
+                        <erp>0.2</erp>
+                    </suspension>
+                </ode>
+            </physics>
+        </joint>
+        <joint type="revolute" name="drivetrain_backleft_wheel_joint">
+            <pose frame=''>0 0 0 0 0 0</pose>
+            <child>backleft_wheel::large_wheel</child>
+            <parent>base</parent>
+            <axis>
+                <xyz>0 0 1</xyz>
+                <dynamics>
+                    <friction>0.2</friction>
+                </dynamics>
+            </axis>
+            <physics>
+                <ode>
+                    <limit>
+                        <cfm>0</cfm>
+                        <erp>0.2</erp>
+                    </limit>
+                    <suspension>
+                        <cfm>0</cfm>
+                        <erp>0.2</erp>
+                    </suspension>
+                </ode>
+            </physics>
+        </joint>
+        <joint type="revolute" name="drivetrain_backright_wheel_joint">
+            <pose frame=''>0 0 0 0 0 0</pose>
+            <child>backright_wheel::large_wheel</child>
+            <parent>base</parent>
+            <axis>
+                <xyz>0 0 1</xyz>
+                <dynamics>
+                    <friction>0.2</friction>
+                </dynamics>
+            </axis>
+            <physics>
+                <ode>
+                    <limit>
+                        <cfm>0</cfm>
+                        <erp>0.2</erp>
+                    </limit>
+                    <suspension>
+                        <cfm>0</cfm>
+                        <erp>0.2</erp>
+                    </suspension>
+                </ode>
+            </physics>
+        </joint>
+        
+        <joint type="revolute" name="drivetrain_midleft_wheel_joint">
+            <child>midleft_wheel::mid_wheel</child>
+            <parent>base</parent>
+            <axis>
+                <xyz>0 0 1</xyz>
+                <dynamics>
+                    <friction>0.2</friction>
+                </dynamics>
+            </axis>
+            <physics>
+                <ode>
+                    <limit>
+                        <cfm>0</cfm>
+                        <erp>0.2</erp>
+                    </limit>
+                    <suspension>
+                        <cfm>0</cfm>
+                        <erp>0.2</erp>
+                    </suspension>
+                </ode>
+            </physics>
+        </joint> 
+        
+        <joint type="revolute" name="drivetrain_midright_wheel_joint">
+            <child>midright_wheel::mid_wheel</child>
+            <parent>base</parent>
+            <axis>
+                <xyz>0 0 1</xyz>
+                <dynamics>
+                    <friction>0.2</friction>
+                </dynamics>
+            </axis>
+            <physics>
+                <ode>
+                    <limit>
+                        <cfm>0</cfm>
+                        <erp>0.2</erp>
+                    </limit>
+                    <suspension>
+                        <cfm>0</cfm>
+                        <erp>0.2</erp>
+                    </suspension>
+                </ode>
+            </physics>
+        </joint> 
+
+        <!-- BOOM -->
+        <!-- DISABLED FOR NOW UNTIL CONTROLLER IS BUILT 
         <link name="boom">
             <pose>0.186944 0 0.1221232 1.570796327 0 1.570796327</pose>
             <inertial>
@@ -253,153 +389,11 @@
             </geometry>
             </visual>
         </link>
-        <joint type="fixed" name="base_rightimu">
-            <child>110015-3551284::RightIMU</child>
-            <parent>base</parent>
-        </joint>
-        <joint type="revolute" name="drivetrain_frontleft_wheel_joint">
-            <pose frame=''>0 0 0 0 0 0</pose>
-            <child>frontleft_wheel::large_wheel</child>
-            <parent>base</parent>
-            <axis>
-                <xyz>0 1 0</xyz>
-                <dynamics>
-                    <damping>0</damping>
-                </dynamics>
-            </axis>
-            <physics>
-                <ode>
-                    <limit>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </limit>
-                    <suspension>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </suspension>
-                </ode>
-            </physics>
-        </joint>
-        <joint type="revolute" name="drivetrain_frontright_wheel_joint">
-            <pose frame=''>0 0 0 0 0 0</pose>
-            <child>frontright_wheel::large_wheel</child>
-            <parent>base</parent>
-            <axis>
-                <xyz>0 1 0</xyz>
-                <dynamics>
-                    <damping>0</damping>
-                </dynamics>
-            </axis>
-            <physics>
-                <ode>
-                    <limit>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </limit>
-                    <suspension>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </suspension>
-                </ode>
-            </physics>
-        </joint>
-        <joint type="revolute" name="drivetrain_backleft_wheel_joint">
-            <pose frame=''>0 0 0 0 0 0</pose>
-            <child>backleft_wheel::large_wheel</child>
-            <parent>base</parent>
-            <axis>
-                <xyz>0 1 0</xyz>
-                <dynamics>
-                    <damping>0</damping>
-                </dynamics>
-            </axis>
-            <physics>
-                <ode>
-                    <limit>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </limit>
-                    <suspension>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </suspension>
-                </ode>
-            </physics>
-        </joint>
-        <joint type="revolute" name="drivetrain_backright_wheel_joint">
-            <pose frame=''>0 0 0 0 0 0</pose>
-            <child>backright_wheel::large_wheel</child>
-            <parent>base</parent>
-            <axis>
-                <xyz>0 1 0</xyz>
-                <dynamics>
-                    <damping>0</damping>
-                </dynamics>
-            </axis>
-            <physics>
-                <ode>
-                    <limit>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </limit>
-                    <suspension>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </suspension>
-                </ode>
-            </physics>
-        </joint>
-        
-        <joint type="revolute" name="drivetrain_midleft_wheel_joint">
-            <child>midleft_wheel::mid_wheel</child>
-            <parent>base</parent>
-            <axis>
-                <xyz>0 1 0</xyz>
-                <dynamics>
-                    <damping>0</damping>
-                </dynamics>
-            </axis>
-            <physics>
-                <ode>
-                    <limit>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </limit>
-                    <suspension>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </suspension>
-                </ode>
-            </physics>
-        </joint> 
-        
-        <joint type="revolute" name="drivetrain_midright_wheel_joint">
-            <child>midright_wheel::mid_wheel</child>
-            <parent>base</parent>
-            <axis>
-                <xyz>0 1 0</xyz>
-                <dynamics>
-                    <damping>0</damping>
-                </dynamics>
-            </axis>
-            <physics>
-                <ode>
-                    <limit>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </limit>
-                    <suspension>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </suspension>
-                </ode>
-            </physics>
-        </joint> 
-        <joint type="revolute" name="boom_base_joint">
+         <joint type="revolute" name="boom_base_joint">
             <child>boom</child>
             <parent>base</parent>
             <axis>
-                <xyz>0 1 0</xyz>
+                <xyz>1 0 0</xyz>
                 <dynamics>
                     <damping>0</damping>
                 </dynamics>
@@ -421,7 +415,7 @@
             <child>bucket</child>
             <parent>boom</parent>
             <axis>
-                <xyz>0 1 0</xyz>
+                <xyz>1 0 0</xyz>
                 <dynamics>
                     <damping>0</damping>
                 </dynamics>
@@ -443,7 +437,7 @@
             <child>boomlink</child>
             <parent>bucket</parent>
             <axis>
-                <xyz>0 1 0</xyz>
+                <xyz>1 0 0</xyz>
                 <dynamics>
                     <damping>0</damping>
                 </dynamics>
@@ -465,7 +459,7 @@
             <child>rocker</child>
             <parent>boomlink</parent>
             <axis>
-                <xyz>0 1 0</xyz>
+                <xyz>1 0 0</xyz>
                 <dynamics>
                     <damping>0</damping>
                 </dynamics>
@@ -488,7 +482,7 @@
             <child>rocker</child>
             <parent>boom</parent>
             <axis>
-                <xyz>0 1 0</xyz>
+                <xyz>1 0 0</xyz>
                 <dynamics>
                     <damping>0</damping>
                 </dynamics>
@@ -505,7 +499,64 @@
                     </suspension>
                 </ode>
             </physics>
-        </joint>  
+        </joint> 
+        BOOM DISABLE -->
+
+        <!-- SENSORS -->
+        <!-- -->
+        <include>
+            <uri>model://110015-NEXT</uri>
+            <pose>-0.043688 0.099314 0.083566 0 0 1.570796327</pose> 
+        </include>
+        <joint name="base_leftimu" type="fixed">
+            <child>110015-NEXT::LeftIMU</child>
+            <parent>base</parent>
+        </joint>
+        <include>
+            <uri>model://110015-3551284</uri>
+            <pose>0.043688 -0.099314 0.083566 0 0 -1.570796327</pose>
+        </include>
+        <joint name="base_rightimu" type="fixed">
+            <child>110015-3551284::RightIMU</child>
+            <parent>base</parent>
+        </joint>
+         <!-- SONAR SENSORS -->
+        
+        <include>
+            <uri>model://110001-FLSonar</uri>
+            <pose>0.22169 0.10960 0.15401 0 -2.0943 0</pose> 
+        </include>
+        <joint name="base_frontleftsonar" type="fixed">
+            <child>110001-FLSonar::FLSonar</child>
+            <parent>base</parent>
+        </joint>
+        <include>
+            <uri>model://110001-FRSonar</uri>
+            <pose>0.22169 -0.10960 0.15401 0 -2.0943 0</pose> 
+        </include>
+        <joint name="base_frontrightsonar" type="fixed">
+            <child>110001-FRSonar::FRSonar</child>
+            <parent>base</parent>
+        </joint>
+        <include>
+            <uri>model://110001-BLSonar</uri>
+            <pose>-0.22169 0.10960 0.15401 3.14159 -1.0471 0</pose> 
+        </include>
+        <joint name="base_backleftsonar" type="fixed">
+            <child>110001-BLSonar::BLSonar</child>
+            <parent>base</parent>
+        </joint>
+        <include>
+            <uri>model://110001-BRSonar</uri>
+            <pose>-0.22169 -0.10960 0.15401 3.14159 -1.0471 0</pose> 
+        </include>
+        <joint name="base_backrightsonar" type="fixed">
+            <child>110001-BRSonar::BRSonar</child>
+            <parent>base</parent>
+        </joint>
+        <!-- -->
+        
+        
     </model>
 
 </sdf>

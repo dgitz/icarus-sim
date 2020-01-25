@@ -10,6 +10,7 @@
 #include "string"
 #include "vector"
 #include "math.h"
+#include "../../../../../eROS/include/Supported_PN.h"
 class MotorModel {
 public:
 	enum class MotorModelType

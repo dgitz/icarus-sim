@@ -16,6 +16,7 @@
 #include <gazebo/gazebo.hh>
 
 #include "../../../../../eROS/include/eROS_Definitions.h"
+#include "../../../../../eROS/include/Supported_PN.h"
 #define MAGNETOMETER_MAGNITUDE_LOWERBOUND 0.5f
 #define MAGNETOMETER_MAGNITUDE_UPPERBOUND 5.0f
 class IMUSensor {

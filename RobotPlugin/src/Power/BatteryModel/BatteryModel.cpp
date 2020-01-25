@@ -66,7 +66,7 @@ eros::battery BatteryModel::get_batteryinfo()
 }
 bool BatteryModel::init(std::string part_number)
 {
-	if(part_number == "555005")
+	if(part_number == PN_555005)
 	{
 		series_count = 3;
 		parallel_count = 1;

@@ -42,11 +42,11 @@ RobotPlugin::~RobotPlugin()
 //Initialize Functions
 void RobotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 {
+	printf("Starting Plugin\n");
 	m_model = _model;
 	pose_initialized = false;
 	drivecommand_received = false;
 	InitializePlugin();
-	
 
 	return;
 }
@@ -60,24 +60,24 @@ bool RobotPlugin::InitializePlugin()
 	logger_initialized = true;
 	if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == true)
 	{
-		logger->log_warn(__FILE__,__LINE__,"ALLOWING MODEL TO INITIALIZE EVEN IF DESCRIPTION FILES ARE INCOMPLETE/INVALID.");
+		logger->log_warn(__FILE__, __LINE__, "ALLOWING MODEL TO INITIALIZE EVEN IF DESCRIPTION FILES ARE INCOMPLETE/INVALID.");
 	}
 	sensors_enabled = true;
 	if (LoadModel() == false)
 	{
-		
+
 		if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 		{
-			logger->log_error(__FILE__,__LINE__,"Model Failed to Load. Exiting.");
+			logger->log_error(__FILE__, __LINE__, "Model Failed to Load. Exiting.");
 			return false;
 		}
-		diag = update_diagnostic(DATA_STORAGE,WARN,INITIALIZING_ERROR,"Simulation Failed to Load Correctly but Continuing anyways.");
+		diag = update_diagnostic(DATA_STORAGE, WARN, INITIALIZING_ERROR, "Simulation Failed to Load Correctly but Continuing anyways.");
 		logger->log_diagnostic(diag);
 	}
 	print_model();
 	this->node = transport::NodePtr(new transport::Node());
 	this->node->Init(m_model->GetName());
-	logger->log_debug(__FILE__,__LINE__,"Starting ros");
+	logger->log_debug(__FILE__, __LINE__, "Starting ros");
 
 	if (!ros::isInitialized())
 	{
@@ -89,7 +89,7 @@ bool RobotPlugin::InitializePlugin()
 	rosNode.reset(new ros::NodeHandle(node_name));
 	if (InitializeSubscriptions() == false)
 	{
-		logger->log_error(__FILE__,__LINE__,"Not able to initialize Subscriptions. Exiting.");
+		logger->log_error(__FILE__, __LINE__, "Not able to initialize Subscriptions. Exiting.");
 		if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 		{
 			return false;
@@ -97,7 +97,7 @@ bool RobotPlugin::InitializePlugin()
 	}
 	if (InitializePublications() == false)
 	{
-		logger->log_error(__FILE__,__LINE__,"Not able to initialize Publications. Exiting.");
+		logger->log_error(__FILE__, __LINE__, "Not able to initialize Publications. Exiting.");
 		if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 		{
 			return false;
@@ -105,6 +105,8 @@ bool RobotPlugin::InitializePlugin()
 	}
 	m_fastloop.set_name("FASTLOOP");
 	m_fastloop.set_targetrate(50.0);
+	m_20hzloop.set_name("20HzLOOP");
+	m_20hzloop.set_targetrate(20.0);
 	m_mediumloop.set_name("MEDIUMLOOP");
 	m_mediumloop.set_targetrate(10.0);
 	m_slowloop.set_name("SLOWLOOP");
@@ -112,16 +114,16 @@ bool RobotPlugin::InitializePlugin()
 	m_veryslowloop.set_name("VERYSLOWLOOP");
 	m_veryslowloop.set_targetrate(0.1);
 
-	logger->log_notice(__FILE__,__LINE__,"Plugin Started.  Waiting " + std::to_string(INITIALIZATION_TIME) + " seconds from Start before Initialization is complete.");
+	logger->log_notice(__FILE__, __LINE__, "Plugin Started.  Waiting " + std::to_string(INITIALIZATION_TIME) + " seconds from Start before Initialization is complete.");
 	return true;
 }
 bool RobotPlugin::LoadModel()
 {
 	eros::diagnostic diag = root_diagnostic;
-	logger->log_notice(__FILE__,__LINE__,"Initializing Model.");
+	logger->log_notice(__FILE__, __LINE__, "Initializing Model.");
 	if (LoadSensors() == false)
 	{
-		logger->log_error(__FILE__,__LINE__,"Could not load sensors. Exiting.");
+		logger->log_error(__FILE__, __LINE__, "Could not load sensors. Exiting.");
 		if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 		{
 			return false;
@@ -129,7 +131,7 @@ bool RobotPlugin::LoadModel()
 	}
 	if (m_model->GetJointCount() == 0)
 	{
-		logger->log_error(__FILE__,__LINE__,"Robot Model did not receive any info.  Exiting.");
+		logger->log_error(__FILE__, __LINE__, "Robot Model did not receive any info.  Exiting.");
 		if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 		{
 			return false;
@@ -163,7 +165,7 @@ bool RobotPlugin::LoadModel()
 	}
 	if (found_baselink == false)
 	{
-		logger->log_error(__FILE__,__LINE__,"Could not find link: base. Exiting.");
+		logger->log_error(__FILE__, __LINE__, "Could not find link: base. Exiting.");
 		if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 		{
 			return false;
@@ -186,11 +188,15 @@ bool RobotPlugin::LoadModel()
 				{
 					if (left_wheelencoder.sensor.init("110003", "LeftEncoder") == false)
 					{
-						logger->log_error(__FILE__,__LINE__,"Could not initialize LeftEncoder.  Exiting.");
+						logger->log_error(__FILE__, __LINE__, "Could not initialize LeftEncoder.  Exiting.");
 						if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 						{
 							return false;
 						}
+					}
+					else
+					{
+						logger->log_notice(__FILE__, __LINE__, "Loaded Wheel Encoder Sensor at Location: left.");
 					}
 				}
 				joints.push_back(newjoint);
@@ -207,11 +213,15 @@ bool RobotPlugin::LoadModel()
 				{
 					if (right_wheelencoder.sensor.init("110003", "RightEncoder") == false)
 					{
-						logger->log_error(__FILE__,__LINE__,"Could not initialize RightEncoder.  Exiting.");
+						logger->log_error(__FILE__, __LINE__, "Could not initialize RightEncoder.  Exiting.");
 						if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 						{
 							return false;
 						}
+					}
+					else
+					{
+						logger->log_notice(__FILE__, __LINE__, "Loaded Wheel Encoder Sensor at Location: right.");
 					}
 				}
 				joints.push_back(newjoint);
@@ -236,16 +246,16 @@ bool RobotPlugin::LoadModel()
 			}
 			else
 			{
-				logger->log_error(__FILE__,__LINE__,"Unable to parse Joint: " + joint_scopedname + " Exiting.");
+				logger->log_error(__FILE__, __LINE__, "Unable to parse Joint: " + joint_scopedname + " Exiting.");
 				if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 				{
 					return false;
 				}
 			}
-			bool status = actuator.init("361008", newjoint.name, joint_scopedname);
+			bool status = actuator.init(PN_361008, newjoint.name, joint_scopedname);
 			if (status == false)
 			{
-				logger->log_error(__FILE__,__LINE__,"Could not Initialize Linear Actuator: " + newjoint.name + " Exiting.");
+				logger->log_error(__FILE__, __LINE__, "Could not Initialize Linear Actuator: " + newjoint.name + " Exiting.");
 				if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 				{
 					return false;
@@ -277,7 +287,7 @@ bool RobotPlugin::LoadModel()
 					joint_scopedname.c_str(),
 					linear_actuator_storage.sensor_id,
 					linear_actuator_storage.actuator_id);
-			logger->log_notice(__FILE__,__LINE__,std::string(tempstr));
+			logger->log_notice(__FILE__, __LINE__, std::string(tempstr));
 			linear_actuators.push_back(linear_actuator_storage);
 			joints.push_back(newjoint);
 		}
@@ -300,10 +310,10 @@ bool RobotPlugin::LoadModel()
 	}
 	*/
 	{
-		bool status = battery.init("555005");
+		bool status = battery.init(PN_555005);
 		if (status == false)
 		{
-			logger->log_error(__FILE__,__LINE__,"Could not Initialize Battery. Exiting.");
+			logger->log_error(__FILE__, __LINE__, "Could not Initialize Battery. Exiting.");
 			if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 			{
 				return false;
@@ -312,10 +322,10 @@ bool RobotPlugin::LoadModel()
 	}
 	double motorcontroller_circuitbreaker_size = 30.0;
 	{
-		bool status = left_motorcontroller.init("362009", motorcontroller_circuitbreaker_size);
+		bool status = left_motorcontroller.init(PN_362009, motorcontroller_circuitbreaker_size);
 		if (status == false)
 		{
-			logger->log_error(__FILE__,__LINE__,"Could not Initialize Left Motor Controller.");
+			logger->log_error(__FILE__, __LINE__, "Could not Initialize Left Motor Controller.");
 			if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 			{
 				return false;
@@ -324,11 +334,11 @@ bool RobotPlugin::LoadModel()
 	}
 	{
 		std::vector<std::string> left_gearbox;
-		left_gearbox.push_back("542026");
-		bool status = left_motor.init("361006", left_gearbox, 36.0 / 16.0, motorcontroller_circuitbreaker_size);
+		left_gearbox.push_back(PN_542026);
+		bool status = left_motor.init(PN_361006, left_gearbox, 36.0 / 16.0, motorcontroller_circuitbreaker_size);
 		if (status == false)
 		{
-			logger->log_error(__FILE__,__LINE__,"Could not Initialize Left Motor.");
+			logger->log_error(__FILE__, __LINE__, "Could not Initialize Left Motor.");
 			if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 			{
 				return false;
@@ -342,10 +352,10 @@ bool RobotPlugin::LoadModel()
 		drivetrain_left_motorcontroller_pin.pin.Value = drivetrain_left_motorcontroller_pin.pin.DefaultValue;
 	}
 	{
-		bool status = right_motorcontroller.init("362009", motorcontroller_circuitbreaker_size);
+		bool status = right_motorcontroller.init(PN_362009, motorcontroller_circuitbreaker_size);
 		if (status == false)
 		{
-			logger->log_error(__FILE__,__LINE__,"Could not Initialize Right Motor Controller.");
+			logger->log_error(__FILE__, __LINE__, "Could not Initialize Right Motor Controller.");
 			if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 			{
 				return false;
@@ -360,11 +370,11 @@ bool RobotPlugin::LoadModel()
 	}
 	{
 		std::vector<std::string> right_gearbox;
-		right_gearbox.push_back("542026");
-		bool status = right_motor.init("361006", right_gearbox, 36.0 / 16.0, motorcontroller_circuitbreaker_size);
+		right_gearbox.push_back(PN_542026);
+		bool status = right_motor.init(PN_361006, right_gearbox, 36.0 / 16.0, motorcontroller_circuitbreaker_size);
 		if (status == false)
 		{
-			logger->log_error(__FILE__,__LINE__,"Could not Initialize Right Motor.");
+			logger->log_error(__FILE__, __LINE__, "Could not Initialize Right Motor.");
 			if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 			{
 				return false;
@@ -373,16 +383,16 @@ bool RobotPlugin::LoadModel()
 	}
 	if (linear_actuators.size() == 0)
 	{
-		logger->log_error(__FILE__,__LINE__,"Did not find any Linear Actuators. Exiting.");
+		logger->log_error(__FILE__, __LINE__, "Did not find any Linear Actuators. Exiting.");
 		if (ALLOW_INCOMPLETEMODEL_INITIALIZATION == false)
 		{
 			return false;
 		}
 	}
-	diag = update_diagnostic(SENSORS,INFO,NOERROR,"Sensors Loaded.");
-	diag = update_diagnostic(ACTUATORS,INFO,NOERROR,"Actuators Loaded.");
-	diag = update_diagnostic(DATA_STORAGE,INFO,NOERROR,"Simulation Loaded.");
-	diag = update_diagnostic(POSE,INFO,NOERROR,"No Error.");
+	diag = update_diagnostic(SENSORS, INFO, NOERROR, "Sensors Loaded.");
+	diag = update_diagnostic(ACTUATORS, INFO, NOERROR, "Actuators Loaded.");
+	diag = update_diagnostic(DATA_STORAGE, INFO, NOERROR, "Simulation Loaded.");
+	diag = update_diagnostic(POSE, INFO, NOERROR, "No Error.");
 	return true;
 }
 bool RobotPlugin::InitializeSubscriptions()
@@ -414,7 +424,7 @@ bool RobotPlugin::InitializeSubscriptions()
 	for (std::size_t i = 0; i < linear_actuators.size(); ++i)
 	{
 		std::string command_name = linear_actuators.at(i).linear_actuator.get_commandname();
-		logger->log_debug(__FILE__,__LINE__,"Subscribing to: " + command_name);
+		logger->log_debug(__FILE__, __LINE__, "Subscribing to: " + command_name);
 		ros::SubscribeOptions so =
 			ros::SubscribeOptions::create<eros::pin>(
 				"/" + command_name,
@@ -428,11 +438,11 @@ bool RobotPlugin::InitializeSubscriptions()
 }
 bool RobotPlugin::InitializePublications()
 {
-	pub_heartbeat = this->rosNode->advertise<eros::heartbeat>("/gazebo/heartbeat",1);
+	pub_heartbeat = this->rosNode->advertise<eros::heartbeat>("/gazebo/heartbeat", 1);
 	heartbeat.stamp = ros::Time::now();
 	heartbeat.TaskState = TASKSTATE_INITIALIZING;
 	pub_heartbeat.publish(heartbeat);
-	pub_diagnostic = this->rosNode->advertise<eros::diagnostic>("/gazebo/diagnostic",1);
+	pub_diagnostic = this->rosNode->advertise<eros::diagnostic>("/gazebo/diagnostic", 1);
 	pub_gazebofps = this->rosNode->advertise<std_msgs::Float64>("/gazebo/update_rate", 1);
 	pub_truthpose = this->rosNode->advertise<eros::pose>("/TruthPose_Simulated", 1);
 	pub_batteryinfo = this->rosNode->advertise<eros::battery>("/MainBattery", 1);
@@ -449,35 +459,151 @@ bool RobotPlugin::InitializePublications()
 		ros::Publisher current_pub = this->rosNode->advertise<eros::signal>("/" + current_signal.name, 1);
 		linear_actuators.at(i).current_pub = current_pub;
 	}
+	for (std::size_t i = 0; i < sonar_sensors.size(); ++i)
+	{
+		eros::signal current_signal = sonar_sensors.at(i).sensor.get_currentsignal();
+		ros::Publisher current_pub = this->rosNode->advertise<eros::signal>("/" + current_signal.name, 1);
+		sonar_sensors.at(i).pub = current_pub;
+	}
 	return true;
 }
 bool RobotPlugin::LoadSensors()
 {
 	if (sensors_enabled == true)
 	{
-		left_imu = initialize_imu("110015", "left");
-		if (left_imu.initialized == false)
+		m_sensorManager = sensors::SensorManager::Instance();
+		if (m_sensorManager == nullptr)
 		{
 			return false;
 		}
-		right_imu = initialize_imu("110015", "right");
-		if (right_imu.initialized == false)
 		{
-			return false;
+			std::string location = "left";
+			left_imu = initialize_imu(PN_110015, location);
+			if (left_imu.initialized == false)
+			{
+				return false;
+			}
+			else
+			{
+				logger->log_notice(__FILE__, __LINE__, "Loaded IMU Sensor at Location: " + location + ".");
+			}
+		}
+		{
+			std::string location = "right";
+			right_imu = initialize_imu(PN_110015, location);
+			if (right_imu.initialized == false)
+			{
+				return false;
+			}
+			else
+			{
+				logger->log_notice(__FILE__, __LINE__, "Loaded IMU Sensor at Location: " + location + ".");
+			}
+		}
+		{
+			std::string location = "frontleft";
+			SonarStorage sonar = initialize_sonar(PN_110001, location);
+			if (sonar.initialized == false)
+			{
+				return false;
+			}
+			else
+			{
+				logger->log_notice(__FILE__, __LINE__, "Loaded Sonar Sensor at Location: " + location + ".");
+			}
+			sonar_sensors.push_back(sonar);
+		}
+		{
+			std::string location = "frontright";
+			SonarStorage sonar = initialize_sonar(PN_110001, location);
+			if (sonar.initialized == false)
+			{
+				return false;
+			}
+			else
+			{
+				logger->log_notice(__FILE__, __LINE__, "Loaded Sonar Sensor at Location: " + location);
+			}
+			sonar_sensors.push_back(sonar);
+		}
+		{
+			std::string location = "backleft";
+			SonarStorage sonar = initialize_sonar(PN_110001, location);
+			if (sonar.initialized == false)
+			{
+				return false;
+			}
+			else
+			{
+				logger->log_notice(__FILE__, __LINE__, "Loaded Sonar Sensor at Location: " + location);
+			}
+			sonar_sensors.push_back(sonar);
+		}
+		{
+			std::string location = "backright";
+			SonarStorage sonar = initialize_sonar(PN_110001, location);
+			if (sonar.initialized == false)
+			{
+				return false;
+			}
+			else
+			{
+				logger->log_notice(__FILE__, __LINE__, "Loaded Sonar Sensor at Location: " + location);
+			}
+			sonar_sensors.push_back(sonar);
 		}
 	}
 	return true;
+}
+RobotPlugin::SonarStorage RobotPlugin::initialize_sonar(std::string partnumber, std::string location)
+{
+	SonarStorage m_sonar;
+	m_sonar.initialized = false;
+	std::string sonar_name;
+	std::string topic_name;
+	if (location == "frontleft")
+	{
+		sonar_name = "flsonar";
+		m_sonar.sensor.init(partnumber, "FLSonar");
+	}
+	else if (location == "frontright")
+	{
+		sonar_name = "frsonar";
+		m_sonar.sensor.init(partnumber, "FRSonar");
+	}
+	else if (location == "backleft")
+	{
+		sonar_name = "blsonar";
+		m_sonar.sensor.init(partnumber, "BLSonar");
+	}
+	else if (location == "backright")
+	{
+		sonar_name = "brsonar";
+		m_sonar.sensor.init(partnumber, "BRSonar");
+	}
+	else
+	{
+		m_sonar.initialized = false;
+		return m_sonar;
+	}
+	{
+		sensors::SensorPtr _sensor = m_sensorManager->GetSensor(sonar_name);
+		if (_sensor == nullptr)
+		{
+			logger->log_error(__FILE__, __LINE__, "Could not load " + sonar_name + " Sonar.  Exiting.");
+			m_sonar.initialized = false;
+			return m_sonar;
+		}
+		m_sonar.m_gazebo_sonar = dynamic_pointer_cast<sensors::SonarSensor, sensors::Sensor>(_sensor);
+	}
+	last_pose = truth_pose.sensor.get_pose();
+	m_sonar.initialized = true;
+	return m_sonar;
 }
 RobotPlugin::IMUStorage RobotPlugin::initialize_imu(std::string partnumber, std::string location)
 {
 	IMUStorage m_imu;
 	m_imu.initialized = false;
-	m_sensorManager = sensors::SensorManager::Instance();
-	if (m_sensorManager == nullptr)
-	{
-		m_imu.initialized = false;
-		return m_imu;
-	}
 	std::string main_imu_name;
 	std::string main_magnetometer_name;
 	std::string topic_name;
@@ -524,7 +650,7 @@ RobotPlugin::IMUStorage RobotPlugin::initialize_imu(std::string partnumber, std:
 		sensors::SensorPtr _sensor = m_sensorManager->GetSensor(main_imu_name);
 		if (_sensor == nullptr)
 		{
-			logger->log_error(__FILE__,__LINE__,"Could not load " + main_imu_name + " IMU.  Exiting.");
+			logger->log_error(__FILE__, __LINE__, "Could not load " + main_imu_name + " IMU.  Exiting.");
 			m_imu.initialized = false;
 			return m_imu;
 		}
@@ -534,7 +660,7 @@ RobotPlugin::IMUStorage RobotPlugin::initialize_imu(std::string partnumber, std:
 		sensors::SensorPtr _sensor = m_sensorManager->GetSensor(main_magnetometer_name);
 		if (_sensor == nullptr)
 		{
-			logger->log_error(__FILE__,__LINE__,"Could not load " + main_magnetometer_name + " IMU Magnetometer.  Exiting.");
+			logger->log_error(__FILE__, __LINE__, "Could not load " + main_magnetometer_name + " IMU Magnetometer.  Exiting.");
 			m_imu.initialized = false;
 			return m_imu;
 		}
@@ -587,7 +713,7 @@ void RobotPlugin::OnUpdate()
 				m_mediumloop.enable_printing();
 				m_slowloop.enable_printing();
 				m_veryslowloop.enable_printing();
-				logger->log_notice(__FILE__,__LINE__,"Robot Initialized.");
+				logger->log_notice(__FILE__, __LINE__, "Robot Initialized.");
 			}
 			robot_initialized = true;
 		}
@@ -604,7 +730,7 @@ void RobotPlugin::OnUpdate()
 			double d = compute_distance(pose, initial_pose);
 			if (d > 1)
 			{
-				diag = update_diagnostic(POSE,WARN,DIAGNOSTIC_FAILED,"Model Pose has drifted with no input command.  Likely a model sdf problem.  Please adjust.");
+				diag = update_diagnostic(POSE, WARN, DIAGNOSTIC_FAILED, "Model Pose has drifted with no input command.  Likely a model sdf problem.  Please adjust.");
 				logger->log_diagnostic(diag);
 			}
 		}
@@ -708,15 +834,29 @@ void RobotPlugin::OnUpdate()
 		current_consumed += right_wheelencoder.sensor.get_currentconsumed();
 		current_consumed += left_motor.get_currentconsumed();
 		current_consumed += right_motor.get_currentconsumed();
+		for (std::size_t i = 0; i < sonar_sensors.size(); ++i)
+		{
+			current_consumed += sonar_sensors.at(i).sensor.get_currentconsumed();
+		}
+
 		if (battery.update(m_mediumloop.get_timedelta(), current_consumed) == false)
 		{
-			logger->log_warn(__FILE__,__LINE__,"BATTERY DEPLETED");
+			logger->log_warn(__FILE__, __LINE__, "BATTERY DEPLETED");
 		}
 		pub_batteryinfo.publish(battery.get_batteryinfo());
 		m_fastloop.check_looprate();
 		m_mediumloop.check_looprate();
+		m_20hzloop.check_looprate();
 		m_slowloop.check_looprate();
 		m_veryslowloop.check_looprate();
+	}
+	if (m_20hzloop.run_loop())
+	{
+		for (std::size_t i = 0; i < sonar_sensors.size(); ++i)
+		{
+			sonar_sensors.at(i).pub.publish(sonar_sensors.at(i).sensor.update(m_20hzloop.get_currentTime(),
+																			  sonar_sensors.at(i).m_gazebo_sonar->Range()));
+		}
 	}
 	if (m_slowloop.run_loop())
 	{
@@ -726,11 +866,11 @@ void RobotPlugin::OnUpdate()
 		if (last_iterationcount > 0)
 		{
 			double new_value = (double)(count - last_iterationcount) / (sim_time - last_simtime);
-			if(new_value > 500.0)
+			if (new_value > 500.0)
 			{
 				new_value = 500.0;
 			}
-			if(new_value < 1.0)
+			if (new_value < 1.0)
 			{
 				new_value = 1.0;
 			}
@@ -745,12 +885,11 @@ void RobotPlugin::OnUpdate()
 
 		//printf("count: %d simtime: %f fps: %f\n",count,sim_time,update_rate);
 		//battery.print_info();
-		
-		for(std::size_t i = 0; i < linear_actuators.size(); ++i)
+
+		for (std::size_t i = 0; i < linear_actuators.size(); ++i)
 		{
 			linear_actuators.at(i).linear_actuator.print_info();
 		}
-		
 
 		//print_jointinfo(true);
 	}
@@ -847,7 +986,7 @@ void RobotPlugin::print_jointinfo(bool all_joints)
 					compute_magnitude(child_link_force));
 		}
 	}
-	logger->log_info(__FILE__,__LINE__,std::string(tempstr));
+	logger->log_info(__FILE__, __LINE__, std::string(tempstr));
 }
 //Communication Functions
 void RobotPlugin::implement_cmd(const eros::pin::ConstPtr &_msg)
@@ -875,7 +1014,7 @@ void RobotPlugin::implement_cmd(const eros::pin::ConstPtr &_msg)
 	}
 	if (found == false)
 	{
-		logger->log_error(__FILE__,__LINE__,"Couldn't parse pin: " + _msg->ConnectedDevice);
+		logger->log_error(__FILE__, __LINE__, "Couldn't parse pin: " + _msg->ConnectedDevice);
 	}
 }
 void RobotPlugin::drivetrain_left_cmd(const eros::pin::ConstPtr &_msg)
@@ -912,7 +1051,7 @@ void RobotPlugin::print_loopstates(SimpleTimer timer)
 	char tempstr[1024];
 	sprintf(tempstr, "%s: Error: %4.2f%% Target Rate: %4.2f Actual Rate: %4.2f Set Rate: %4.2f", timer.get_name().c_str(), fabs(timer.get_timingerrorperc()),
 			timer.get_rate(), timer.get_actualrate(), timer.get_setrate());
-	logger->log_info(__FILE__,__LINE__,std::string(tempstr));
+	logger->log_info(__FILE__, __LINE__, std::string(tempstr));
 }
 void RobotPlugin::print_model()
 {
@@ -1002,11 +1141,11 @@ bool RobotPlugin::readLinkPose(std::string shortname, ignition::math::Pose3d *po
 }
 eros::diagnostic RobotPlugin::update_diagnostic(uint8_t diagnostic_type, uint8_t level, uint8_t message, std::string description)
 {
-	return update_diagnostic(root_diagnostic.DeviceName,diagnostic_type,level,message,description);
+	return update_diagnostic(root_diagnostic.DeviceName, diagnostic_type, level, message, description);
 }
 eros::diagnostic RobotPlugin::update_diagnostic(eros::diagnostic diag)
 {
-	return update_diagnostic(diag.DeviceName,diag.Diagnostic_Type,diag.Level,diag.Diagnostic_Message,diag.Description);
+	return update_diagnostic(diag.DeviceName, diag.Diagnostic_Type, diag.Level, diag.Diagnostic_Message, diag.Description);
 }
 eros::diagnostic RobotPlugin::update_diagnostic(std::string device_name, uint8_t diagnostic_type, uint8_t level, uint8_t message, std::string description)
 {
@@ -1031,7 +1170,7 @@ eros::diagnostic RobotPlugin::update_diagnostic(std::string device_name, uint8_t
 			}
 		}
 	}
-	if((devicetype_found == true) and (devicename_found == false))
+	if ((devicetype_found == true) and (devicename_found == false))
 	{
 		diag = root_diagnostic;
 		diag.Diagnostic_Type = diagnostic_type;
@@ -1041,7 +1180,7 @@ eros::diagnostic RobotPlugin::update_diagnostic(std::string device_name, uint8_t
 		diag.Description = description;
 		std::vector<eros::diagnostic>::iterator it;
 		it = diagnostics.begin();
-		diagnostics.insert(it+insert_index,diag);
+		diagnostics.insert(it + insert_index, diag);
 	}
 	if (devicetype_found == true)
 	{
@@ -1054,8 +1193,8 @@ eros::diagnostic RobotPlugin::update_diagnostic(std::string device_name, uint8_t
 		diag.Level = ERROR;
 		diag.Diagnostic_Message = UNKNOWN_MESSAGE;
 		char tempstr[512];
-		sprintf(tempstr, "Unsupported Diagnostic Type: %s(%d).  Did you forget to enable it?", 
-			diagnostic_helper.get_DiagTypeString(diagnostic_type).c_str(),diagnostic_type);
+		sprintf(tempstr, "Unsupported Diagnostic Type: %s(%d).  Did you forget to enable it?",
+				diagnostic_helper.get_DiagTypeString(diagnostic_type).c_str(), diagnostic_type);
 		diag.Description = std::string(tempstr);
 		return diag;
 	}

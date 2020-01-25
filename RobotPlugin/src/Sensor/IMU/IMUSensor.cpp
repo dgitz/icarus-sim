@@ -16,7 +16,7 @@ IMUSensor::~IMUSensor() {
 bool IMUSensor::init(std::string t_partnumber,std::string t_name)
 {
 	partnumber = t_partnumber;
-	if(partnumber == "110015")
+	if(partnumber == PN_110015)
 	{
 
 	}
@@ -71,7 +71,7 @@ IMUSensor::RMS IMUSensor::compute_rms(RMS rms,double value,uint64_t update_count
 }
 double IMUSensor::get_currentconsumed()
 {
-	if(partnumber == "110015")
+	if(partnumber == PN_110015)
 	{
 		return 0.05;
 	}

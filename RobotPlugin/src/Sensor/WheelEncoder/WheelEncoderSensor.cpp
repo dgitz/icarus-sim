@@ -26,7 +26,7 @@ bool WheelEncoderSensor::init(std::string t_partnumber,std::string t_name)
 	signal.type = SIGNALTYPE_TICKSPEED;
 	signal.status = SIGNALSTATE_INITIALIZING;
 	signal.value = 0.0;
-	if(partnumber == "110003")
+	if(partnumber == PN_110003)
 	{
 		count_per_revolution = 360.0;
 	}
@@ -41,7 +41,7 @@ bool WheelEncoderSensor::init(std::string t_partnumber,std::string t_name)
 }
 double WheelEncoderSensor::get_currentconsumed()
 {
-	if(partnumber == "110003")
+	if(partnumber == PN_110003)
 	{
 		return 0.025;
 	}
