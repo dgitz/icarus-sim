@@ -65,6 +65,7 @@
 #include "Sensor/Sonar/SonarSensor.h"
 #include "Sensor/WheelEncoder/WheelEncoderSensor.h"
 #include "Actuator/LinearActuatorModel/LinearActuatorModel.h"
+#include "CameraPanTilt/CameraPanTilt.h"
 #include "../../../eROS/include/DiagnosticClass.h"
 #define ALLOW_INCOMPLETEMODEL_INITIALIZATION true
 #define INITIALIZATION_TIME 5.0f
@@ -126,6 +127,8 @@ public:
 	void implement_cmd(const eros::pin::ConstPtr& _msg);
 	void boom_rotate_cmd(const eros::pin::ConstPtr& _msg);
 	void bucket_rotate_cmd(const eros::pin::ConstPtr& _msg);
+	void panservo_cmd(const eros::pin::ConstPtr& _msg);
+	void tiltservo_cmd(const eros::pin::ConstPtr& _msg);
 	
 	//Attributes
 	std::vector<eros::diagnostic> get_diagnostics() { return diagnostics; }
@@ -208,9 +211,18 @@ private:
 		ros::Publisher current_pub;
 		ros::Subscriber command_sub;
 	};
+	struct CameraPanTiltStorage
+	{
+		bool initialized;
+		CameraPanTilt assy;
+		uint16_t panjoint_id;
+		uint16_t tiltjoint_id;
+
+	};
 	//Initialize Functions
 	IMUStorage initialize_imu(std::string partnumber,std::string location);
 	SonarStorage initialize_sonar(std::string partnumber,std::string location);
+	CameraPanTiltStorage initialize_camerapantilt(int16_t panjoint_id,int16_t tiltjoint_id);
 	bool InitializePlugin();
 	bool LoadModel();
 	bool LoadSensors();
@@ -228,6 +240,7 @@ private:
 	std::string map_jointtype_tostring(JointType joint_type);
 	void print_loopstates(SimpleTimer timer);
 	void print_jointinfo(bool v);
+	double convert_pwm_toangle_deg(int32_t v);
 	
 	//Model Variables
 	Compute_Average compute_average;
@@ -245,6 +258,8 @@ private:
 	ros::Subscriber sub_drivetrain_right_cmd;
 	ros::Subscriber sub_boomrotate_cmd;
 	ros::Subscriber sub_bucketrotate_cmd;
+	ros::Subscriber sub_panservo_cmd;
+	ros::Subscriber sub_tiltservo_cmd;
 	ros::Publisher pub_leftimu;
 	ros::Publisher pub_rightimu;
 	ros::Publisher pub_truthpose;
@@ -312,6 +327,8 @@ private:
 
 	std::vector<LinearActuatorStorage> linear_actuators;
 	std::vector<SonarStorage> sonar_sensors;
+
+	CameraPanTiltStorage camera_pantilt;
 
 };
 GZ_REGISTER_MODEL_PLUGIN(RobotPlugin)

@@ -46,7 +46,9 @@ void RobotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 	m_model = _model;
 	pose_initialized = false;
 	drivecommand_received = false;
-	InitializePlugin();
+	if (InitializePlugin() == false)
+	{
+	}
 
 	return;
 }
@@ -78,7 +80,6 @@ bool RobotPlugin::InitializePlugin()
 	this->node = transport::NodePtr(new transport::Node());
 	this->node->Init(m_model->GetName());
 	logger->log_debug(__FILE__, __LINE__, "Starting ros");
-
 	if (!ros::isInitialized())
 	{
 		int argc = 0;
@@ -171,9 +172,19 @@ bool RobotPlugin::LoadModel()
 			return false;
 		}
 	}
+	int16_t camera_panjoint_id = -1;
+	int16_t camera_tiltjoint_id = -1;
 	for (uint16_t i = 0; i < m_model->GetJointCount(); ++i)
 	{
-
+		printf("[%d/%d] Joint Name: %s\n", i, m_model->GetJointCount() - 1, m_model->GetJoints()[i]->GetScopedName().c_str());
+		if (m_model->GetJoints()[i]->GetScopedName().find("CameraBase_CameraPan") != std::string::npos)
+		{
+			camera_panjoint_id = i;
+		}
+		if (m_model->GetJoints()[i]->GetScopedName().find("CameraPan_CameraTilt") != std::string::npos)
+		{
+			camera_tiltjoint_id = i;
+		}
 		if (m_model->GetJoints()[i]->GetScopedName().find("drivetrain") != std::string::npos)
 		{
 			if (m_model->GetJoints()[i]->GetScopedName().find("left") != std::string::npos)
@@ -292,7 +303,13 @@ bool RobotPlugin::LoadModel()
 			joints.push_back(newjoint);
 		}
 	}
-
+	camera_pantilt = initialize_camerapantilt(camera_panjoint_id, camera_tiltjoint_id);
+	printf("Found: %d %d\n", camera_pantilt.panjoint_id, camera_pantilt.tiltjoint_id);
+	if (camera_pantilt.initialized == false)
+	{
+		logger->log_error(__FILE__, __LINE__, "Could not Initialize Camera Pan Tilt Assembly. Exiting.\n");
+		return false;
+	}
 	for (std::size_t i = 0; i < joints.size(); ++i)
 	{
 		for (int j = 0; j < 0; ++j)
@@ -397,9 +414,8 @@ bool RobotPlugin::LoadModel()
 }
 bool RobotPlugin::InitializeSubscriptions()
 {
-	this->rosQueueThread =
-		std::thread(std::bind(&RobotPlugin::QueueThread, this));
 
+	logger->log_notice(__FILE__,__LINE__,"Subscribing to Channels.");
 	this->updateConnection = event::Events::ConnectWorldUpdateBegin(
 		std::bind(&RobotPlugin::OnUpdate, this));
 	{
@@ -420,6 +436,24 @@ bool RobotPlugin::InitializeSubscriptions()
 				ros::VoidPtr(), &this->rosQueue);
 		sub_drivetrain_right_cmd = this->rosNode->subscribe(so);
 	}
+	{
+		ros::SubscribeOptions so =
+			ros::SubscribeOptions::create<eros::pin>(
+				"/PanServo",
+				1,
+				boost::bind(&RobotPlugin::panservo_cmd, this, _1),
+				ros::VoidPtr(), &this->rosQueue);
+		sub_panservo_cmd = this->rosNode->subscribe(so);
+	}
+	{
+		ros::SubscribeOptions so =
+			ros::SubscribeOptions::create<eros::pin>(
+				"/TiltServo",
+				1,
+				boost::bind(&RobotPlugin::tiltservo_cmd, this, _1),
+				ros::VoidPtr(), &this->rosQueue);
+		sub_tiltservo_cmd = this->rosNode->subscribe(so);
+	}
 
 	for (std::size_t i = 0; i < linear_actuators.size(); ++i)
 	{
@@ -434,6 +468,8 @@ bool RobotPlugin::InitializeSubscriptions()
 		ros::Subscriber sub = this->rosNode->subscribe(so);
 		linear_actuators.at(i).command_sub = sub;
 	}
+	this->rosQueueThread =
+		std::thread(std::bind(&RobotPlugin::QueueThread, this));
 	return true;
 }
 bool RobotPlugin::InitializePublications()
@@ -554,6 +590,32 @@ bool RobotPlugin::LoadSensors()
 		}
 	}
 	return true;
+}
+RobotPlugin::CameraPanTiltStorage RobotPlugin::initialize_camerapantilt(int16_t panjoint_id, int16_t tiltjoint_id)
+{
+	CameraPanTiltStorage storage;
+	if ((panjoint_id < 0) || (tiltjoint_id < 0))
+	{
+		logger->log_error(__FILE__, __LINE__, "Could not Find Camera Pan/Tilt Joints. Exiting.\n");
+		storage.initialized = false;
+		return storage;
+	}
+
+	bool status = storage.assy.init(PN_361005, PN_361005);
+	if (status == false)
+	{
+		storage.initialized = false;
+		logger->log_error(__FILE__,__LINE__,"Failed to Initialize Camera Pan/Tilt Assembly.");
+
+	}
+	else
+	{
+		logger->log_notice(__FILE__,__LINE__,"Initialized Camera Pan/Tilt Assembly.");
+	}
+	storage.panjoint_id = (uint16_t)panjoint_id;
+	storage.tiltjoint_id = (uint16_t)tiltjoint_id;
+	storage.initialized = true;
+	return storage;
 }
 RobotPlugin::SonarStorage RobotPlugin::initialize_sonar(std::string partnumber, std::string location)
 {
@@ -702,7 +764,6 @@ void RobotPlugin::OnUpdate()
 			}
 		}
 		*/
-
 		battery.recharge_complete();
 		run_time += m_fastloop.get_timedelta();
 		if (run_time > INITIALIZATION_TIME)
@@ -728,13 +789,13 @@ void RobotPlugin::OnUpdate()
 		if (drivecommand_received == false)
 		{
 			double d = compute_distance(pose, initial_pose);
-			if (d > 1)
+			/*if (d > 1)
 			{
 				diag = update_diagnostic(POSE, WARN, DIAGNOSTIC_FAILED, "Model Pose has drifted with no input command.  Likely a model sdf problem.  Please adjust.");
 				logger->log_diagnostic(diag);
 			}
+			*/
 		}
-
 		for (std::size_t i = 0; i < joints.size(); ++i)
 		{
 			if (joints.at(i).joint_type == JointType::DRIVETRAIN_LEFT)
@@ -821,6 +882,8 @@ void RobotPlugin::OnUpdate()
 	}
 	if (m_mediumloop.run_loop())
 	{
+
+		
 		heartbeat.TaskState = TASKSTATE_RUNNING;
 		heartbeat.stamp = ros::Time::now();
 		pub_heartbeat.publish(heartbeat);
@@ -842,6 +905,15 @@ void RobotPlugin::OnUpdate()
 		if (battery.update(m_mediumloop.get_timedelta(), current_consumed) == false)
 		{
 			logger->log_warn(__FILE__, __LINE__, "BATTERY DEPLETED");
+		}
+		{   // Camera Pan/Tilt Updates
+			std::vector<CameraPanTilt::Joint> cam_joints = camera_pantilt.assy.update(m_mediumloop.get_timedelta(),
+					m_model->GetJoints()[camera_pantilt.panjoint_id]->Position(0)*180.0/M_PI,
+					m_model->GetJoints()[camera_pantilt.tiltjoint_id]->Position(0)*180.0/M_PI);
+				m_model->GetJoints()[camera_pantilt.panjoint_id]->SetForce(0, 
+					cam_joints.at((std::size_t)CameraPanTilt::JointIndex::JOINT_PAN_INDEX).output_value);
+				m_model->GetJoints()[camera_pantilt.tiltjoint_id]->SetForce(0, 
+					cam_joints.at((std::size_t)CameraPanTilt::JointIndex::JOINT_TILT_INDEX).output_value);
 		}
 		pub_batteryinfo.publish(battery.get_batteryinfo());
 		m_fastloop.check_looprate();
@@ -890,8 +962,6 @@ void RobotPlugin::OnUpdate()
 		{
 			linear_actuators.at(i).linear_actuator.print_info();
 		}
-
-		//print_jointinfo(true);
 	}
 	if (m_veryslowloop.run_loop())
 	{
@@ -909,7 +979,7 @@ void RobotPlugin::OnUpdate()
 }
 void RobotPlugin::print_jointinfo(bool all_joints)
 {
-	char tempstr[2048];
+	char tempstr[2048 * (uint16_t)joints.size()];
 	sprintf(tempstr, "--- JOINT INFO ---\n");
 	if (all_joints == false)
 	{
@@ -1044,7 +1114,14 @@ void RobotPlugin::drivetrain_right_cmd(const eros::pin::ConstPtr &_msg)
 		}
 	}
 }
-
+void RobotPlugin::panservo_cmd(const eros::pin::ConstPtr& _msg)
+{
+	camera_pantilt.assy.set_jointcommand((uint8_t)CameraPanTilt::JointIndex::JOINT_PAN_INDEX,convert_pwm_toangle_deg(_msg->Value));
+}
+void RobotPlugin::tiltservo_cmd(const eros::pin::ConstPtr& _msg)
+{
+	camera_pantilt.assy.set_jointcommand((uint8_t)CameraPanTilt::JointIndex::JOINT_TILT_INDEX,convert_pwm_toangle_deg(_msg->Value));
+}
 //Utility Functions
 void RobotPlugin::print_loopstates(SimpleTimer timer)
 {
@@ -1121,6 +1198,13 @@ double RobotPlugin::compute_distance(ignition::math::Pose3d a, ignition::math::P
 	double dz = a.Pos().Z() - b.Pos().Z();
 	double d = sqrt((dx * dx) + (dy * dy) + (dz * dz));
 	return d;
+}
+double RobotPlugin::convert_pwm_toangle_deg(int32_t v)
+{
+	//v: range from 1000 to 2000 with center of 1500
+	double v1 = v-1500; //Range from -500 to 500
+	double angle_deg = v1*180.0/500.0; //Range from -180 deg to 180 deg
+	return angle_deg;
 }
 bool RobotPlugin::readLinkPose(std::string shortname, ignition::math::Pose3d *pose)
 {
