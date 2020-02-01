@@ -218,7 +218,15 @@
                 </ode>
             </physics>
         </joint> 
-
+        <!-- CAMERA PAN/TILT -->
+        <include>
+            <uri>model://CameraPanTilt</uri>
+            <pose>0.20602 -0.06358 0.14613 1.570796327 0 1.570796327</pose> 
+        </include>
+        <joint name="base_camerapantilt" type="fixed">
+            <child>CameraPanTilt::CameraBase</child>
+            <parent>base</parent>
+        </joint>
         <!-- BOOM -->
         <!-- DISABLED FOR NOW UNTIL CONTROLLER IS BUILT 
         <link name="boom">
@@ -521,7 +529,6 @@
             <parent>base</parent>
         </joint>
          <!-- SONAR SENSORS -->
-        
         <include>
             <uri>model://110001-FLSonar</uri>
             <pose>0.22169 0.10960 0.15401 0 -2.0943 0</pose> 

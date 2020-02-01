@@ -16,7 +16,9 @@ add_library(MotorModel src/Power/MotorModel/MotorModel.cpp)
 add_dependencies(MotorModel eros_generate_messages_cpp)
 add_library(BatteryModel src/Power/BatteryModel/BatteryModel.cpp)
 add_dependencies(BatteryModel eros_generate_messages_cpp)
-target_link_libraries(RobotPlugin ${GAZEBO_LIBRARIES} ${roscpp_LIBRARIES} ${catkin_LIBRARIES} logger eros_math MotorControllerModel MotorModel IMUSensor SonarSensor TruthSensor WheelEncoderSensor BatteryModel LinearActuatorModel)
+add_library(CameraPanTilt src/CameraPanTilt/CameraPanTilt.cpp)
+add_dependencies(CameraPanTilt eros_generate_messages_cpp)
+target_link_libraries(RobotPlugin ${GAZEBO_LIBRARIES} ${roscpp_LIBRARIES} ${catkin_LIBRARIES} logger controlgroup eros_math MotorControllerModel CameraPanTilt MotorModel IMUSensor SonarSensor TruthSensor WheelEncoderSensor BatteryModel LinearActuatorModel)
 add_dependencies(RobotPlugin ${catkin_EXPORTED_TARGETS})
 
 

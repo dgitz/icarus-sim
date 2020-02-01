@@ -1,0 +1,105 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="CameraPanTilt">
+    <static>false</static>
+    <link name="CameraBase">
+            <pose>0 0 0 0 0 0</pose>
+            <inertial>
+            <mass>0.0011</mass>
+          </inertial>
+            <visual name="visual">
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/CameraBaseAssy.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                </geometry>
+                <material>
+                    <ambient>1 0 0 1</ambient>
+                    <diffuse>1 0 0 1</diffuse>
+                    <specular>0.1 0.1 0.1 1</specular>
+                    <emissive>0 0 0 0</emissive>
+              </material>
+            </visual>
+    </link>
+    <joint type="revolute" name="CameraBase_CameraPan_joint">
+            <child>CameraPan</child>
+            <parent>CameraBase</parent>
+            <axis>
+                <xyz>1 0 0</xyz>
+                <dynamics>
+                    <damping>3</damping>
+                </dynamics>
+                <limit>
+                    <lower>-1.570796327</lower>
+                    <upper>1.570796327</upper>
+                </limit>
+            </axis>
+    </joint> 
+    <link name="CameraPan">
+            <pose>-0.04947 0.02007 -0.02515 0 3.14159 0</pose>
+            <inertial>
+        <mass>0.0011</mass>
+      </inertial>
+            <visual name="visual">
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/CameraPanAssy.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                </geometry>
+                <material>
+                    <ambient>0 0 0 1</ambient>
+                    <diffuse>0 0 0 1</diffuse>
+                    <specular>0.1 0.1 0.1 1</specular>
+                    <emissive>0 0 0 0</emissive>
+              </material>
+            </visual>
+    </link>
+    <joint type="revolute" name="CameraPan_CameraTilt_joint">
+            <child>CameraTilt</child>
+            <parent>CameraPan</parent>
+            <axis>
+                <xyz>0 0 1</xyz>
+                <limit>
+                    <lower>-0.942477796</lower>
+                    <upper>0.942477796</upper>
+                </limit>
+                <dynamics>
+                    <damping>3</damping>
+                </dynamics>
+            </axis>
+    </joint>
+    <link name="CameraTilt">
+        <pose>-0.0348 0.04601 -0.02515 0 0 0</pose>
+        <inertial>
+            <mass>0.0011</mass>
+        </inertial>
+        <visual name="visual">
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/CameraTiltAssy.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                </geometry>
+                <material>
+                    <ambient>1 1 0 1</ambient>
+                    <diffuse>1 1 0 1</diffuse>
+                    <specular>0.1 0.1 0.1 1</specular>
+                    <emissive>0 0 0 0</emissive>
+              </material>
+        </visual>
+        
+    </link>
+    
+    <!-- Sensor -->
+    <include>
+        <uri>model://110010-RaspiCam1</uri>
+        <pose>-0.05365 0.05574 -0.0068 -1.570796327 -1.570796327 0</pose> 
+    </include>
+    <joint name="joint_RaspiCam1" type="fixed">
+        <child>110010-RaspiCam1::RaspiCam1</child>
+        <parent>CameraTilt</parent>
+    </joint>    
+  </model>
+</sdf>
