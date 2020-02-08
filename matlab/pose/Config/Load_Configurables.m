@@ -1,5 +1,5 @@
 %LoadConfigurables
-Scenario = '/home/robot/Documents/Data/2017-12-23-08-43-46';
+Scenario = '/home/robot/Documents/Data/2020-02-02-18-55-23_0_CSV';
 global Config;
 Config.TimeCompensation_Method = TIMINGCOMPENSATION_METHOD.LinearExtrapolate;
 Config.InitializationTime = 5.0; %seconds

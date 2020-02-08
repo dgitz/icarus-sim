@@ -4,6 +4,9 @@
     <static>false</static>
     
     <link name="BLSonar">
+        <inertial>
+         <mass>0.01</mass>
+        </inertial>
       <visual name="visual">
         <geometry>
           <box>
@@ -12,7 +15,7 @@
         </geometry>
       </visual>
       <sensor name="blsonar" type="sonar">
-        <visualize>true</visualize>
+        <visualize>false</visualize>
         <sonar>
             <min>.0254</min>
             <max>2.286</max>

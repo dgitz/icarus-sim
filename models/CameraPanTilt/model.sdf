@@ -37,10 +37,10 @@
             </axis>
     </joint> 
     <link name="CameraPan">
+        <inertial>
+            <mass>0.0011</mass>
+          </inertial>
             <pose>-0.04947 0.02007 -0.02515 0 3.14159 0</pose>
-            <inertial>
-        <mass>0.0011</mass>
-      </inertial>
             <visual name="visual">
                 <geometry>
                     <mesh>
@@ -71,10 +71,10 @@
             </axis>
     </joint>
     <link name="CameraTilt">
-        <pose>-0.0348 0.04601 -0.02515 0 0 0</pose>
         <inertial>
             <mass>0.0011</mass>
-        </inertial>
+          </inertial>
+        <pose>-0.0348 0.04601 -0.02515 0 0 0</pose>
         <visual name="visual">
                 <geometry>
                     <mesh>

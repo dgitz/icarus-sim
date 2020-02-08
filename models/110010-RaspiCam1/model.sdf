@@ -1,9 +1,18 @@
 <?xml version="1.0" ?>
 <sdf version="1.6">
   <model name="110010-RaspiCam1">
-    <static>true</static>
+    <static>false</static>
     <link name="RaspiCam1"> 
-        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+         <mass>0.01</mass>
+        </inertial>
+        <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.001 0.001 0.001</size>
+          </box>
+        </geometry>
+      </visual>
         <sensor name="camera1" type="camera">
             <visualize>true</visualize>
             <always_on>1</always_on>
@@ -15,6 +24,8 @@
                     <height>240</height>
                 </image>
             </camera>
+            <!-- DISABLED, SEE BUG: https://dev.azure.com/davidgitz/ICARUS%20Scout/_workitems/edit/397 -->  
+            <!--
             <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
                 <alwaysOn>true</alwaysOn>
                 <updateRate>0.0</updateRate>
@@ -29,6 +40,7 @@
                 <distortionT1>0.0</distortionT1>
                 <distortionT2>0.0</distortionT2>
             </plugin>
+            -->
         </sensor> 
     </link>
   </model>

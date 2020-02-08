@@ -511,7 +511,6 @@
         BOOM DISABLE -->
 
         <!-- SENSORS -->
-        <!-- -->
         <include>
             <uri>model://110015-NEXT</uri>
             <pose>-0.043688 0.099314 0.083566 0 0 1.570796327</pose> 
