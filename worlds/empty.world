@@ -1,21 +1,11 @@
 <?xml version="1.0" ?>
 <sdf version="1.4">
   <world name="default">
-    <physics type="ode">
-      <max_step_size>0.001</max_step_size>
-      <real_time_factor>1</real_time_factor>
-      <real_time_update_rate>1000</real_time_update_rate>
-      <ode>
-        <solver>
-          <type>quick</type>
-          <iters>200</iters>
-          <sor>1.4</sor>
-        </solver>
-      </ode>
+    <physics type='ode'>
+        <max_step_size>0.005</max_step_size>
+        <real_time_factor>1</real_time_factor>
+        <real_time_update_rate>200</real_time_update_rate>
     </physics>
-    <gui fullscreen='0'>
-        <plugin name='keyboard' filename='libKeyboardGUIPlugin.so'/>
-    </gui>
     <model name="ground_plane">
         <static>true</static>
         <link name="link">
@@ -27,11 +17,6 @@
               </plane>
             </geometry>
             <surface>
-              <contact>
-                <ode>
-                  <max_vel>0</max_vel>
-                </ode>
-              </contact>
               <friction>
                 <ode>
                   <mu>100</mu>
@@ -62,7 +47,6 @@
     <include>
       <uri>model://sun</uri>
     </include>
-    
     <!--
     <model name="teststand">
         <static>true</static>

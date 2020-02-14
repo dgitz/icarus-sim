@@ -1,0 +1,3880 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MF0 version="1.1" packageUris="http://schema.mathworks.com/mf0/sl_modelref_info/R2019b">
+  <ModelRefInfoRepo.ModelRefInfoRoot type="ModelRefInfoRepo.ModelRefInfoRoot" uuid="c8114737-7ead-4512-9854-cfd7d3fa7bd8">
+    <autoSolverStatusFlags>331</autoSolverStatusFlags>
+    <childModelRefInfo type="ModelRefInfoRepo.ChildModelRefInfo" uuid="2d9e3844-3ed0-4d60-b621-b7c578f0e2d0">
+      <modelName>Pose_AutoCode</modelName>
+      <modelPath>Pose_AutoCode</modelPath>
+    </childModelRefInfo>
+    <dataTransferInfos>AAFJTQAAAAAOAAAAOAAAAAYAAAAIAAAAAgAAAAAAAAAFAAAACAAAAAAAAAABAAAAAQAAAAAAAAAFAAQAAQAAAAEAAAAAAAAA</dataTransferInfos>
+    <fundamentalSampleTimePeriod>0.20000000000000001</fundamentalSampleTimePeriod>
+    <hasBlockWithPeriodicDiscreteSampleTime>true</hasBlockWithPeriodicDiscreteSampleTime>
+    <hasBwsAccessed>true</hasBwsAccessed>
+    <hasBwsAccessedByAnyModel>true</hasBwsAccessedByAnyModel>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="5599557c-f7b3-42e4-aad1-5831a2f6b769">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="a5edc055-8e16-4446-a96c-a777fc2c980a"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="30c4fe7c-739d-47b6-8d65-c9c8f5224f81">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>1</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="96a97df9-0b63-4a81-88c5-5e0b5e667274"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="057ffc30-6551-44bf-8e42-ba82d89daf8d">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>2</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="dd206fc8-a1ec-447f-8441-267c845135db"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="30bef1cd-918d-4bea-b42e-ecab8dddac5b">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>3</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="38496647-9748-4d0d-a9fb-e36f86f3acf9"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="a7560ebb-334d-4a60-bda9-f3063e272606">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>4</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="0cee71c9-f46a-483a-a4b8-3ccab5d00d4a"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="4abac05f-4b0d-49e0-ae9e-730f5e9a2ec0">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>5</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="99d85854-75c6-4d7e-b62e-ddd2e1928c3f"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="a044e575-b4a6-442d-8925-e7ddfaee7c6f">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>6</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="abd53022-1044-4434-bb9f-b435d4d7dab8"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="10e30abf-a16d-4c10-b3a1-bed589cbe011">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>7</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="cf03270a-c3e6-471a-ae51-55a5c130c8ad"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="8be5417d-c421-4f72-b474-5fefd8c76c00">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>8</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="1c8f5eed-e724-41af-9903-42f204dd35ce"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="4bbc4b79-313c-471a-bc0f-bba71e21e2c6">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>9</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="c2f5b11e-1edf-4b31-977e-52f5c0f459f7"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="ddcdcd9d-d755-47b2-959b-cf765b7b348d">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>10</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="d1400897-39a3-459d-9b4a-5e5dc45ec714"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="ef2b9c7f-9e89-4442-a91a-6b5b239cb459">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>11</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="048ff2c3-fa9d-40cb-912c-154c37b495f8"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="aafd2142-404f-48f2-9b40-7f4af2a57609">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>12</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="fd4b00f6-ee0e-4380-8389-36ebb41b8531"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="7dba649c-1b0a-4c2d-9a17-42c47fed1406">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>13</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="38ce9122-5456-4c40-8398-78fa370d3b62"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="4ad47951-8eb6-45f8-b4a9-d0f3be03b83a">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>14</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="27593fdd-0d08-4e1c-bde4-1100df2508ce"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="d8d8ff6b-e7c8-40b6-bcb7-d57d6be76eac">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>15</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="3137527b-15fe-467e-aeb8-611e3dc69af7"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="caaed907-a9ee-414c-ac6a-7a645590af9d">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>16</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="269abff7-263b-4382-8a95-c37d5b23ee1f"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="0998f402-0bfb-4fb5-aa12-088f90fd0752">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>17</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="23d7b596-8720-4244-993a-bb999606a007"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="bef221a8-435a-462a-88cb-edafb8d02f8b">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>18</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="8bb440b5-324f-4044-9226-ceeda4f9bf56"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="365816ec-187f-4db0-8059-b2e9b5784115">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>19</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="095e967b-3379-4af5-98b2-fb760fb7fa3d"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="59230069-1d25-47cc-989b-644abdc39dc5">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>20</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="38a211ea-4fb4-429e-89d2-5ce2895b8a04"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="3dcdd69b-dcf5-4327-b52d-95d74416d441">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>21</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="c877a297-76c1-4a5a-9e16-5bee9b81f3af"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="35653f53-adab-42d8-9db0-45a54a3c49a6">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>22</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="f669f24b-2003-4874-923d-af0af2f6b9ff"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="e482e2d5-4c84-424a-b40f-6ddfc01c9aee">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>23</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="6829aa57-f2d3-4045-9aa4-d553e3dc4674"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="11aaaa38-d211-41b2-b413-38a9af44c603">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>24</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="742267d7-03da-42d1-a869-2cb3d0d9b128"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="ed7128d9-334f-43f6-8f4f-63b6d87a6fc3">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>25</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="f79544d4-66ba-4dcf-9dd9-888759a62cd9"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="e89a4aec-7b55-44aa-9106-0a5850882785">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>26</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="38987353-cc4f-4250-8d5f-e35681f608d0"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="59205221-7e35-49b8-99f4-1395ecf76e7d">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>27</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="c4a1183d-80e6-4b3e-b011-24a88976d588"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="fe9f3031-5ae1-4349-83d8-187937670b84">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>28</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="3d789cbb-0186-4f67-9b14-9ef024cef01f"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="cdeda22d-3352-4f86-ab6a-94d284f6a4b2">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>29</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="83b709a6-ede4-4caa-8cad-d97d0e4bb53c"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="217dea36-6d95-423f-a2f0-045c9b888175">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>30</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="7caa969a-35cb-4790-b1a3-58ada2653e25"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="604fb635-ad44-4d3f-9a46-6c5e58c8fcfb">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>31</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="4955f379-32d2-4a64-94fe-c3d6c151226c"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="ecbbe27b-1921-4c65-951f-d8fa436a9407">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>32</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="67f44efe-921e-450f-8b06-d65cb1508753"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="dfa91c54-ba28-43ae-83a0-e5b6644cb871">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>33</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="b4540107-5320-4ad7-8bba-3c3129180593"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="8e1b4c06-4a3f-4481-ba17-06669f302be9">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>34</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="14a7baf0-d9c1-4f61-a16f-b71efa8dfffd"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="3740d87e-21f4-4ec4-94ec-3b3fa1562a7c">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>35</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="421d4f82-b7e9-4794-b64c-5f6ff2139695"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="437e4aa0-358f-4fc1-a4eb-329be1bbb47d">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>36</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="74660c11-cf28-49cf-af2b-ecbcc1d9d358"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="7c4dcf26-e565-4b5e-82fe-6cd4ae422b78">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>37</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="806070dd-0296-4d26-ad81-ef44e4dfed1b"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="8c3fda56-f428-4c43-87b9-dcea291620da">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>38</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="7a0c8f4b-7325-4534-a986-11d7d926da8a"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="cdb2f7b2-aceb-41d4-ad99-d5ba6669d6c4">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>39</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="87f92b54-8b2a-447b-aa74-084473812099"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="3413d088-fe2e-41bc-b7b9-50d0f9fb3b1f">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>40</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="d964ba85-ae56-43e5-86d7-1c6785a05de4"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="e8b82f1c-1a12-4e7b-9ade-fddf9e6eda29">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>41</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="71267eaa-8159-467b-b105-488fa26a345b"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="c89203b2-233c-453a-b5da-2a2202a69ebd">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>42</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="3ffe3cf7-51a1-48be-9cff-8cde69b19bd6"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="789a0beb-09cd-4e30-b3df-5f3f12a374bd">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>43</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="e6e76190-74cf-4ce6-8ef8-53222286be72"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="a6e1587e-be56-4cae-8910-6eeb7f01b679">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>44</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="9cc3befe-9498-4646-8eb1-282570597f10"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="e4393ba8-8a8d-42c1-8e17-1a985cf19761">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>45</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="6d0edb0f-354d-4dc9-bd35-f772cc396366"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="08e2f0ea-dfe0-49ea-966f-5fc5dcd3b1cc">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>46</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="9e439080-1846-4934-a481-5d938c9d8dd7"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="fd0d3eb8-56c2-4a7e-9103-bccd8da788d7">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>47</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="89fb7647-7333-4cf5-807d-d111fb9519f6"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="4a377358-9e84-4926-baf9-6369c59be3f2">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>48</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="cac12708-69eb-426e-a93c-477d7190833b"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="cf1a12fe-214b-481a-b1a5-3ea5cb7455b3">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>49</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="74a39a86-a6ef-4678-9368-79fff252518d"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="949f8453-fd68-483a-bc18-a8771dd61fe1">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>50</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="8f4aefaa-9815-4153-977b-0d39da959943"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="b2f33581-c0d3-417e-81ed-2e49971d8ce2">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>51</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="e67264ec-f070-470c-af2d-ab5c6218c654"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="a1a5bbda-3c24-4615-8f61-92880fc3033a">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>52</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="640b8a15-ab84-4526-ba49-fbb84da5d663"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="4d55c7de-8b9b-48a8-b68c-600eaf85fe34">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>53</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="2e6a1059-ec2a-4798-b009-ae53dee4c531"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="4d1860c3-817d-401b-969e-c4a8fea42d50">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>54</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="d4c66db6-f231-432e-baa4-32fd4af64fef"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="013335a2-46aa-4bce-9599-2aaa142e6b73">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>55</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="2fab37d3-0d27-42fa-b461-72b64c3298c3"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="b943f828-da17-4a35-b2f6-191f039f13b6">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>56</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="b38b5d2d-dbdd-4c3e-a8e2-a80f0c43aa6c"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="e2ccc70d-8c81-4ea5-a8e0-67fd79cafceb">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>57</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="1056a6c8-b577-4438-8008-6bf17e14f840"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="02fdb0c0-2883-4a7a-981f-712df8fee4d0">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>58</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="cc8b7d06-4fa0-4353-b1a1-147c22b70aff"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="c34059b9-a7de-4a49-9177-cc2c7ae03d16">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>59</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="a18c0d51-6e69-4c14-8a13-ecef499470ed"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="1395872e-044b-4491-9cd7-7e1d0c4f1d6c">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>60</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="ec481c0e-a6d4-4fe1-b047-dc572c9dff65"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="e474c27a-5c63-44a0-a2aa-c3fd559af595">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>61</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="d654ff0a-0a23-4af5-ba83-6f0fb5957de9"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="d42b9f43-f4fc-480f-b28c-16c092a4eb86">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>62</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="a49dd0c5-78b8-47fa-bba8-b2f87a402c90"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="6ad04865-b570-4f2d-85b6-3dc0cba6a6f5">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>63</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="01fb1f62-bc7e-481d-85fe-6aeca9e31aff"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="dd002abb-1ab2-472d-8e59-bdb6f6c71744">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>64</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="c0228d54-c6e4-4958-a020-fd5a03c1f257"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="605d8794-e9bc-4173-8d06-ae2a723f1f30">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>65</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="329b85ed-0ee4-42b3-a3bb-d88c06c4a9ea"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="46386585-259c-479d-b408-452661c2e839">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>66</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="e220d9c4-0c79-46c6-9ce2-720aa44839c2"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="0a825349-e811-4906-b977-6ec47dbbfd59">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>67</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="d813e2db-7e11-4278-818b-25d1dcd25a72"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="be677f63-64c5-43a6-8fb7-429067715928">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>68</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="c600eba0-a813-4d55-8801-e4fcdfbab710"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="c79aa202-525a-462a-b1aa-ed01a165c3fc">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>69</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="4cd426a3-2b43-49b1-9819-43dddc5e7f7f"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="9138a460-65a5-454d-bbba-fe9974a5aa8e">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>70</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="b30e5690-78c8-4c0c-bb40-624c702f9dae"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="4a636051-25fb-49de-9d5c-1891123fd91b">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>71</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="b4eb17ad-ce6c-4061-8fc2-433dde2ac7bf"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="957f3221-c81b-4a2e-b71a-ef905bd75aee">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>72</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="438b4530-2a40-4577-a5d0-e74ec68839bd"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="e25c6585-efc7-4f1f-8a7f-113286bd8deb">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>73</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="575fc9ce-0027-4e77-ad13-2d308f14dc2a"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="f642aa5f-5971-49b7-971f-a47127915ada">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>74</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="7067e8c0-887a-4764-9119-1f3a8442e60e"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="971ab9e9-1738-466e-ba0d-8bb70d730d91">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>75</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="a21b3ebe-703d-4c29-860b-add53f59f088"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="f631e418-a6b1-4811-9d79-12b1c935567e">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>76</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="6d8d75f8-4e6b-493a-be8a-2a5de1b545c6"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="dfe2b568-df87-47ec-893d-a177034d4c35">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>77</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="3321a52d-7aa9-49db-984a-93b578b20fdb"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="0056b7a9-ab98-4525-b962-c68641d87be8">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>78</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="80e03dc3-0e2e-4499-9c2e-8a5ac3bbe40b"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="ba1849a1-c260-43da-9c2c-cf06d5b71cab">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>79</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="64ace0d7-3cf0-4464-8e56-6f7b1de1d922"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="a7b02531-2cdc-41ab-9127-48b033167df7">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>80</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="2216555f-6d54-4265-a1ec-0edd748b514b"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="dd0c68ea-164a-443b-bb67-e4ccbf7fcea5">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>81</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="e49a4aab-eb46-4577-8444-ac9b35969368"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="976c4a8a-ae10-42b3-b8fc-332b06c9ee6e">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>82</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="818a6a3c-daca-404c-bb55-56268a06440b"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="d2fef3a9-16d5-42e7-888f-ef8b1b1342be">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>83</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="6d17e35b-463e-4603-90d5-58f27052fbd4"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="78c73820-5fed-4d53-b916-071ff66c8b88">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>84</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="7e868431-3642-412a-b54a-2ba7c8fd16bf"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="d1b9c9db-ba96-4ae3-8d55-4cd9f7271de5">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>85</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="bea47fd2-a09d-441e-8097-7e9802b458e6"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="4c7d1bcb-c61b-4194-aaf3-0945728ee7a6">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>86</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="4f4139ca-9e66-4af6-90e8-7300c4566ca7"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="fa04d604-1c02-45ef-91af-8a18fca678a3">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>87</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="05637a6d-08dd-4a14-8757-e64c738f3f78"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="31a22cad-b43a-4d77-9f73-22814634d0a7">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>88</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="9184cbd3-179a-4a96-81b3-c15c1b5ed23d"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="b4ed0aa0-3de7-4ffd-891a-d17e2f8d3a47">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>89</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="7972f6b8-a557-46e3-bbbe-4e55b10702ea"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="b35d2a3a-5f36-41fb-924f-98bd47ed0d15">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>90</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="909d1174-a9a3-441f-8373-04a39286c1f7"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="34c2ac45-aa5e-4439-941a-60d259c99a4d">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>91</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="4d707045-e926-438e-bb40-1775c7cf0970"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="47737e49-791f-4d55-9b44-d73dc65ab03a">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>92</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="c20585bb-5549-4699-b028-915614c693e4"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="ecdc4ca5-dce9-4d2d-9bbd-734f50378d0a">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>93</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="6e7e505b-e3bb-49d6-b5eb-9393dc3e4610"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="df61746e-6c12-46a8-976a-9308b5883a48">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>94</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="c87cd4ab-28fb-42cc-a2d8-a7bb8dab2b39"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="8a48f3ad-6b98-4ea2-87cc-949165a0d7f6">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>95</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="fe846377-40e4-4445-a7de-68b7d6f6b548"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="49dd475a-3c60-470d-97f9-b69c28629115">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>96</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="e9e3e886-6ce6-4f8c-8d8a-e49c8094b3d1"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="5b177902-cca6-4b15-8b52-2c2f87555f0f">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>97</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="6974c2df-0725-4b47-a5cd-1789a5aab0bb"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="ab2e7d7e-b4f2-44b6-bd61-6ae10ac0b307">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>98</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="7081fdbd-e2c5-47a5-a25a-82b0a3eea052"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="d5c285bf-6e19-415d-953c-6b5f8a45214e">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>99</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="51063625-f0a9-4f1c-8f18-44617bd7fb1a"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="f95d46ab-abba-4d7e-b6ca-d7c75a00192a">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>100</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="cb03b944-1b0e-499a-819e-2e1b549421b7"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="e92ca11d-c790-458c-94c6-bdaea84e4a37">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>101</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="c68a5f2c-7b92-4a43-8690-6a2c8cdff763"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="fbc21ddc-aab6-40b2-83ca-75db4a6827aa">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>102</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="4fdb4165-7f7a-424d-a0d0-98db581e058c"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="ecfb6b93-4567-4445-b425-04d33849ca00">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>103</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="884b14c3-0d5a-48ac-ba25-f7faa113c72f"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="545bf198-b7e4-4bcd-bac2-d525e23d5980">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>104</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="470f11fc-54ed-4c03-9d5e-0254c951d80a"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="7396669c-152e-4e3a-a0d4-2da669a56ba9">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>105</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="620add1e-d453-4508-8cdf-0b6337f4f6b9"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="45c967ea-dfe8-4161-aef3-18b1ebb68a00">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>106</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="30eebb47-7941-4ead-be1f-12e382ad7d1f"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="5003280e-7319-4bfc-89ec-954777f37fb3">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>107</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="eb0cd384-ef18-4097-aef5-91dc276afe69"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="8464b953-8b4c-4dfe-8357-55a3d42d7f59">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>108</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="f7b9a2a3-7982-4085-a0e6-cede1cef90ef"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="ec99b297-8e58-47f9-a23b-6117b6398949">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>109</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="ce902987-5de8-4640-9d9e-f2a157678956"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="777b8897-3ad3-47f0-8ed1-3205ebaf75b1">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>110</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="5f1b9530-809b-4d23-b942-b198abdf72c1"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="59d1c757-c11b-4de2-ae25-c0260d266614">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>111</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="396e1150-65d0-409e-81b2-faa2c1c04df1"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="b758af21-d81d-4aaa-ba33-5e47a50a1c46">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>112</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="6d829eaf-61a1-4fd5-8752-62456bebd23b"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="9a5ceffc-e2f7-4285-8a5c-6edf9b5b4078">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>113</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="1276466e-36b0-4301-b71c-33727eadde88"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="afdcb367-106e-4ad1-9a35-047a8baf4fa6">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>114</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="4815e578-f2c2-421e-b700-1977630b3079"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="302af9b2-f4dd-4313-b9ee-d258f14e4357">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>115</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="f17f8673-b05b-407d-bbce-7e73f266d11c"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="27ce92bb-834f-449a-afba-0fcf4befd2e1">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>116</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="9f8ddcbd-2b2b-4c35-9e19-6cff5c771e50"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="acadfa14-3202-4f25-b797-e02d7fc91bba">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>117</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="8711b668-f898-424b-a771-491c8ddf0138"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="84a2a6d6-d25c-4b30-b4d1-78fca21b029e">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>118</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="72cd8b2e-59ce-4372-bcbb-e2bb78ef53f6"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="6363da01-08c8-41f8-b78c-84f61e10ffa7">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>119</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="0c3cd679-3826-44cd-98f1-43b16f634c60"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="ca4d7eb0-56dc-4803-a8ef-7d0677a07b27">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>120</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="03550302-accd-41eb-8295-3c4a65094b2f"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="00810b59-09c9-4f96-af5b-c519cc6c3114">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>121</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="73aa0e99-6dbe-49a5-8fba-ce58f2114229"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="12101a57-20e0-42fa-bc99-c4f6e80acd89">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>122</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="cb131229-1627-4c8b-938d-5955a84ca6fa"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="5bf95058-67bb-4216-8a01-46f045a3f80a">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>123</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="8a94b04c-7919-4d94-8ef6-f4edd53683ef"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="662e072c-427e-4dc9-95d9-7e90b161f489">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>124</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="e4929172-b887-4b08-b285-243f864f94d7"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="090a6637-3468-48d4-b416-994f305f7da3">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>125</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="1a691453-4c44-4c66-b5b3-6c32135ca13f"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="c0ab7566-0865-460f-aa16-74f3fab4bed3">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>126</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="64ae5c41-86ba-453b-bfd2-63354d2ebbdd"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="c06217f0-2ddd-4597-9351-5d0a345a835e">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>127</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="a4de00e3-1ed2-4e8d-abbb-e8f0d43ecb24"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="dcbd8b43-62b4-4a58-a4c7-1581b72d33cb">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>128</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="a65ee9bc-582d-44a4-beae-f0ac479c76ea"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="b6f8dfa8-534e-44b0-9efd-626d0777e496">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>129</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="3d868000-25bf-442f-82d3-60dd46eb645e"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="43ede038-7d1d-4429-939d-b2a0d71d84ef">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>130</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="89c7cf3b-d4ff-4693-a586-cd8ec068879a"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="d593fdcc-81f1-4326-84b3-73ec81092e95">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>131</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="d8d498c7-997f-4551-8384-7bc325408ba9"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="cd20ea50-ef54-4cf3-9de9-dcd2c82b3b1e">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>132</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="3e79488d-92e2-4b64-a0bf-60020bfb389e"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="be84a936-6469-4afa-bfc6-9cf650042f09">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>133</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="ba50a8e6-9c10-4999-bd4a-48e7a256d2f9"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="d6688745-b877-4214-840c-3638d816d871">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>134</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="7d8dc227-a6ff-4c00-b760-939b34508e33"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="4c0446bf-adaf-4faf-acef-ca73d5e8688c">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>135</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="62459fcf-b65c-4c3c-a425-94f79acc6f6c"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="e0feecf3-ce5b-48c8-9d02-961d53496676">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>136</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="b361d661-9cf1-4765-a358-607f990a31a6"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="e00d8016-9ee4-424e-a67b-9303a87066e1">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>137</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="bb78d360-cc0d-49ae-b1e2-99ba7042b442"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="b25b14d1-cbf5-4d2e-af3f-584a9118c46d">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>138</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="ce111f57-e61f-4a89-8053-7e9aca046bce"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="821b0b25-7fea-4c82-8b75-a236d0713098">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>139</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="a719d687-3d04-4896-af46-1d7f248c001d"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="43cd8732-07e8-4e44-8c8d-0fb94ce9c63a">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>140</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="c7dabcce-f489-4d41-b5c8-9923d5bf0cfb"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="ed87240b-ddb9-4ce7-b8fc-dbf18410bed8">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>141</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="885f4b40-b1b2-49ee-b515-261dc940047e"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="69d6ed5c-1c64-4a8c-b240-09e1d73995fe">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>142</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="f29ceb2b-bd68-4023-932f-f42c1abf2ce0"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="e6fc6552-8df3-4a90-911a-35fa5838d83d">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>143</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="2e77abae-8b59-4677-b0a6-1cacab40f47e"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="49c53c04-85f0-4af9-b5e8-dc7adb11cb33">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>144</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="e852106b-0321-4974-a19f-0ba48fa5073e"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="cd8950fc-9a1d-4b80-bac5-82c20c381c7d">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>145</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="ff4c4c62-911c-48fe-ad92-c40956091441"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="45a11bf5-5d8f-4ac3-91e8-b4b7a4f4fb7e">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>146</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="733887ad-5b20-43a2-b8ee-8fc4ed8a29e3"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="0fcc35ad-1ca5-4102-876c-8c5d4ff045e4">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>147</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="b0f6dd7c-99d8-482e-80d7-80bba5f027ef"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="82ce2e23-8f88-4769-8cf8-5b80419a3948">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>148</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="5c20b3d3-678d-44c8-9405-58eddff17038"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="04f389fa-1d8a-4614-8c1d-03bffd5a1cc6">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>149</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="75d522b8-fdc3-43f5-959c-0b7996d92be8"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="94520f11-d612-42c1-b96f-f44c0444c30e">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>150</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="2a23373a-0de5-4d81-a16a-de92a7dfd6d0"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="620ac1ff-627e-403b-8b3a-c69cfe7a0fea">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>151</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="dcac7b6e-4030-4438-83b0-904a14ecf010"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="89bcfb99-f48d-4331-89f3-b5d2e48cbc1f">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>152</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="857b3c79-ecd4-4308-9204-022a26076915"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="202aa23a-6ec8-42cf-96a8-4ba3d2c77798">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>153</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="18296e3d-b3aa-4c26-93f2-d03657c29883"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="9a48c4ce-76c3-414b-9467-05d351c6f493">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>154</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="e68867a7-d2dc-4982-ad8e-27171a734037"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="9c79a198-31bd-4c3e-a7f5-9634e60c1c1b">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>155</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="5770af8d-f858-4e03-b9aa-c0a584685826"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="5c6820b5-dd2b-4421-8ff7-1b11aa81eb80">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>156</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="9e4b1035-d7cb-4774-8f12-a77535fb75ab"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="8fb3dd11-e879-44ce-9a60-01676f38a759">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>157</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="6b8e5a92-b6b8-4d2a-9df1-da7fb862490d"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="705039ab-d089-4ea2-bffb-7efa27dab8c4">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>158</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="ab6376ed-f165-4882-8563-a9d133c5aa9a"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="af364b29-40a3-4f73-b740-c150f21f2aff">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>159</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="8cec9d97-3857-4b0b-b6f6-d1e2df39a93f"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="3f563add-9070-4fc8-aff6-feb4d0d38cd1">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>160</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="d157f2be-d4d9-44cc-9a1b-c505a79a700c"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="855f2efa-170d-49e1-bcc0-f30b0d986a07">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>161</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="fc7186f2-0939-4c0a-b03f-143ab59a5c73"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="b0b8b95a-8287-4782-b0e7-3074f43e329e">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>162</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="78fbdd00-c1cf-4ec4-ba96-6d06e7cfcbc5"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="53b0f227-8800-404b-82ca-36d5bdfac1c5">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>163</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="33d80ee0-3110-47af-bf14-cca4feb2f80c"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="8bdceea3-dfd3-48c8-bf88-4b250b27c032">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>164</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="6529f794-9b3b-43fb-8cc6-0074daf2cb35"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="75c3dddd-9649-43d8-bf54-efe2ffd36c18">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>165</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="48459a2e-fe5b-4dfd-baf0-d4b51495bce3"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="c2fd17e3-c384-4dd2-a0d6-b5cc84a409ae">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>166</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="e2e3030c-8232-4b52-ac55-ec1ec9c9485f"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="e9059d52-2351-4cfa-9197-e38c1800ebb7">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>167</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="48bce154-1e90-4043-ad34-a746b3bcd051"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="08b7fa68-6185-4b51-a5b7-2a73e0e90560">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>168</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="764b0fa4-b5fc-4f4a-9d4e-44b06a0b90ac"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="904e6cfb-1d2c-453c-82e2-2e8d0ad09807">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>169</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="63aa5b33-1cc6-40c2-a19d-a30ce2f3f776"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="f0eb57fc-ce28-418e-bc63-043ade1775af">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>170</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="ffd079c0-c78c-467f-9e73-f54dbd4b8fff"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="849a523d-ece0-460a-a975-06d0a632345d">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>171</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="dfc6ced9-40a6-4204-9c26-5076d767cb5b"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="5b61de21-6ad7-44df-acc7-b830ece7d397">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>172</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="3cb07d5b-30fb-484f-adb8-9f9916860409"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="d369f3e2-b2c1-43ee-b6c0-6517482e0a76">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>173</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="f3202d0e-80cd-43b0-b2ef-129956327e8a"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="c21fa0b1-b5c0-410c-86e4-cd7e68d60b7e">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>174</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="7fc04bc7-7c31-4e6b-ace9-24fb7a220dfa"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="a776486d-5543-4cd5-a5fd-8d957a44f74f">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>type</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>175</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="daf85f18-d7f9-4d77-bf7c-324a4ad979c0"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="e733d7e9-82b3-46bc-bcb8-a8fccac2349c">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>value</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>176</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="26938188-e9c2-4a86-8afb-03bbd758d18a"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="6ed3c1db-04f0-4668-8c56-3809217702b5">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>status</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>177</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="ba95f135-36c8-43eb-8a35-6fc9417386bb"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="8da6364f-b835-4a68-b66a-10e5b9ed72ad">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>rms</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>178</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="fe45c7a8-cdca-46be-a9e5-4c6dba0052b7"/>
+    </inports>
+    <inports type="ModelRefInfoRepo.InportInformation" uuid="54a2184c-5235-4150-a844-381ece5af5ba">
+      <isNotDerivPort>true</isNotDerivPort>
+      <RTWSignalIdentifier>sequence_number</RTWSignalIdentifier>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <indexType>2</indexType>
+      <originalPortNumber>179</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="7c36490f-212b-44f8-93c3-58724cd2e7de"/>
+    </inports>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigInportVirtualBus>false</isOrigInportVirtualBus>
+    <isOrigOutportVirtualBus>false</isOrigOutportVirtualBus>
+    <isOrigOutportVirtualBus>false</isOrigOutportVirtualBus>
+    <isOrigOutportVirtualBus>false</isOrigOutportVirtualBus>
+    <isOrigOutportVirtualBus>false</isOrigOutportVirtualBus>
+    <isOrigOutportVirtualBus>false</isOrigOutportVirtualBus>
+    <isOrigOutportVirtualBus>false</isOrigOutportVirtualBus>
+    <loggingSaveFormat>2</loggingSaveFormat>
+    <maxFreqHz>-1</maxFreqHz>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origInportBusType></origInportBusType>
+    <origOutportBusOutputAsStruct>false</origOutportBusOutputAsStruct>
+    <origOutportBusOutputAsStruct>false</origOutportBusOutputAsStruct>
+    <origOutportBusOutputAsStruct>false</origOutportBusOutputAsStruct>
+    <origOutportBusOutputAsStruct>false</origOutportBusOutputAsStruct>
+    <origOutportBusOutputAsStruct>false</origOutportBusOutputAsStruct>
+    <origOutportBusOutputAsStruct>false</origOutportBusOutputAsStruct>
+    <origOutportBusType></origOutportBusType>
+    <origOutportBusType></origOutportBusType>
+    <origOutportBusType></origOutportBusType>
+    <origOutportBusType></origOutportBusType>
+    <origOutportBusType></origOutportBusType>
+    <origOutportBusType></origOutportBusType>
+    <outports type="ModelRefInfoRepo.OutportInformation" uuid="4e43daf2-7dae-4248-8d4a-134c37443e68">
+      <hasSystemInitMethod>true</hasSystemInitMethod>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="573996c3-25bd-4821-8f5f-a0f88ec27e15"/>
+    </outports>
+    <outports type="ModelRefInfoRepo.OutportInformation" uuid="e70b33d9-a156-4574-8e5b-def764732b6c">
+      <hasSystemInitMethod>true</hasSystemInitMethod>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <originalPortNumber>1</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="5650089f-5140-4b70-a35c-1297b6e40491"/>
+    </outports>
+    <outports type="ModelRefInfoRepo.OutportInformation" uuid="20cdaf07-9a7c-49dd-85c1-1c1481040b08">
+      <hasSystemInitMethod>true</hasSystemInitMethod>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <originalPortNumber>2</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="08f3ed72-7bed-446d-a689-d5ff894c2be3"/>
+    </outports>
+    <outports type="ModelRefInfoRepo.OutportInformation" uuid="8902a57d-65ce-44d9-bd2b-9caee682e03b">
+      <hasSystemInitMethod>true</hasSystemInitMethod>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <originalPortNumber>3</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="16725bd4-ff46-4a72-8345-1dc8d4cc194c"/>
+    </outports>
+    <outports type="ModelRefInfoRepo.OutportInformation" uuid="c08223bd-0e92-4e5b-9136-9d7375f33af0">
+      <hasSystemInitMethod>true</hasSystemInitMethod>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <originalPortNumber>4</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="baeb5397-c142-412f-889c-fd2007b2e755"/>
+    </outports>
+    <outports type="ModelRefInfoRepo.OutportInformation" uuid="a599f9f5-eb6b-4959-82bd-dffb835953b5">
+      <hasSystemInitMethod>true</hasSystemInitMethod>
+      <designMax>inf</designMax>
+      <designMin>-inf</designMin>
+      <originalPortNumber>5</originalPortNumber>
+      <rateInfo type="ModelRefInfoRepo.RateInfo">
+        <compiled>true</compiled>
+        <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+        <period>0.20000000000000001</period>
+        <priority>40</priority>
+        <rateIdx>0</rateIdx>
+      </rateInfo>
+      <resolvedSignalObject></resolvedSignalObject>
+      <sigNameToEMVCEMap type="ModelRefInfoRepo.SigNameEMVCEInfo" uuid="a4e55503-b351-46f2-b5c2-5b557f11de6c"/>
+    </outports>
+    <runtimeNonFcnCallRateInfos type="ModelRefInfoRepo.RateInfo">
+      <compiled>true</compiled>
+      <nonFcnCallPartitionName>D1</nonFcnCallPartitionName>
+      <period>0.20000000000000001</period>
+      <priority>40</priority>
+      <rateIdx>0</rateIdx>
+    </runtimeNonFcnCallRateInfos>
+    <sampleTimeInheritanceRule>1</sampleTimeInheritanceRule>
+    <timingAndTaskingRegistry>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;slexec_sto version=&quot;1.1&quot; packageUris=&quot;http://schema.mathworks.com/mf0/slexec_mm_sto/R2019b_201902271317&quot;&gt;
+  &lt;sto.Registry type=&quot;sto.Registry&quot; uuid=&quot;ce87a6b5-e345-4513-bc29-827c61bf739e&quot;&gt;
+    &lt;clocks type=&quot;sto.Timer&quot; uuid=&quot;496e12bf-4bc0-4e89-822f-ba3b218d5109&quot;&gt;
+      &lt;needsToProvideTimeDuringExecution&gt;true&lt;/needsToProvideTimeDuringExecution&gt;
+      &lt;clockTickConstraint&gt;PeriodicWithFixedResolution&lt;/clockTickConstraint&gt;
+      &lt;resolution&gt;0.20000000000000001&lt;/resolution&gt;
+      &lt;timeAdvanceMode&gt;FixedStep&lt;/timeAdvanceMode&gt;
+      &lt;clockDomain type=&quot;sto.ClockDomain&quot; uuid=&quot;c5a503b3-8c5c-4086-86ac-e2efda4ddd42&quot;&gt;
+        &lt;baseTaskID&gt;_task0&lt;/baseTaskID&gt;
+        &lt;computedFundamentalStepSize&gt;0.20000000000000001&lt;/computedFundamentalStepSize&gt;
+        &lt;rates type=&quot;sto.Rate&quot; uuid=&quot;68f413aa-2c5c-4b70-ac8d-ccf5ab10a7d6&quot;/&gt;
+        &lt;rates type=&quot;sto.Rate&quot; uuid=&quot;f202d458-4f2a-4907-b126-73276a772353&quot;/&gt;
+        &lt;rootTaskHierarchyElements type=&quot;sto.Task&quot; uuid=&quot;fd8909d8-c66e-4586-9149-b87ea4ff72a0&quot;&gt;
+          &lt;isExecutable&gt;true&lt;/isExecutable&gt;
+          &lt;orderIndex&gt;1&lt;/orderIndex&gt;
+          &lt;rates type=&quot;sto.Rate&quot; uuid=&quot;68f413aa-2c5c-4b70-ac8d-ccf5ab10a7d6&quot;&gt;
+            &lt;annotation&gt;FiM&lt;/annotation&gt;
+            &lt;colorIndex&gt;8&lt;/colorIndex&gt;
+            &lt;description&gt;Fixed in Minor Step&lt;/description&gt;
+            &lt;eventSourceType&gt;UNSPECIFIED_EVENT_SOURCE&lt;/eventSourceType&gt;
+            &lt;rateIDX&gt;-1&lt;/rateIDX&gt;
+            &lt;registry type=&quot;sto.Registry&quot; uuid=&quot;ce87a6b5-e345-4513-bc29-827c61bf739e&quot;/&gt;
+            &lt;taskId&gt;_task0&lt;/taskId&gt;
+            &lt;useForExecution&gt;NotForExecution&lt;/useForExecution&gt;
+            &lt;rateSpec type=&quot;sto.RateSpec&quot; uuid=&quot;1c1ea27f-cac1-4326-a713-c443c045b256&quot;&gt;
+              &lt;offset&gt;1&lt;/offset&gt;
+              &lt;rateType&gt;ZOHContinuous&lt;/rateType&gt;
+            &lt;/rateSpec&gt;
+          &lt;/rates&gt;
+          &lt;rates type=&quot;sto.Rate&quot; uuid=&quot;f202d458-4f2a-4907-b126-73276a772353&quot;&gt;
+            &lt;annotation&gt;D1&lt;/annotation&gt;
+            &lt;colorIndex&gt;2&lt;/colorIndex&gt;
+            &lt;description&gt;Discrete 1&lt;/description&gt;
+            &lt;eventSourceType&gt;UNSPECIFIED_EVENT_SOURCE&lt;/eventSourceType&gt;
+            &lt;registry type=&quot;sto.Registry&quot; uuid=&quot;ce87a6b5-e345-4513-bc29-827c61bf739e&quot;/&gt;
+            &lt;taskId&gt;_task0&lt;/taskId&gt;
+            &lt;rateSpec type=&quot;sto.RateSpec&quot; uuid=&quot;a9aaada4-5137-4bba-a9cd-76dbea736043&quot;&gt;
+              &lt;period&gt;0.20000000000000001&lt;/period&gt;
+              &lt;rateType&gt;ClassicPeriodicDiscrete&lt;/rateType&gt;
+            &lt;/rateSpec&gt;
+          &lt;/rates&gt;
+          &lt;elementType&gt;Task&lt;/elementType&gt;
+          &lt;identifier&gt;_task0&lt;/identifier&gt;
+          &lt;priority&gt;40&lt;/priority&gt;
+        &lt;/rootTaskHierarchyElements&gt;
+      &lt;/clockDomain&gt;
+    &lt;/clocks&gt;
+    &lt;clocks type=&quot;sto.Event&quot; uuid=&quot;5a536e9c-8030-4d5f-88d3-4c6ee52b6c56&quot;&gt;
+      &lt;eventType&gt;PARAMETER_CHANGE_EVENT&lt;/eventType&gt;
+      &lt;cNum&gt;1&lt;/cNum&gt;
+      &lt;clockType&gt;Event&lt;/clockType&gt;
+      &lt;identifier&gt;ParameterChangeEvent&lt;/identifier&gt;
+      &lt;resolution&gt;-1&lt;/resolution&gt;
+      &lt;specifiedTaskingMode&gt;ExplicitTasking&lt;/specifiedTaskingMode&gt;
+      &lt;timeAdvanceMode&gt;None&lt;/timeAdvanceMode&gt;
+      &lt;clockDomain type=&quot;sto.ClockDomain&quot; uuid=&quot;2a0b2383-055d-4e09-8bb5-14a96e94fa36&quot;&gt;
+        &lt;computedFundamentalStepSize&gt;-1&lt;/computedFundamentalStepSize&gt;
+        &lt;rates type=&quot;sto.Rate&quot; uuid=&quot;35738f82-2aec-48df-b509-bd07f95481b1&quot;/&gt;
+        &lt;rootTaskHierarchyElements type=&quot;sto.Task&quot; uuid=&quot;145307f2-da22-4f15-8714-e4057f8691f8&quot;&gt;
+          &lt;isExplicit&gt;true&lt;/isExplicit&gt;
+          &lt;rates type=&quot;sto.Rate&quot; uuid=&quot;35738f82-2aec-48df-b509-bd07f95481b1&quot;&gt;
+            &lt;eventSourceType&gt;PARAMETER_CHANGE_EVENT&lt;/eventSourceType&gt;
+            &lt;rateIDX&gt;-1&lt;/rateIDX&gt;
+            &lt;registry type=&quot;sto.Registry&quot; uuid=&quot;ce87a6b5-e345-4513-bc29-827c61bf739e&quot;/&gt;
+            &lt;stringID&gt;ParameterChangeEvent&lt;/stringID&gt;
+            &lt;taskId&gt;ModelWideParameterChangeEvent&lt;/taskId&gt;
+            &lt;useForExecution&gt;NotForExecution&lt;/useForExecution&gt;
+            &lt;rateSpec type=&quot;sto.RateSpec&quot; uuid=&quot;dc5dc8ff-3214-4cc5-b7d6-b5770734c66a&quot;&gt;
+              &lt;period&gt;inf&lt;/period&gt;
+              &lt;rateType&gt;ModelWideParameterChangeEvent&lt;/rateType&gt;
+            &lt;/rateSpec&gt;
+          &lt;/rates&gt;
+          &lt;tNum&gt;1&lt;/tNum&gt;
+          &lt;elementType&gt;Task&lt;/elementType&gt;
+          &lt;identifier&gt;ModelWideParameterChangeEvent&lt;/identifier&gt;
+          &lt;priority&gt;-1&lt;/priority&gt;
+          &lt;schedulingClockID&gt;ParameterChangeEvent&lt;/schedulingClockID&gt;
+        &lt;/rootTaskHierarchyElements&gt;
+      &lt;/clockDomain&gt;
+    &lt;/clocks&gt;
+    &lt;executionSpec&gt;Undetermined&lt;/executionSpec&gt;
+    &lt;taskDependencyGraph type=&quot;sto.SerializedTaskConnectionList&quot; uuid=&quot;7e7beb0e-1e9b-41f9-add3-de976392526a&quot;&gt;
+      &lt;taskIdentifier&gt;_task0&lt;/taskIdentifier&gt;
+    &lt;/taskDependencyGraph&gt;
+    &lt;taskDependencyGraph type=&quot;sto.SerializedTaskConnectionList&quot; uuid=&quot;7fb853d6-9952-4370-a763-83ca0901cd3f&quot;&gt;
+      &lt;clockIdentifier&gt;ParameterChangeEvent&lt;/clockIdentifier&gt;
+      &lt;taskIdentifier&gt;ModelWideParameterChangeEvent&lt;/taskIdentifier&gt;
+    &lt;/taskDependencyGraph&gt;
+    &lt;taskPriorityDirection&gt;HighNumberLast&lt;/taskPriorityDirection&gt;
+    &lt;tasks type=&quot;sto.Task&quot; uuid=&quot;fd8909d8-c66e-4586-9149-b87ea4ff72a0&quot;/&gt;
+    &lt;tasks type=&quot;sto.Task&quot; uuid=&quot;145307f2-da22-4f15-8714-e4057f8691f8&quot;/&gt;
+    &lt;timeAdvanceMode&gt;FixedStep&lt;/timeAdvanceMode&gt;
+  &lt;/sto.Registry&gt;
+&lt;/slexec_sto&gt;</timingAndTaskingRegistry>
+    <FMUBlockMap type="ModelRefInfoRepo.FMUBlockInfo" uuid="d45abdb9-6939-4ac1-9915-8f0cf097ac36"/>
+    <codeGenInfo type="ModelRefInfoRepo.CodeGenInformation" uuid="9ce3cf4a-4f70-496e-89db-070e850d335b"/>
+    <configSettingsForConsistencyChecks type="ModelRefInfoRepo.ConfigSettingsForConsistencyChecks" uuid="e78ccac4-007c-4bdf-98eb-9942f5c98d79">
+      <consistentOutportInitialization>true</consistentOutportInitialization>
+      <fixedStepSize>0.20000000000000001</fixedStepSize>
+      <frameDiagnosticSetting>2</frameDiagnosticSetting>
+      <hasHybridSampleTime>true</hasHybridSampleTime>
+      <signalLoggingSaveFormat>2</signalLoggingSaveFormat>
+      <solverName>FixedStepDiscrete</solverName>
+      <solverType>SOLVER_TYPE_FIXEDSTEP</solverType>
+      <hardwareSettings type="ModelRefInfoRepo.HardwareSettings" uuid="018d3bd0-f03e-43f7-9a64-0cb6a6e423ac">
+        <prodBitPerChar>8</prodBitPerChar>
+        <prodBitPerDouble>64</prodBitPerDouble>
+        <prodBitPerFloat>32</prodBitPerFloat>
+        <prodBitPerInt>32</prodBitPerInt>
+        <prodBitPerLong>32</prodBitPerLong>
+        <prodBitPerLongLong>64</prodBitPerLongLong>
+        <prodBitPerPointer>64</prodBitPerPointer>
+        <prodBitPerPtrDiffT>64</prodBitPerPtrDiffT>
+        <prodBitPerShort>16</prodBitPerShort>
+        <prodBitPerSizeT>64</prodBitPerSizeT>
+        <prodEndianess>1</prodEndianess>
+        <prodShiftRight>true</prodShiftRight>
+        <prodWordSize>64</prodWordSize>
+      </hardwareSettings>
+    </configSettingsForConsistencyChecks>
+    <dataPortGroup type="ModelRefInfoRepo.DataPortGroup" uuid="0d540d77-342b-425c-8468-e30259f69a97">
+      <dataInputPorts>0</dataInputPorts>
+      <dataInputPorts>1</dataInputPorts>
+      <dataInputPorts>2</dataInputPorts>
+      <dataInputPorts>3</dataInputPorts>
+      <dataInputPorts>4</dataInputPorts>
+      <dataInputPorts>5</dataInputPorts>
+      <dataInputPorts>6</dataInputPorts>
+      <dataInputPorts>7</dataInputPorts>
+      <dataInputPorts>8</dataInputPorts>
+      <dataInputPorts>9</dataInputPorts>
+      <dataInputPorts>10</dataInputPorts>
+      <dataInputPorts>11</dataInputPorts>
+      <dataInputPorts>12</dataInputPorts>
+      <dataInputPorts>13</dataInputPorts>
+      <dataInputPorts>14</dataInputPorts>
+      <dataInputPorts>15</dataInputPorts>
+      <dataInputPorts>16</dataInputPorts>
+      <dataInputPorts>17</dataInputPorts>
+      <dataInputPorts>18</dataInputPorts>
+      <dataInputPorts>19</dataInputPorts>
+      <dataInputPorts>20</dataInputPorts>
+      <dataInputPorts>21</dataInputPorts>
+      <dataInputPorts>22</dataInputPorts>
+      <dataInputPorts>23</dataInputPorts>
+      <dataInputPorts>24</dataInputPorts>
+      <dataInputPorts>25</dataInputPorts>
+      <dataInputPorts>26</dataInputPorts>
+      <dataInputPorts>27</dataInputPorts>
+      <dataInputPorts>28</dataInputPorts>
+      <dataInputPorts>29</dataInputPorts>
+      <dataInputPorts>30</dataInputPorts>
+      <dataInputPorts>31</dataInputPorts>
+      <dataInputPorts>32</dataInputPorts>
+      <dataInputPorts>33</dataInputPorts>
+      <dataInputPorts>34</dataInputPorts>
+      <dataInputPorts>35</dataInputPorts>
+      <dataInputPorts>36</dataInputPorts>
+      <dataInputPorts>37</dataInputPorts>
+      <dataInputPorts>38</dataInputPorts>
+      <dataInputPorts>39</dataInputPorts>
+      <dataInputPorts>40</dataInputPorts>
+      <dataInputPorts>41</dataInputPorts>
+      <dataInputPorts>42</dataInputPorts>
+      <dataInputPorts>43</dataInputPorts>
+      <dataInputPorts>44</dataInputPorts>
+      <dataInputPorts>45</dataInputPorts>
+      <dataInputPorts>46</dataInputPorts>
+      <dataInputPorts>47</dataInputPorts>
+      <dataInputPorts>48</dataInputPorts>
+      <dataInputPorts>49</dataInputPorts>
+      <dataInputPorts>50</dataInputPorts>
+      <dataInputPorts>51</dataInputPorts>
+      <dataInputPorts>52</dataInputPorts>
+      <dataInputPorts>53</dataInputPorts>
+      <dataInputPorts>54</dataInputPorts>
+      <dataInputPorts>55</dataInputPorts>
+      <dataInputPorts>56</dataInputPorts>
+      <dataInputPorts>57</dataInputPorts>
+      <dataInputPorts>58</dataInputPorts>
+      <dataInputPorts>59</dataInputPorts>
+      <dataInputPorts>60</dataInputPorts>
+      <dataInputPorts>61</dataInputPorts>
+      <dataInputPorts>62</dataInputPorts>
+      <dataInputPorts>63</dataInputPorts>
+      <dataInputPorts>64</dataInputPorts>
+      <dataInputPorts>65</dataInputPorts>
+      <dataInputPorts>66</dataInputPorts>
+      <dataInputPorts>67</dataInputPorts>
+      <dataInputPorts>68</dataInputPorts>
+      <dataInputPorts>69</dataInputPorts>
+      <dataInputPorts>70</dataInputPorts>
+      <dataInputPorts>71</dataInputPorts>
+      <dataInputPorts>72</dataInputPorts>
+      <dataInputPorts>73</dataInputPorts>
+      <dataInputPorts>74</dataInputPorts>
+      <dataInputPorts>75</dataInputPorts>
+      <dataInputPorts>76</dataInputPorts>
+      <dataInputPorts>77</dataInputPorts>
+      <dataInputPorts>78</dataInputPorts>
+      <dataInputPorts>79</dataInputPorts>
+      <dataInputPorts>80</dataInputPorts>
+      <dataInputPorts>81</dataInputPorts>
+      <dataInputPorts>82</dataInputPorts>
+      <dataInputPorts>83</dataInputPorts>
+      <dataInputPorts>84</dataInputPorts>
+      <dataInputPorts>85</dataInputPorts>
+      <dataInputPorts>86</dataInputPorts>
+      <dataInputPorts>87</dataInputPorts>
+      <dataInputPorts>88</dataInputPorts>
+      <dataInputPorts>89</dataInputPorts>
+      <dataInputPorts>90</dataInputPorts>
+      <dataInputPorts>91</dataInputPorts>
+      <dataInputPorts>92</dataInputPorts>
+      <dataInputPorts>93</dataInputPorts>
+      <dataInputPorts>94</dataInputPorts>
+      <dataInputPorts>95</dataInputPorts>
+      <dataInputPorts>96</dataInputPorts>
+      <dataInputPorts>97</dataInputPorts>
+      <dataInputPorts>98</dataInputPorts>
+      <dataInputPorts>99</dataInputPorts>
+      <dataInputPorts>100</dataInputPorts>
+      <dataInputPorts>101</dataInputPorts>
+      <dataInputPorts>102</dataInputPorts>
+      <dataInputPorts>103</dataInputPorts>
+      <dataInputPorts>104</dataInputPorts>
+      <dataInputPorts>105</dataInputPorts>
+      <dataInputPorts>106</dataInputPorts>
+      <dataInputPorts>107</dataInputPorts>
+      <dataInputPorts>108</dataInputPorts>
+      <dataInputPorts>109</dataInputPorts>
+      <dataInputPorts>110</dataInputPorts>
+      <dataInputPorts>111</dataInputPorts>
+      <dataInputPorts>112</dataInputPorts>
+      <dataInputPorts>113</dataInputPorts>
+      <dataInputPorts>114</dataInputPorts>
+      <dataInputPorts>115</dataInputPorts>
+      <dataInputPorts>116</dataInputPorts>
+      <dataInputPorts>117</dataInputPorts>
+      <dataInputPorts>118</dataInputPorts>
+      <dataInputPorts>119</dataInputPorts>
+      <dataInputPorts>120</dataInputPorts>
+      <dataInputPorts>121</dataInputPorts>
+      <dataInputPorts>122</dataInputPorts>
+      <dataInputPorts>123</dataInputPorts>
+      <dataInputPorts>124</dataInputPorts>
+      <dataInputPorts>125</dataInputPorts>
+      <dataInputPorts>126</dataInputPorts>
+      <dataInputPorts>127</dataInputPorts>
+      <dataInputPorts>128</dataInputPorts>
+      <dataInputPorts>129</dataInputPorts>
+      <dataInputPorts>130</dataInputPorts>
+      <dataInputPorts>131</dataInputPorts>
+      <dataInputPorts>132</dataInputPorts>
+      <dataInputPorts>133</dataInputPorts>
+      <dataInputPorts>134</dataInputPorts>
+      <dataInputPorts>135</dataInputPorts>
+      <dataInputPorts>136</dataInputPorts>
+      <dataInputPorts>137</dataInputPorts>
+      <dataInputPorts>138</dataInputPorts>
+      <dataInputPorts>139</dataInputPorts>
+      <dataInputPorts>140</dataInputPorts>
+      <dataInputPorts>141</dataInputPorts>
+      <dataInputPorts>142</dataInputPorts>
+      <dataInputPorts>143</dataInputPorts>
+      <dataInputPorts>144</dataInputPorts>
+      <dataInputPorts>145</dataInputPorts>
+      <dataInputPorts>146</dataInputPorts>
+      <dataInputPorts>147</dataInputPorts>
+      <dataInputPorts>148</dataInputPorts>
+      <dataInputPorts>149</dataInputPorts>
+      <dataInputPorts>150</dataInputPorts>
+      <dataInputPorts>151</dataInputPorts>
+      <dataInputPorts>152</dataInputPorts>
+      <dataInputPorts>153</dataInputPorts>
+      <dataInputPorts>154</dataInputPorts>
+      <dataInputPorts>155</dataInputPorts>
+      <dataInputPorts>156</dataInputPorts>
+      <dataInputPorts>157</dataInputPorts>
+      <dataInputPorts>158</dataInputPorts>
+      <dataInputPorts>159</dataInputPorts>
+      <dataInputPorts>160</dataInputPorts>
+      <dataInputPorts>161</dataInputPorts>
+      <dataInputPorts>162</dataInputPorts>
+      <dataInputPorts>163</dataInputPorts>
+      <dataInputPorts>164</dataInputPorts>
+      <dataInputPorts>165</dataInputPorts>
+      <dataInputPorts>166</dataInputPorts>
+      <dataInputPorts>167</dataInputPorts>
+      <dataInputPorts>168</dataInputPorts>
+      <dataInputPorts>169</dataInputPorts>
+      <dataInputPorts>170</dataInputPorts>
+      <dataInputPorts>171</dataInputPorts>
+      <dataInputPorts>172</dataInputPorts>
+      <dataInputPorts>173</dataInputPorts>
+      <dataInputPorts>174</dataInputPorts>
+      <dataInputPorts>175</dataInputPorts>
+      <dataInputPorts>176</dataInputPorts>
+      <dataInputPorts>177</dataInputPorts>
+      <dataInputPorts>178</dataInputPorts>
+      <dataInputPorts>179</dataInputPorts>
+      <dataOutputPorts>0</dataOutputPorts>
+      <dataOutputPorts>1</dataOutputPorts>
+      <dataOutputPorts>2</dataOutputPorts>
+      <dataOutputPorts>3</dataOutputPorts>
+      <dataOutputPorts>4</dataOutputPorts>
+      <dataOutputPorts>5</dataOutputPorts>
+    </dataPortGroup>
+    <interfaceParameterInfo type="ModelRefInfoRepo.InterfaceParameterInfo" uuid="872f97a4-c093-4c57-8029-83007082a095"/>
+    <messageInfo type="ModelRefInfoRepo.MessageInformation" uuid="3a530e0b-ebd9-4ea3-9b27-cfc8a538ca06"/>
+    <methodInfo type="ModelRefInfoRepo.MethodExistenceInfo" uuid="fa7c1c02-df75-4aaa-a04b-805c27c42154">
+      <hasSystemInitializeMethod>true</hasSystemInitializeMethod>
+      <hasSystemResetMethod>true</hasSystemResetMethod>
+      <hasTerminateMethod>true</hasTerminateMethod>
+    </methodInfo>
+    <periodicEventPortUnsupportedBlockInfo type="ModelRefInfoRepo.PeriodicEventPortUnsupportedBlockInfo" uuid="b551ca6c-89fa-406c-aa9f-148cdabb8ae5"/>
+    <portGroupsRequireSameRate type="ModelRefInfoRepo.PortGroupsRequireSameRate" uuid="c8c06bb8-07e7-47cc-a501-590bc2b5f642">
+      <DSMPortGroups type="ModelRefInfoRepo.NameToPortGroupIdxVectMap" uuid="5cfd87cb-8fb9-403e-bdab-4ec683ad3c6f"/>
+      <GlobalDSMPortGroups type="ModelRefInfoRepo.NameToPortGroupIdxVectMap" uuid="e21566cd-bc40-4bb2-b2cc-ea04ddb29103"/>
+      <mergedPortGroups type="ModelRefInfoRepo.NameToPortGroupIdxVectMap" uuid="af0ce539-d5ef-4ff6-94a1-5b94541ff1a5"/>
+    </portGroupsRequireSameRate>
+    <rateSpecOfGlobalDSMAccessedByDescExpFcnMdlMap type="ModelRefInfoRepo.GlobalDSMRateSpecMap" uuid="cbdf89b5-9ee6-4d2a-ae38-59835ae2294c"/>
+    <simulinkFunctions type="ModelRefInfoRepo.SimulinkFunctions" uuid="c8621e91-cfea-4915-82c3-23bb09109fc9">
+      <compSimulinkFunctionCatalog></compSimulinkFunctionCatalog>
+      <variantSimulinkFunctions type="ModelRefInfoRepo.VariantSimulinkFunctions" uuid="f4991225-c3c4-4d1b-bfa3-547a30598a8b"/>
+    </simulinkFunctions>
+    <stateWriterToOwnerMap type="ModelRefInfoRepo.StateWriterInfo" uuid="0cdff262-2db7-4996-9091-1d1fe0016b12"/>
+    <varTsUIDMap type="ModelRefInfoRepo.VarTsUIDMap" uuid="1456e575-07c2-4617-bf26-aea558e51b9b"/>
+  </ModelRefInfoRepo.ModelRefInfoRoot>
+</MF0>

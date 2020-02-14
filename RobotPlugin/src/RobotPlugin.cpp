@@ -304,7 +304,6 @@ bool RobotPlugin::LoadModel()
 		}
 	}
 	camera_pantilt = initialize_camerapantilt(camera_panjoint_id, camera_tiltjoint_id);
-	printf("Found: %d %d\n", camera_pantilt.panjoint_id, camera_pantilt.tiltjoint_id);
 	if (camera_pantilt.initialized == false)
 	{
 		logger->log_error(__FILE__, __LINE__, "Could not Initialize Camera Pan Tilt Assembly. Exiting.\n");
@@ -497,9 +496,12 @@ bool RobotPlugin::InitializePublications()
 	}
 	for (std::size_t i = 0; i < sonar_sensors.size(); ++i)
 	{
-		eros::signal current_signal = sonar_sensors.at(i).sensor.get_currentsignal();
-		ros::Publisher current_pub = this->rosNode->advertise<eros::signal>("/" + current_signal.name, 1);
-		sonar_sensors.at(i).pub = current_pub;
+		if(sonar_sensors.at(i).initialized == true)
+		{
+			eros::signal current_signal = sonar_sensors.at(i).sensor.get_currentsignal();
+			ros::Publisher current_pub = this->rosNode->advertise<eros::signal>("/" + current_signal.name, 1);
+			sonar_sensors.at(i).pub = current_pub;
+		}
 	}
 	return true;
 }
@@ -847,6 +849,8 @@ void RobotPlugin::OnUpdate()
 		}
 		if ((sensors_enabled == true) and (robot_initialized == true))
 		{
+			if(left_imu.initialized == true)
+			{
 			pub_leftimu.publish(left_imu.sensor.update_IMU(
 				m_fastloop.get_currentTime(),
 				left_imu.m_gazebo_imu->LastUpdateTime().Double(),
@@ -854,6 +858,9 @@ void RobotPlugin::OnUpdate()
 				left_imu.m_gazebo_imu->LinearAcceleration(),
 				left_imu.m_gazebo_imu->AngularVelocity(),
 				left_imu.m_gazebo_imu_mag->MagneticField()));
+			}
+			if(right_imu.initialized == true)
+			{
 			pub_rightimu.publish(right_imu.sensor.update_IMU(
 				m_fastloop.get_currentTime(),
 				right_imu.m_gazebo_imu->LastUpdateTime().Double(),
@@ -861,6 +868,7 @@ void RobotPlugin::OnUpdate()
 				right_imu.m_gazebo_imu->LinearAcceleration(),
 				right_imu.m_gazebo_imu->AngularVelocity(),
 				right_imu.m_gazebo_imu_mag->MagneticField()));
+			}
 			pub_leftwheelencoder.publish(left_wheelencoder.sensor.update(m_fastloop.get_currentTime(), drivetrain_left_actual_velocity));
 			pub_rightwheelencoder.publish(right_wheelencoder.sensor.update(m_fastloop.get_currentTime(), drivetrain_right_actual_velocity));
 		}
@@ -891,29 +899,41 @@ void RobotPlugin::OnUpdate()
 		current_consumed += left_motorcontroller.get_currentconsumed();
 		current_consumed += right_motorcontroller.get_currentconsumed();
 		current_consumed += right_motorcontroller.get_currentconsumed();
-		current_consumed += left_imu.sensor.get_currentconsumed();
-		current_consumed += right_imu.sensor.get_currentconsumed();
+		if(left_imu.initialized == true)
+		{
+			current_consumed += left_imu.sensor.get_currentconsumed();
+		}
+		if(right_imu.initialized == true)
+		{
+			current_consumed += right_imu.sensor.get_currentconsumed();
+		}
 		current_consumed += left_wheelencoder.sensor.get_currentconsumed();
 		current_consumed += right_wheelencoder.sensor.get_currentconsumed();
 		current_consumed += left_motor.get_currentconsumed();
 		current_consumed += right_motor.get_currentconsumed();
 		for (std::size_t i = 0; i < sonar_sensors.size(); ++i)
 		{
-			current_consumed += sonar_sensors.at(i).sensor.get_currentconsumed();
+			if(sonar_sensors.at(i).initialized == true)
+			{
+				current_consumed += sonar_sensors.at(i).sensor.get_currentconsumed();
+			}
 		}
 
 		if (battery.update(m_mediumloop.get_timedelta(), current_consumed) == false)
 		{
 			logger->log_warn(__FILE__, __LINE__, "BATTERY DEPLETED");
 		}
-		{   // Camera Pan/Tilt Updates
-			std::vector<CameraPanTilt::Joint> cam_joints = camera_pantilt.assy.update(m_mediumloop.get_timedelta(),
-					m_model->GetJoints()[camera_pantilt.panjoint_id]->Position(0)*180.0/M_PI,
-					m_model->GetJoints()[camera_pantilt.tiltjoint_id]->Position(0)*180.0/M_PI);
-				m_model->GetJoints()[camera_pantilt.panjoint_id]->SetForce(0, 
-					cam_joints.at((std::size_t)CameraPanTilt::JointIndex::JOINT_PAN_INDEX).output_value);
-				m_model->GetJoints()[camera_pantilt.tiltjoint_id]->SetForce(0, 
-					cam_joints.at((std::size_t)CameraPanTilt::JointIndex::JOINT_TILT_INDEX).output_value);
+		{   if(camera_pantilt.initialized == true)
+			{
+				// Camera Pan/Tilt Updates
+				std::vector<CameraPanTilt::Joint> cam_joints = camera_pantilt.assy.update(m_mediumloop.get_timedelta(),
+						m_model->GetJoints()[camera_pantilt.panjoint_id]->Position(0)*180.0/M_PI,
+						m_model->GetJoints()[camera_pantilt.tiltjoint_id]->Position(0)*180.0/M_PI);
+					m_model->GetJoints()[camera_pantilt.panjoint_id]->SetForce(0, 
+						cam_joints.at((std::size_t)CameraPanTilt::JointIndex::JOINT_PAN_INDEX).output_value);
+					m_model->GetJoints()[camera_pantilt.tiltjoint_id]->SetForce(0, 
+						cam_joints.at((std::size_t)CameraPanTilt::JointIndex::JOINT_TILT_INDEX).output_value);
+			}
 		}
 		pub_batteryinfo.publish(battery.get_batteryinfo());
 		m_fastloop.check_looprate();
@@ -926,8 +946,11 @@ void RobotPlugin::OnUpdate()
 	{
 		for (std::size_t i = 0; i < sonar_sensors.size(); ++i)
 		{
-			sonar_sensors.at(i).pub.publish(sonar_sensors.at(i).sensor.update(m_20hzloop.get_currentTime(),
+			if(sonar_sensors.at(i).initialized == true)
+			{
+				sonar_sensors.at(i).pub.publish(sonar_sensors.at(i).sensor.update(m_20hzloop.get_currentTime(),
 																			  sonar_sensors.at(i).m_gazebo_sonar->Range()));
+			}
 		}
 	}
 	if (m_slowloop.run_loop())
@@ -1116,11 +1139,17 @@ void RobotPlugin::drivetrain_right_cmd(const eros::pin::ConstPtr &_msg)
 }
 void RobotPlugin::panservo_cmd(const eros::pin::ConstPtr& _msg)
 {
-	camera_pantilt.assy.set_jointcommand((uint8_t)CameraPanTilt::JointIndex::JOINT_PAN_INDEX,convert_pwm_toangle_deg(_msg->Value));
+	if(camera_pantilt.initialized == true)
+	{
+		camera_pantilt.assy.set_jointcommand((uint8_t)CameraPanTilt::JointIndex::JOINT_PAN_INDEX,convert_pwm_toangle_deg(_msg->Value));
+	}
 }
 void RobotPlugin::tiltservo_cmd(const eros::pin::ConstPtr& _msg)
 {
-	camera_pantilt.assy.set_jointcommand((uint8_t)CameraPanTilt::JointIndex::JOINT_TILT_INDEX,convert_pwm_toangle_deg(_msg->Value));
+	if(camera_pantilt.initialized == true)
+	{
+		camera_pantilt.assy.set_jointcommand((uint8_t)CameraPanTilt::JointIndex::JOINT_TILT_INDEX,convert_pwm_toangle_deg(_msg->Value));
+	}
 }
 //Utility Functions
 void RobotPlugin::print_loopstates(SimpleTimer timer)

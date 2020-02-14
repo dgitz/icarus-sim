@@ -7,9 +7,11 @@ classdef MasterLinker
     linearacceleration_linker;
     rotationrate_linker;
     orientation_linker;
+    basemachine_linker;
     linearacceleration_signals = [];
     rotationrate_signals = [];
     orientation_signals = [];
+    basemachine_signals = [];
    end
    methods
     function obj = MasterLinker()
@@ -23,6 +25,8 @@ classdef MasterLinker
       obj.rotationrate_linker = obj.rotationrate_linker.init(SignalClass);
       obj.orientation_linker = OrientationLinker;
       obj.orientation_linker = obj.orientation_linker.init(SignalClass,SignalType,SignalState);
+      %obj.basemachine_linker = BaseMachineLinker;
+      %obj.basemachine_linker = obj.basemachine_linker.init(SignalClass,SignalType,SignalState);
     end
     function obj = new_input(obj,signal_vector)
       obj.splitter = obj.splitter.new_input(signal_vector);
@@ -32,6 +36,7 @@ classdef MasterLinker
         [obj.splitter.linear_accelerations,
         obj.splitter.rotation_rates,
         obj.splitter.magnetic_fields]);
+      %obj.basemachine_linker = obj.basemachine_linker.new_input(obj.splitter.linear_accelerations);
     end
   end
 end

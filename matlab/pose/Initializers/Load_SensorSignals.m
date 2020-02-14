@@ -1,27 +1,80 @@
 %LoadSensorData
-function [loaded,Sensor_Signals,IMU_Count] = Load_SensorSignals(scenario)
+function [loaded, datatime_end,...
+            accel1x_in,accel1y_in,accel1z_in, ...
+            accel2x_in,accel2y_in,accel2z_in, ...
+            accel3x_in,accel3y_in,accel3z_in, ...
+            accel4x_in,accel4y_in,accel4z_in, ...
+            rotationrate1x_in,rotationrate1y_in,rotationrate1z_in, ...
+            rotationrate2x_in,rotationrate2y_in,rotationrate2z_in, ...
+            rotationrate3x_in,rotationrate3y_in,rotationrate3z_in, ...
+            rotationrate4x_in,rotationrate4y_in,rotationrate4z_in, ...
+            mag1x_in,mag1y_in,mag1z_in, ...
+            mag2x_in,mag2y_in,mag2z_in, ...
+            mag3x_in,mag3y_in,mag3z_in, ...
+            mag4x_in,mag4y_in,mag4z_in] = Load_SensorSignals(scenario)
 global OPERATION_MODE;
 global SIGNAL_STATUS;
 global VARIANCE_BUFFER_SIZE;
+global SignalType
 Sensor_Signals = [];
+accel1x_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION);
+accel2x_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION);
+accel3x_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION);
+accel4x_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION);
+accel1y_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION);
+accel2y_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION);
+accel3y_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION);
+accel4y_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION);
+accel1z_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION);
+accel2z_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION);
+accel3z_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION);
+accel4z_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION);
+rotationrate1x_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE);
+rotationrate2x_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE);
+rotationrate3x_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE);
+rotationrate4x_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE);
+rotationrate1y_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE);
+rotationrate2y_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE);
+rotationrate3y_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE);
+rotationrate4y_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE);
+rotationrate1z_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE);
+rotationrate2z_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE);
+rotationrate3z_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE);
+rotationrate4z_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE);
+mag1x_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD);
+mag2x_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD);
+mag3x_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD);
+mag4x_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD);
+mag1y_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD);
+mag2y_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD);
+mag3y_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD);
+mag4y_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD);
+mag1z_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD);
+mag2z_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD);
+mag3z_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD);
+mag4z_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD);
 IMU_Raw = [];
-IMU_SEQUENCE_COLUMN = 2; % MAY BE CHANGED WITH EROS MSG UPDATES
-IMU_XACC_COLUMN = 7;
-IMU_YACC_COLUMN = 11;
-IMU_ZACC_COLUMN = 15;
-IMU_XGYRO_COLUMN = 19;
-IMU_YGYRO_COLUMN = 23;
-IMU_ZGYRO_COLUMN = 27;
-IMU_XMAG_COLUMN = 31;
-IMU_YMAG_COLUMN = 35;
-IMU_ZMAG_COLUMN = 39;
-
+IMU_SEQUENCE_COLUMN = 3; % MAY BE CHANGED WITH EROS MSG UPDATES
+IMU_XACC_COLUMN = 8;
+IMU_YACC_COLUMN = 14;
+IMU_ZACC_COLUMN = 20;
+IMU_XGYRO_COLUMN = 26;
+IMU_YGYRO_COLUMN = 32;
+IMU_ZGYRO_COLUMN = 38;
+IMU_XMAG_COLUMN = 44;
+IMU_YMAG_COLUMN = 50;
+IMU_ZMAG_COLUMN = 56;
+if(isempty(scenario) == 1)
+  disp(['WARN: Scenario Not Defined. Not loading any data. ']);
+  loaded = 0;
+  return;
+end
 listing = dir(scenario);
 if(length(listing) == 0)
   disp(['Scenario: ' scenario ' Contains no Data Files. Exiting.']);
   return
 end
-imuindex = 1;
+imuindex = 0;
 IMU_Count = 0;
 for i = 3:length(listing)
   is_lockfile = strfind(listing(i).name,'lock');
@@ -31,222 +84,196 @@ for i = 3:length(listing)
   v = strfind(listing(i).name,'IMU');
   if(v > 0)
     IMU_Count = IMU_Count + 1;
-    index = str2num(listing(i).name(4:strfind(listing(i).name,'.')-1));
-    disp(['Reading IMU' num2str(index) ' Data']);
-    fid = fopen([scenario '/' listing(i).name]);
-    line = fgetl(fid);
-    fclose(fid);
-    cols = strsplit(line,',');
-    data = csvread([scenario '/' listing(i).name],1,0);
-    for j = 1:length(cols)
-      v = strfind(cols{j},'field.');
-      if(v > 0)
-        cols{j} = cols{j}(7:end);
-      end
+    imuindex = imuindex + 1;
+    imu_name = listing(i).name(1:end-4);
+    disp(['Reading IMU' imu_name ' Data']);
+    data = readtable([scenario '/' listing(i).name]);
+    timestamp = table2array(data(:,4));
+    timestamp = timestamp(:)-timestamp(1);
+    datatime_end = timestamp(end);
+    
+    xacc_value = table2array(data(:,IMU_XACC_COLUMN));
+    xacc_status = table2array(data(:,IMU_XACC_COLUMN+1));
+    xacc_rms = table2array(data(:,IMU_XACC_COLUMN+2));
+    xacc_type = SignalType.SIGNALTYPE_ACCELERATION;
+    xacc_sequence_number = table2array(data(:,IMU_SEQUENCE_COLUMN));
+    
+    yacc_value = table2array(data(:,IMU_YACC_COLUMN));
+    yacc_status = table2array(data(:,IMU_YACC_COLUMN+1));
+    yacc_rms = table2array(data(:,IMU_YACC_COLUMN+2));
+    yacc_type = SignalType.SIGNALTYPE_ACCELERATION;
+    yacc_sequence_number = table2array(data(:,IMU_SEQUENCE_COLUMN));
+    
+    zacc_value = table2array(data(:,IMU_ZACC_COLUMN));
+    zacc_status = table2array(data(:,IMU_ZACC_COLUMN+1));
+    zacc_rms = table2array(data(:,IMU_ZACC_COLUMN+2));
+    zacc_type = SignalType.SIGNALTYPE_ACCELERATION;
+    zacc_sequence_number = table2array(data(:,IMU_SEQUENCE_COLUMN));
+    
+    xgyro_value = table2array(data(:,IMU_XGYRO_COLUMN));
+    xgyro_status = table2array(data(:,IMU_XGYRO_COLUMN+1));
+    xgyro_rms = table2array(data(:,IMU_XGYRO_COLUMN+2));
+    xgyro_type = SignalType.SIGNALTYPE_ROTATION_RATE;
+    xgyro_sequence_number = table2array(data(:,IMU_SEQUENCE_COLUMN));
+    
+    ygyro_value = table2array(data(:,IMU_YGYRO_COLUMN));
+    ygyro_status = table2array(data(:,IMU_YGYRO_COLUMN+1));
+    ygyro_rms = table2array(data(:,IMU_YGYRO_COLUMN+2));
+    ygyro_type = SignalType.SIGNALTYPE_ROTATION_RATE;
+    ygyro_sequence_number = table2array(data(:,IMU_SEQUENCE_COLUMN));
+    
+    zgyro_value = table2array(data(:,IMU_ZGYRO_COLUMN));
+    zgyro_status = table2array(data(:,IMU_ZGYRO_COLUMN+1));
+    zgyro_rms = table2array(data(:,IMU_ZGYRO_COLUMN+2));
+    zgyro_type = SignalType.SIGNALTYPE_ROTATION_RATE;
+    zgyro_sequence_number = table2array(data(:,IMU_SEQUENCE_COLUMN));
+    
+    xmag_value = table2array(data(:,IMU_XMAG_COLUMN));
+    xmag_status = table2array(data(:,IMU_XMAG_COLUMN+1));
+    xmag_rms = table2array(data(:,IMU_XMAG_COLUMN+2));
+    xmag_type = SignalType.SIGNALTYPE_MAGNETIC_FIELD;
+    xmag_sequence_number = table2array(data(:,IMU_SEQUENCE_COLUMN));
+    
+    ymag_value = table2array(data(:,IMU_YMAG_COLUMN));
+    ymag_status = table2array(data(:,IMU_YMAG_COLUMN+1));
+    ymag_rms = table2array(data(:,IMU_YMAG_COLUMN+2));
+    ymag_type = SignalType.SIGNALTYPE_MAGNETIC_FIELD;
+    ymag_sequence_number = table2array(data(:,IMU_SEQUENCE_COLUMN));
+    
+    zmag_value = table2array(data(:,IMU_ZMAG_COLUMN));
+    zmag_status = table2array(data(:,IMU_ZMAG_COLUMN+1));
+    zmag_rms = table2array(data(:,IMU_ZMAG_COLUMN+2));
+    zmag_type = SignalType.SIGNALTYPE_MAGNETIC_FIELD;
+    zmag_sequence_number = table2array(data(:,IMU_SEQUENCE_COLUMN));
+    
+    if(imuindex == 1)
+        accel1x_in.available = 1;
+        accel1x_in.time = timestamp;
+        accel1x_in.signals.values = [xacc_type*ones(length(timestamp),1)';xacc_value';xacc_status';xacc_rms';xacc_sequence_number';]';
+        accel1y_in.available = 1;
+        accel1y_in.time = timestamp;
+        accel1y_in.signals.values = [yacc_type*ones(length(timestamp),1)';yacc_value';yacc_status';yacc_rms';yacc_sequence_number';]';
+        accel1z_in.available = 1;
+        accel1z_in.time = timestamp;
+        accel1z_in.signals.values = [zacc_type*ones(length(timestamp),1)';zacc_value';zacc_status';zacc_rms';zacc_sequence_number';]';
+        
+        rotationrate1x_in.available = 1;
+        rotationrate1x_in.time = timestamp;
+        rotationrate1x_in.signals.values = [xgyro_type*ones(length(timestamp),1)';xgyro_value';xgyro_status';xgyro_rms';xgyro_sequence_number';]';
+        rotationrate1x_in.available = 1;
+        rotationrate1y_in.time = timestamp;
+        rotationrate1y_in.signals.values = [ygyro_type*ones(length(timestamp),1)';ygyro_value';ygyro_status';ygyro_rms';ygyro_sequence_number';]';
+        rotationrate1z_in.available = 1;
+        rotationrate1z_in.time = timestamp;
+        rotationrate1z_in.signals.values = [zgyro_type*ones(length(timestamp),1)';zgyro_value';zgyro_status';zgyro_rms';zgyro_sequence_number';]';
+        
+        mag1x_in.available = 1;
+        mag1x_in.time = timestamp;
+        mag1x_in.signals.values = [xmag_type*ones(length(timestamp),1)';xmag_value';xmag_status';xmag_rms';xmag_sequence_number';]';
+        mag1x_in.available = 1;
+        mag1y_in.time = timestamp;
+        mag1y_in.signals.values = [ymag_type*ones(length(timestamp),1)';ymag_value';ymag_status';ymag_rms';ymag_sequence_number';]';
+        mag1z_in.available = 1;
+        mag1z_in.time = timestamp;
+        mag1z_in.signals.values = [zmag_type*ones(length(timestamp),1)';zmag_value';zmag_status';zmag_rms';zmag_sequence_number';]';
+        
     end
-    timestamp = data(:,1)/1000000000;    
-    IMU_Raw(length(IMU_Raw)+1).name = [cols{IMU_XACC_COLUMN}(1:strfind(cols{IMU_XACC_COLUMN},'.')-1) num2str(index)];
-    IMU_Raw(length(IMU_Raw)).sequence_number = data(:,IMU_SEQUENCE_COLUMN);
-    IMU_Raw(length(IMU_Raw)).units = 'meter/s^2';
-    IMU_Raw(length(IMU_Raw)).timestamp = timestamp;
-    IMU_Raw(length(IMU_Raw)).value = data(:,IMU_XACC_COLUMN);
-    IMU_Raw(length(IMU_Raw)).status = data(:,IMU_XACC_COLUMN+1);
-    IMU_Raw(length(IMU_Raw)).rms = data(:,IMU_XACC_COLUMN+2);
-    IMU_Raw(length(IMU_Raw)).type = "Linear Acceleration";
-    IMU_Raw(length(IMU_Raw)).sensorsource = "110012";
-    IMU_Raw(length(IMU_Raw)).sensorname = ["IMU" num2str(index)]; 
-    IMU_Raw(length(IMU_Raw)).sensorindex = index;
-    IMU_Raw(length(IMU_Raw)).computed_signal = 0;
-    
-    IMU_Raw(length(IMU_Raw)+1).name = [cols{IMU_YACC_COLUMN}(1:strfind(cols{IMU_YACC_COLUMN},'.')-1) num2str(index)];
-    IMU_Raw(length(IMU_Raw)).sequence_number = data(:,IMU_SEQUENCE_COLUMN);
-    IMU_Raw(length(IMU_Raw)).units = 'meter/s^2';
-    IMU_Raw(length(IMU_Raw)).timestamp = timestamp;
-    IMU_Raw(length(IMU_Raw)).value = data(:,IMU_YACC_COLUMN);
-    IMU_Raw(length(IMU_Raw)).status = data(:,IMU_YACC_COLUMN+1);
-    IMU_Raw(length(IMU_Raw)).rms = data(:,IMU_YACC_COLUMN+2);
-    IMU_Raw(length(IMU_Raw)).type = "Linear Acceleration";
-    IMU_Raw(length(IMU_Raw)).sensorsource = "110012";
-    IMU_Raw(length(IMU_Raw)).sensorname = ["IMU" num2str(index)]; 
-    IMU_Raw(length(IMU_Raw)).sensorindex = index;
-    IMU_Raw(length(IMU_Raw)).computed_signal = 0;
-    
-    IMU_Raw(length(IMU_Raw)+1).name = [cols{IMU_ZACC_COLUMN}(1:strfind(cols{IMU_ZACC_COLUMN},'.')-1) num2str(index)];
-    IMU_Raw(length(IMU_Raw)).sequence_number = data(:,IMU_SEQUENCE_COLUMN);
-    IMU_Raw(length(IMU_Raw)).units = 'meter/s^2';
-    IMU_Raw(length(IMU_Raw)).timestamp = timestamp;
-    IMU_Raw(length(IMU_Raw)).value = data(:,IMU_ZACC_COLUMN);
-    IMU_Raw(length(IMU_Raw)).status = data(:,IMU_ZACC_COLUMN+1);
-    IMU_Raw(length(IMU_Raw)).rms = data(:,IMU_ZACC_COLUMN+2);
-    IMU_Raw(length(IMU_Raw)).type = "Linear Acceleration";
-    IMU_Raw(length(IMU_Raw)).sensorsource = "110012";
-    IMU_Raw(length(IMU_Raw)).sensorname = ["IMU" num2str(index)]; 
-    IMU_Raw(length(IMU_Raw)).sensorindex = index;
-    IMU_Raw(length(IMU_Raw)).computed_signal = 0;
-    
-    IMU_Raw(length(IMU_Raw)+1).name = [cols{IMU_XGYRO_COLUMN}(1:strfind(cols{IMU_XGYRO_COLUMN},'.')-1) num2str(index)];
-    IMU_Raw(length(IMU_Raw)).sequence_number = data(:,IMU_SEQUENCE_COLUMN);
-    IMU_Raw(length(IMU_Raw)).units = 'deg/s';
-    IMU_Raw(length(IMU_Raw)).timestamp = timestamp;
-    IMU_Raw(length(IMU_Raw)).value = data(:,IMU_XGYRO_COLUMN);
-    IMU_Raw(length(IMU_Raw)).status = data(:,IMU_XGYRO_COLUMN+1);
-    IMU_Raw(length(IMU_Raw)).rms = data(:,IMU_XGYRO_COLUMN+2);
-    IMU_Raw(length(IMU_Raw)).type = "Angle Rate";
-    IMU_Raw(length(IMU_Raw)).sensorsource = "110012";
-    IMU_Raw(length(IMU_Raw)).sensorname = ["IMU" num2str(index)]; 
-    IMU_Raw(length(IMU_Raw)).sensorindex = index;
-    IMU_Raw(length(IMU_Raw)).computed_signal = 0;
-    
-    IMU_Raw(length(IMU_Raw)+1).name = [cols{IMU_YGYRO_COLUMN}(1:strfind(cols{IMU_YGYRO_COLUMN},'.')-1) num2str(index)];
-    IMU_Raw(length(IMU_Raw)).sequence_number = data(:,IMU_SEQUENCE_COLUMN);
-    IMU_Raw(length(IMU_Raw)).units = 'deg/s';
-    IMU_Raw(length(IMU_Raw)).timestamp = timestamp;
-    IMU_Raw(length(IMU_Raw)).value = data(:,IMU_YGYRO_COLUMN);
-    IMU_Raw(length(IMU_Raw)).status = data(:,IMU_YGYRO_COLUMN+1);
-    IMU_Raw(length(IMU_Raw)).rms = data(:,IMU_YGYRO_COLUMN+2);
-    IMU_Raw(length(IMU_Raw)).type = "Angle Rate";
-    IMU_Raw(length(IMU_Raw)).sensorsource = "110012";
-    IMU_Raw(length(IMU_Raw)).sensorname = ["IMU" num2str(index)]; 
-    IMU_Raw(length(IMU_Raw)).sensorindex = index;
-    IMU_Raw(length(IMU_Raw)).computed_signal = 0;
-    
-    IMU_Raw(length(IMU_Raw)+1).name = [cols{IMU_ZGYRO_COLUMN}(1:strfind(cols{IMU_ZGYRO_COLUMN},'.')-1) num2str(index)];
-    IMU_Raw(length(IMU_Raw)).sequence_number = data(:,IMU_SEQUENCE_COLUMN);
-    IMU_Raw(length(IMU_Raw)).units = 'deg/s';
-    IMU_Raw(length(IMU_Raw)).timestamp = timestamp;
-    IMU_Raw(length(IMU_Raw)).value = data(:,IMU_ZGYRO_COLUMN);
-    IMU_Raw(length(IMU_Raw)).status = data(:,IMU_ZGYRO_COLUMN+1);
-    IMU_Raw(length(IMU_Raw)).rms = data(:,IMU_ZGYRO_COLUMN+2);
-    IMU_Raw(length(IMU_Raw)).type = "Angle Rate";
-    IMU_Raw(length(IMU_Raw)).sensorsource = "110012";
-    IMU_Raw(length(IMU_Raw)).sensorname = ["IMU" num2str(index)]; 
-    IMU_Raw(length(IMU_Raw)).sensorindex = index;
-    IMU_Raw(length(IMU_Raw)).computed_signal = 0;
-    
-    IMU_Raw(length(IMU_Raw)+1).name = [cols{IMU_XMAG_COLUMN}(1:strfind(cols{IMU_XMAG_COLUMN},'.')-1) num2str(index)];
-    IMU_Raw(length(IMU_Raw)).sequence_number = data(:,IMU_SEQUENCE_COLUMN);
-    IMU_Raw(length(IMU_Raw)).units = 'uTesla';
-    IMU_Raw(length(IMU_Raw)).timestamp = timestamp;
-    IMU_Raw(length(IMU_Raw)).value = data(:,IMU_XMAG_COLUMN);
-    IMU_Raw(length(IMU_Raw)).status = data(:,IMU_XMAG_COLUMN+1);
-    IMU_Raw(length(IMU_Raw)).rms = data(:,IMU_XMAG_COLUMN+2);
-    IMU_Raw(length(IMU_Raw)).type = "Magnetic Field";
-    IMU_Raw(length(IMU_Raw)).sensorsource = "110012";
-    IMU_Raw(length(IMU_Raw)).sensorname = ["IMU" num2str(index)]; 
-    IMU_Raw(length(IMU_Raw)).sensorindex = index;
-    IMU_Raw(length(IMU_Raw)).computed_signal = 0;
-    
-    IMU_Raw(length(IMU_Raw)+1).name = [cols{IMU_YMAG_COLUMN}(1:strfind(cols{IMU_YMAG_COLUMN},'.')-1) num2str(index)];
-    IMU_Raw(length(IMU_Raw)).sequence_number = data(:,IMU_SEQUENCE_COLUMN);
-    IMU_Raw(length(IMU_Raw)).units = 'uTesla';
-    IMU_Raw(length(IMU_Raw)).timestamp = timestamp;
-    IMU_Raw(length(IMU_Raw)).value = data(:,IMU_YMAG_COLUMN);
-    IMU_Raw(length(IMU_Raw)).status = data(:,IMU_YMAG_COLUMN+1);
-    IMU_Raw(length(IMU_Raw)).rms = data(:,IMU_YMAG_COLUMN+2);
-    IMU_Raw(length(IMU_Raw)).type = "Magnetic Field";
-    IMU_Raw(length(IMU_Raw)).sensorsource = "110012";
-    IMU_Raw(length(IMU_Raw)).sensorname = ["IMU" num2str(index)]; 
-    IMU_Raw(length(IMU_Raw)).sensorindex = index;
-    IMU_Raw(length(IMU_Raw)).computed_signal = 0;
-    
-    IMU_Raw(length(IMU_Raw)+1).name = [cols{IMU_ZMAG_COLUMN}(1:strfind(cols{IMU_ZMAG_COLUMN},'.')-1) num2str(index)];
-    IMU_Raw(length(IMU_Raw)).sequence_number = data(:,IMU_SEQUENCE_COLUMN);
-    IMU_Raw(length(IMU_Raw)).units = 'uTesla';
-    IMU_Raw(length(IMU_Raw)).timestamp = timestamp;
-    IMU_Raw(length(IMU_Raw)).value = data(:,IMU_ZMAG_COLUMN);
-    IMU_Raw(length(IMU_Raw)).status = data(:,IMU_ZMAG_COLUMN+1);
-    IMU_Raw(length(IMU_Raw)).rms = data(:,IMU_ZMAG_COLUMN+2);
-    IMU_Raw(length(IMU_Raw)).type = "Magnetic Field";
-    IMU_Raw(length(IMU_Raw)).sensorsource = "110012";
-    IMU_Raw(length(IMU_Raw)).sensorname = ["IMU" num2str(index)]; 
-    IMU_Raw(length(IMU_Raw)).sensorindex = index;
-    IMU_Raw(length(IMU_Raw)).computed_signal = 0;
-    if(0)
-      %Add Extra IMU Signals as Appropriate
-      IMU_Raw(length(IMU_Raw)+1).name = ["mag_yaw" num2str(index)];
-      IMU_Raw(length(IMU_Raw)).units = 'degree';
-      IMU_Raw(length(IMU_Raw)).timestamp = timestamp;
-      IMU_Raw(length(IMU_Raw)).rms = -1;
-      IMU_Raw(length(IMU_Raw)).type = "Angle";
-      IMU_Raw(length(IMU_Raw)).sensorsource = "110012";
-      IMU_Raw(length(IMU_Raw)).sensorname = ["IMU" num2str(index)]; 
-      IMU_Raw(length(IMU_Raw)).sensorindex = index;
-      IMU_Raw(length(IMU_Raw)).computed_signal = 1;
-      
-      IMU_Raw(length(IMU_Raw)+1).name = ["acc_roll" num2str(index)];
-      IMU_Raw(length(IMU_Raw)).units = 'degree';
-      IMU_Raw(length(IMU_Raw)).timestamp = timestamp;
-      IMU_Raw(length(IMU_Raw)).rms = -1;
-      IMU_Raw(length(IMU_Raw)).type = "Angle";
-      IMU_Raw(length(IMU_Raw)).sensorsource = "110012";
-      IMU_Raw(length(IMU_Raw)).sensorname = ["IMU" num2str(index)]; 
-      IMU_Raw(length(IMU_Raw)).sensorindex = index;
-      IMU_Raw(length(IMU_Raw)).computed_signal = 1;
-      
-      IMU_Raw(length(IMU_Raw)+1).name = ["acc_pitch" num2str(index)];
-      IMU_Raw(length(IMU_Raw)).units = 'degree';
-      IMU_Raw(length(IMU_Raw)).timestamp = timestamp;
-      IMU_Raw(length(IMU_Raw)).rms = -1;
-      IMU_Raw(length(IMU_Raw)).type = "Angle";
-      IMU_Raw(length(IMU_Raw)).sensorsource = "110012";
-      IMU_Raw(length(IMU_Raw)).sensorname = ["IMU" num2str(index)]; 
-      IMU_Raw(length(IMU_Raw)).sensorindex = index;
-      IMU_Raw(length(IMU_Raw)).computed_signal = 1;
-      
-      
-      
-      IMU_Raw(length(IMU_Raw)+1).name = ["d_acc_roll" num2str(index)];
-      IMU_Raw(length(IMU_Raw)).units = 'deg/s';
-      IMU_Raw(length(IMU_Raw)).timestamp = timestamp;
-      IMU_Raw(length(IMU_Raw)).rms = -1;
-      IMU_Raw(length(IMU_Raw)).type = "Angle Rate";
-      IMU_Raw(length(IMU_Raw)).sensorsource = "110012";
-      IMU_Raw(length(IMU_Raw)).sensorname = ["IMU" num2str(index)]; 
-      IMU_Raw(length(IMU_Raw)).sensorindex = index;
-      IMU_Raw(length(IMU_Raw)).computed_signal = 1;
-      
-      IMU_Raw(length(IMU_Raw)+1).name = ["d_acc_pitch" num2str(index)];
-      IMU_Raw(length(IMU_Raw)).units = 'deg/s';
-      IMU_Raw(length(IMU_Raw)).timestamp = timestamp;
-      IMU_Raw(length(IMU_Raw)).rms = -1;
-      IMU_Raw(length(IMU_Raw)).type = "Angle Rate";
-      IMU_Raw(length(IMU_Raw)).sensorsource = "110012";
-      IMU_Raw(length(IMU_Raw)).sensorname = ["IMU" num2str(index)]; 
-      IMU_Raw(length(IMU_Raw)).sensorindex = index;
-      IMU_Raw(length(IMU_Raw)).computed_signal = 1;
-      
-      IMU_Raw(length(IMU_Raw)+1).name = ["d_mag_yaw" num2str(index)];
-      IMU_Raw(length(IMU_Raw)).units = 'deg/s';
-      IMU_Raw(length(IMU_Raw)).timestamp = timestamp;
-      IMU_Raw(length(IMU_Raw)).rms = -1;
-      IMU_Raw(length(IMU_Raw)).type = "Angle Rate";
-      IMU_Raw(length(IMU_Raw)).sensorsource = "110012";
-      IMU_Raw(length(IMU_Raw)).sensorname = ["IMU" num2str(index)]; 
-      IMU_Raw(length(IMU_Raw)).sensorindex = index;
-      IMU_Raw(length(IMU_Raw)).computed_signal = 1;
+    if(imuindex == 2)
+        accel2x_in.available = 1;
+        accel2x_in.time = timestamp;
+        accel2x_in.signals.values = [xacc_type*ones(length(timestamp),1)';xacc_value';xacc_status';xacc_rms';xacc_sequence_number';]';
+        accel2y_in.available = 1;
+        accel2y_in.time = timestamp;
+        accel2y_in.signals.values = [yacc_type*ones(length(timestamp),1)';yacc_value';yacc_status';yacc_rms';yacc_sequence_number';]';
+        accel2z_in.available = 1;
+        accel2z_in.time = timestamp;
+        accel2z_in.signals.values = [zacc_type*ones(length(timestamp),1)';zacc_value';zacc_status';zacc_rms';zacc_sequence_number';]';
+        
+        rotationrate2x_in.available = 1;
+        rotationrate2x_in.time = timestamp;
+        rotationrate2x_in.signals.values = [xgyro_type*ones(length(timestamp),1)';xgyro_value';xgyro_status';xgyro_rms';xgyro_sequence_number';]';
+        rotationrate2x_in.available = 1;
+        rotationrate2y_in.time = timestamp;
+        rotationrate2y_in.signals.values = [ygyro_type*ones(length(timestamp),1)';ygyro_value';ygyro_status';ygyro_rms';ygyro_sequence_number';]';
+        rotationrate2z_in.available = 1;
+        rotationrate2z_in.time = timestamp;
+        rotationrate2z_in.signals.values = [zgyro_type*ones(length(timestamp),1)';zgyro_value';zgyro_status';zgyro_rms';zgyro_sequence_number';]';
+        
+        mag2x_in.available = 1;
+        mag2x_in.time = timestamp;
+        mag2x_in.signals.values = [xmag_type*ones(length(timestamp),1)';xmag_value';xmag_status';xmag_rms';xmag_sequence_number';]';
+        mag2x_in.available = 1;
+        mag2y_in.time = timestamp;
+        mag2y_in.signals.values = [ymag_type*ones(length(timestamp),1)';ymag_value';ymag_status';ymag_rms';ymag_sequence_number';]';
+        mag2z_in.available = 1;
+        mag2z_in.time = timestamp;
+        mag2z_in.signals.values = [zmag_type*ones(length(timestamp),1)';zmag_value';zmag_status';zmag_rms';zmag_sequence_number';]';
     end
-    
- 
+    if(imuindex == 3)
+       accel3x_in.available = 1;
+        accel3x_in.time = timestamp;
+        accel3x_in.signals.values = [xacc_type*ones(length(timestamp),1)';xacc_value';xacc_status';xacc_rms';xacc_sequence_number';]';
+        accel3y_in.available = 1;
+        accel3y_in.time = timestamp;
+        accel3y_in.signals.values = [yacc_type*ones(length(timestamp),1)';yacc_value';yacc_status';yacc_rms';yacc_sequence_number';]';
+        accel3z_in.available = 1;
+        accel3z_in.time = timestamp;
+        accel3z_in.signals.values = [zacc_type*ones(length(timestamp),1)';zacc_value';zacc_status';zacc_rms';zacc_sequence_number';]';
+        
+        rotationrate3x_in.available = 1;
+        rotationrate3x_in.time = timestamp;
+        rotationrate3x_in.signals.values = [xgyro_type*ones(length(timestamp),1)';xgyro_value';xgyro_status';xgyro_rms';xgyro_sequence_number';]';
+        rotationrate3x_in.available = 1;
+        rotationrate3y_in.time = timestamp;
+        rotationrate3y_in.signals.values = [ygyro_type*ones(length(timestamp),1)';ygyro_value';ygyro_status';ygyro_rms';ygyro_sequence_number';]';
+        rotationrate3z_in.available = 1;
+        rotationrate3z_in.time = timestamp;
+        rotationrate3z_in.signals.values = [zgyro_type*ones(length(timestamp),1)';zgyro_value';zgyro_status';zgyro_rms';zgyro_sequence_number';]';
+        
+        mag3x_in.available = 1;
+        mag3x_in.time = timestamp;
+        mag3x_in.signals.values = [xmag_type*ones(length(timestamp),1)';xmag_value';xmag_status';xmag_rms';xmag_sequence_number';]';
+        mag3x_in.available = 1;
+        mag3y_in.time = timestamp;
+        mag3y_in.signals.values = [ymag_type*ones(length(timestamp),1)';ymag_value';ymag_status';ymag_rms';ymag_sequence_number';]';
+        mag3z_in.available = 1;
+        mag3z_in.time = timestamp;
+        mag3z_in.signals.values = [zmag_type*ones(length(timestamp),1)';zmag_value';zmag_status';zmag_rms';zmag_sequence_number';]';
+    end
+    if(imuindex == 4)
+        accel4x_in.available = 1;
+        accel4x_in.time = timestamp;
+        accel4x_in.signals.values = [xacc_type*ones(length(timestamp),1)';xacc_value';xacc_status';xacc_rms';xacc_sequence_number';]';
+        accel4y_in.available = 1;
+        accel4y_in.time = timestamp;
+        accel4y_in.signals.values = [yacc_type*ones(length(timestamp),1)';yacc_value';yacc_status';yacc_rms';yacc_sequence_number';]';
+        accel4z_in.available = 1;
+        accel4z_in.time = timestamp;
+        accel4z_in.signals.values = [zacc_type*ones(length(timestamp),1)';zacc_value';zacc_status';zacc_rms';zacc_sequence_number';]';
+        
+        rotationrate4x_in.available = 1;
+        rotationrate4x_in.time = timestamp;
+        rotationrate4x_in.signals.values = [xgyro_type*ones(length(timestamp),1)';xgyro_value';xgyro_status';xgyro_rms';xgyro_sequence_number';]';
+        rotationrate4x_in.available = 1;
+        rotationrate4y_in.time = timestamp;
+        rotationrate4y_in.signals.values = [ygyro_type*ones(length(timestamp),1)';ygyro_value';ygyro_status';ygyro_rms';ygyro_sequence_number';]';
+        rotationrate4z_in.available = 1;
+        rotationrate4z_in.time = timestamp;
+        rotationrate4z_in.signals.values = [zgyro_type*ones(length(timestamp),1)';zgyro_value';zgyro_status';zgyro_rms';zgyro_sequence_number';]';
+        
+        mag4x_in.available = 1;
+        mag4x_in.time = timestamp;
+        mag4x_in.signals.values = [xmag_type*ones(length(timestamp),1)';xmag_value';xmag_status';xmag_rms';xmag_sequence_number';]';
+        mag4x_in.available = 1;
+        mag4y_in.time = timestamp;
+        mag4y_in.signals.values = [ymag_type*ones(length(timestamp),1)';ymag_value';ymag_status';ymag_rms';ymag_sequence_number';]';
+        mag4z_in.available = 1;
+        mag4z_in.time = timestamp;
+        mag4z_in.signals.values = [zmag_type*ones(length(timestamp),1)';zmag_value';zmag_status';zmag_rms';zmag_sequence_number';]';
+    end
   end
 end
-for i = 1:length(IMU_Raw)
-  sensor_signal_obj = Initialize_SensorSignal;
-  sensor_signal_obj.name = IMU_Raw(i).name;
-  [conversion_factor,signal_type] = convert_signaltype(IMU_Raw(i).units);
-  sensor_signal_obj.type = signal_type;
-  signal_vector = [];
-  for j = 1:length(IMU_Raw(i).timestamp)
-    sig = sensor_signal_obj;
-    sig.sequence_number = IMU_Raw(i).sequence_number(j);
-    sig.value = conversion_factor*IMU_Raw(i).value(j);
-    sig.tov = IMU_Raw(i).timestamp(j);
-    sig.status = IMU_Raw(i).status(j);
-    sig.rms = IMU_Raw(i).rms(j)*conversion_factor;
-    signal_vector = [signal_vector sig];
-  end
-  if(i == 10)
-    a = 1;
-  end
-  Sensor_Signals{i} = signal_vector;
-end
+    
+   
+disp('Sensor Data Load Complete.');
 loaded = 1;
