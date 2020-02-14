@@ -1,6 +1,7 @@
 <?xml version='1.0'?>
 <sdf version="1.6">
     <model name="sim_scout">
+        
         <static>false</static>
         <link name="base">
             <pose>0 0 0 0 0 0</pose>
@@ -218,299 +219,687 @@
                 </ode>
             </physics>
         </joint> 
-        <!-- CAMERA PAN/TILT -->
-        <include>
-            <uri>model://CameraPanTilt</uri>
-            <pose>0.20602 -0.06358 0.14613 1.570796327 0 1.570796327</pose> 
-        </include>
-        <joint name="base_camerapantilt" type="fixed">
-            <child>CameraPanTilt::CameraBase</child>
-            <parent>base</parent>
-        </joint>
-        <!-- BOOM -->
-        <!-- DISABLED FOR NOW UNTIL CONTROLLER IS BUILT 
-        <link name="boom">
-            <pose>0.186944 0 0.1221232 1.570796327 0 1.570796327</pose>
+
+        <!-- BOOM ASSY-->
+        <link name="left_liftarm">
+            <pose>0.17783 0.04128 0.10804 0 -0.359537522 0</pose>
             <inertial>
-                <pose>0 -0.0049022 0.0502158 0 0 0</pose>
-                <mass>0.063049339</mass>
+                <mass>.026</mass>
                 <inertia>
-                    <ixx>0.000184004</ixx>
+                    <ixx>.000004688</ixx>
                     <ixy>0.0</ixy> 
                     <ixz>0.0</ixz> 
-                    <iyy>0.000221215</iyy>     
+                    <iyy>.0001157</iyy>     
                     <iyz>0.0</iyz>      
-                    <izz>0.0000506</izz>      
+                    <izz>0.0001113</izz>      
                 </inertia>
+                <pose>0.1248156 0 0.0138684 0 0 0</pose>
             </inertial>
+ 
             <collision name="collision">
                 <geometry>
                     <mesh>
-                        <uri>model://scout/meshes/365001.stl</uri>
-                    <scale>0.001 0.001 0.001</scale>
-                </mesh>
+                        <uri>model://scout/meshes/LiftArmModel.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                    
                 </geometry>
                 <surface>
-                    <friction>
-                      <ode>
-                        <mu>.7</mu>
-                        <mu2>.7</mu2>
-                        <slip1>0.5</slip1>
-                        <slip2>0.5</slip2>
-                        <fdir1>0 1 0</fdir1>
-                      </ode>
-                    </friction>
-                </surface>
+            <friction>
+              <ode>
+                <mu>.7</mu>
+                <mu2>.7</mu2>
+                <slip1>0.5</slip1>
+                <slip2>0.5</slip2>
+              </ode>
+            </friction>
+          </surface>
             </collision>
             <visual name="visual">
-            <geometry>
-                <mesh>
-                    <uri>model://scout/meshes/365001.stl</uri>
-                    <scale>0.001 0.001 0.001</scale>
-                </mesh>
-            </geometry>
+
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/LiftArmModel.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                </geometry>
+            </visual>
+        </link>
+        <link name="left_liftcylinder_base">
+            <pose>.21491 0.03271 0.05724 0 -0.787142828 0</pose>
+            <inertial>
+                <mass>0.34200865</mass>
+                <inertia>
+                    <ixx>0.000036918</ixx>
+                    <ixy>0.0</ixy> 
+                    <ixz>0.0</ixz> 
+                    <iyy>0.000209788</iyy>     
+                    <iyz>0.0</iyz>      
+                    <izz>0.000191</izz>      
+                </inertia>
+                <pose>0.0395 0 .00843 0 0 0</pose>
+            </inertial>
+ 
+            <collision name="collision">
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/361008BaseModel.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                    
+                </geometry>
+                <surface>
+            <friction>
+              <ode>
+                <mu>.7</mu>
+                <mu2>.7</mu2>
+                <slip1>0.5</slip1>
+                <slip2>0.5</slip2>
+              </ode>
+            </friction>
+          </surface>
+            </collision>
+            <visual name="visual">
+
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/361008BaseModel.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                </geometry>
+            </visual>
+        </link>
+        <link name="left_liftcylinder_cylinder">
+            <pose>.3181 0.03271 0.16078 0 -0.787142828 0</pose>
+            <inertial>
+                <mass>0.02676195</mass>
+                <inertia>
+                    <ixx>.000000293</ixx>
+                    <ixy>0.0</ixy> 
+                    <ixz>0.0</ixz> 
+                    <iyy>0.000007325</iyy>     
+                    <iyz>0.0</iyz>      
+                    <izz>0.000007325</izz>      
+                </inertia>
+                <pose>-0.026416 0 0 0 0 0</pose>
+            </inertial>
+ 
+            <collision name="collision">
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/361008CylinderModel.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                    
+                </geometry>
+                <surface>
+            <friction>
+              <ode>
+                <mu>.7</mu>
+                <mu2>.7</mu2>
+                <slip1>0.5</slip1>
+                <slip2>0.5</slip2>
+              </ode>
+            </friction>
+          </surface>
+            </collision>
+            <visual name="visual">
+
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/361008CylinderModel.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                </geometry>
+            </visual>
+        </link>
+        <link name="right_liftarm">
+            <pose>0.17783 -0.04128 0.10804 0 -0.359537522 0</pose>
+            <inertial>
+                <mass>.026</mass>
+                <inertia>
+                    <ixx>.000004688</ixx>
+                    <ixy>0.0</ixy> 
+                    <ixz>0.0</ixz> 
+                    <iyy>.0001157</iyy>     
+                    <iyz>0.0</iyz>      
+                    <izz>0.0001113</izz>      
+                </inertia>
+                <pose>0.1248156 0 0.0138684 0 0 0</pose>
+            </inertial>
+ 
+            <collision name="collision">
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/LiftArmModel.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                    
+                </geometry>
+                <surface>
+            <friction>
+              <ode>
+                <mu>.7</mu>
+                <mu2>.7</mu2>
+                <slip1>0.5</slip1>
+                <slip2>0.5</slip2>
+              </ode>
+            </friction>
+          </surface>
+            </collision>
+            <visual name="visual">
+
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/LiftArmModel.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                </geometry>
+            </visual>
+        </link>
+        <link name="right_liftcylinder_base">
+            <pose>.21491 -0.03271 0.05724 0 -0.787142828 0</pose>
+            <inertial>
+                <mass>0.34200865</mass>
+                <inertia>
+                    <ixx>0.000036918</ixx>
+                    <ixy>0.0</ixy> 
+                    <ixz>0.0</ixz> 
+                    <iyy>0.000209788</iyy>     
+                    <iyz>0.0</iyz>      
+                    <izz>0.000191</izz>      
+                </inertia>
+                <pose>0.0395 0 .00843 0 0 0</pose>
+            </inertial>
+ 
+            <collision name="collision">
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/361008BaseModel.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                    
+                </geometry>
+                <surface>
+            <friction>
+              <ode>
+                <mu>.7</mu>
+                <mu2>.7</mu2>
+                <slip1>0.5</slip1>
+                <slip2>0.5</slip2>
+              </ode>
+            </friction>
+          </surface>
+            </collision>
+            <visual name="visual">
+
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/361008BaseModel.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                </geometry>
+            </visual>
+        </link>
+
+        <link name="right_liftcylinder_cylinder">
+            <pose>.3181 -0.03271 0.16078 0 -0.787142828 0</pose>
+            <inertial>
+                <mass>0.02676195</mass>
+                <inertia>
+                    <ixx>.000000293</ixx>
+                    <ixy>0.0</ixy> 
+                    <ixz>0.0</ixz> 
+                    <iyy>0.000007325</iyy>     
+                    <iyz>0.0</iyz>      
+                    <izz>0.000007325</izz>      
+                </inertia>
+                <pose>-0.026416 0 0 0 0 0</pose>
+            </inertial>
+ 
+            <collision name="collision">
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/361008CylinderModel.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                    
+                </geometry>
+                <surface>
+            <friction>
+              <ode>
+                <mu>.7</mu>
+                <mu2>.7</mu2>
+                <slip1>0.5</slip1>
+                <slip2>0.5</slip2>
+              </ode>
+            </friction>
+          </surface>
+            </collision>
+            <visual name="visual">
+
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/361008CylinderModel.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                </geometry>
+            </visual>
+        </link>
+        <link name="implementcylinder_base">
+            <pose>.17783 0 0.10804 3.14159 -0.842993317 0</pose>
+            <inertial>
+                <mass>0.34200865</mass>f
+                <inertia>
+                    <ixx>0.000036918</ixx>
+                    <ixy>0.0</ixy> 
+                    <ixz>0.0</ixz> 
+                    <iyy>0.000209788</iyy>     
+                    <iyz>0.0</iyz>      
+                    <izz>0.000191</izz>      
+                </inertia>
+                <pose>0.0395 0 .00843 0 0 0</pose>
+            </inertial>
+ 
+            <collision name="collision">
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/361008BaseModel.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                    
+                </geometry>
+                <surface>
+            <friction>
+              <ode>
+                <mu>.7</mu>
+                <mu2>.7</mu2>
+                <slip1>0.5</slip1>
+                <slip2>0.5</slip2>
+              </ode>
+            </friction>
+          </surface>
+            </collision>
+            <visual name="visual">
+
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/361008BaseModel.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                </geometry>
+            </visual>
+        </link>
+        <link name="implementcylinder_cylinder">
+            <pose>.24176 0 0.17989 0 -0.842993317 0</pose>
+            <inertial>
+                <mass>0.02676195</mass>
+                <inertia>
+                    <ixx>.000000293</ixx>
+                    <ixy>0.0</ixy> 
+                    <ixz>0.0</ixz> 
+                    <iyy>0.000007325</iyy>     
+                    <iyz>0.0</iyz>      
+                    <izz>0.000007325</izz>      
+                </inertia>
+                <pose>-0.026416 0 0 0 0 0</pose>
+            </inertial>
+ 
+            <collision name="collision">
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/361008CylinderModel.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                    
+                </geometry>
+                <surface>
+            <friction>
+              <ode>
+                <mu>.7</mu>
+                <mu2>.7</mu2>
+                <slip1>0.5</slip1>
+                <slip2>0.5</slip2>
+              </ode>
+            </friction>
+          </surface>
+            </collision>
+            <visual name="visual">
+
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/361008CylinderModel.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                </geometry>
+            </visual>
+        </link>
+        <link name="bellcrank">
+            <pose>0.24176 0.0 0.17989 0 -0.076794422 0</pose>
+            <inertial>
+                <mass>0.07393556</mass>
+                <inertia>
+                    <ixx>0.000011427</ixx>
+                    <ixy>0.0</ixy> 
+                    <ixz>0.0</ixz> 
+                    <iyy>0.000038383</iyy>     
+                    <iyz>0.0</iyz>      
+                    <izz>0.00003809</izz>      
+                </inertia>
+                <pose>.031877 0 0 0 0 0</pose>
+            </inertial>
+ 
+            <collision name="collision">
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/BellCrankModel.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                    
+                </geometry>
+                <surface>
+            <friction>
+              <ode>
+                <mu>.7</mu>
+                <mu2>.7</mu2>
+                <slip1>0.5</slip1>
+                <slip2>0.5</slip2>
+              </ode>
+            </friction>
+          </surface>
+            </collision>
+            <visual name="visual">
+
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/BellCrankModel.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                </geometry>
+            </visual>
+        </link>
+        
+         <link name="implement_link">
+            <pose>.30507 0 0.1848 0 -0.469493172 0</pose>
+            <inertial>
+                <mass>0.1215628</mass>
+                <inertia>
+                    <ixx>0.000007618</ixx>
+                    <ixy>0.0</ixy> 
+                    <ixz>0.0</ixz> 
+                    <iyy>0.000121302</iyy>     
+                    <iyz>0.0</iyz>      
+                    <izz>0.00011456</izz>      
+                </inertia>
+                <pose>0.04808 0 .006426 0 0 0</pose>
+            </inertial>
+ 
+            <collision name="collision">
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/ImplementLinkModel.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                    
+                </geometry>
+                <surface>
+            <friction>
+              <ode>
+                <mu>.7</mu>
+                <mu2>.7</mu2>
+                <slip1>0.5</slip1>
+                <slip2>0.5</slip2>
+              </ode>
+            </friction>
+          </surface>
+            </collision>
+            <visual name="visual">
+
+                <geometry>
+                    <mesh>
+                        <uri>model://scout/meshes/ImplementLinkModel.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                </geometry>
             </visual>
         </link>
         <link name="bucket">
-            <pose>0.359918 0 0.0809752 1.570796327 0 1.570796327</pose>
+            <pose>0.39894 0 0.19197 0 -0.205948678 0</pose>
             <inertial>
-                <pose>0 0.0143256 0.0276606 0 0 0</pose>
-                <mass>0.07847148</mass>
+                <mass>0.4232 0 .00713 0 0 0</mass> 
                 <inertia>
-                    <ixx>0.0000586</ixx>
+                    <ixx>.005016</ixx>
                     <ixy>0.0</ixy> 
                     <ixz>0.0</ixz> 
-                    <iyy>0.0002736</iyy>     
+                    <iyy>0.00084735</iyy>     
                     <iyz>0.0</iyz>      
-                    <izz>0.000293</izz>      
+                    <izz>0.004427</izz>      
                 </inertia>
+                <pose>.03159 0 </pose>
             </inertial>
+ 
             <collision name="collision">
                 <geometry>
                     <mesh>
-                        <uri>model://scout/meshes/365000.stl</uri>
-                    <scale>0.001 0.001 0.001</scale>
-                </mesh>
+                        <uri>model://scout/meshes/BucketAssy.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                    
                 </geometry>
                 <surface>
-                    <friction>
-                      <ode>
-                        <mu>.7</mu>
-                        <mu2>.7</mu2>
-                        <slip1>0.5</slip1>
-                        <slip2>0.5</slip2>
-                        <fdir1>0 1 0</fdir1>
-                      </ode>
-                    </friction>
-                </surface>
+            <friction>
+              <ode>
+                <mu>.7</mu>
+                <mu2>.7</mu2>
+                <slip1>0.5</slip1>
+                <slip2>0.5</slip2>
+              </ode>
+            </friction>
+          </surface>
             </collision>
             <visual name="visual">
-            <geometry>
-                <mesh>
-                    <uri>model://scout/meshes/365000.stl</uri>
-                    <scale>0.001 0.001 0.001</scale>
-                </mesh>
-            </geometry>
-            </visual>
-        </link>
-        <link name="boomlink">
-            <pose>0.359918 0 0.1142492 1.343903716  0 1.570796327</pose>
-            <inertial>
-                <pose>0 0.0176 -0.0783844 0 0 0</pose>
-                <mass>0.082100219</mass>
-                <inertia>
-                    <ixx>0.000208</ixx>
-                    <ixy>0.0</ixy> 
-                    <ixz>0.0</ixz> 
-                    <iyy>0.000205</iyy>     
-                    <iyz>0.0</iyz>      
-                    <izz>0.0000134</izz>      
-                </inertia>
-            </inertial>
-            <collision name="collision">
+
                 <geometry>
                     <mesh>
-                        <uri>model://scout/meshes/365003.stl</uri>
-                    <scale>0.001 0.001 0.001</scale>
-                </mesh>
+                        <uri>model://scout/meshes/BucketAssy.stl</uri>
+                        <scale>0.001 0.001 0.001</scale>
+                    </mesh>
                 </geometry>
-                <surface>
-                    <friction>
-                      <ode>
-                        <mu>.7</mu>
-                        <mu2>.7</mu2>
-                        <slip1>0.5</slip1>
-                        <slip2>0.5</slip2>
-                        <fdir1>0 1 0</fdir1>
-                      </ode>
-                    </friction>
-                </surface>
-            </collision>
-            <visual name="visual">
-            <geometry>
-                <mesh>
-                    <uri>model://scout/meshes/365003.stl</uri>
-                    <scale>0.001 0.001 0.001</scale>
-                </mesh>
-            </geometry>
             </visual>
         </link>
-        <link name="rocker">
-            <pose>0.206756 0 0.0802132 1.134463056  0 1.570796327</pose>
-            <inertial>
-                <pose>0 0.0176 -0.0783844 0 0 0</pose>
-                <mass>0.082100219</mass>
-                <inertia>
-                    <ixx>0.000208</ixx>
-                    <ixy>0.0</ixy> 
-                    <ixz>0.0</ixz> 
-                    <iyy>0.000205</iyy>     
-                    <iyz>0.0</iyz>      
-                    <izz>0.0000134</izz>      
-                </inertia>
-            </inertial>
-            <collision name="collision">
-                <geometry>
-                    <mesh>
-                        <uri>model://scout/meshes/365004.stl</uri>
-                    <scale>0.001 0.001 0.001</scale>
-                </mesh>
-                </geometry>
-                <surface>
-                    <friction>
-                      <ode>
-                        <mu>.7</mu>
-                        <mu2>.7</mu2>
-                        <slip1>0.5</slip1>
-                        <slip2>0.5</slip2>
-                        <fdir1>0 1 0</fdir1>
-                      </ode>
-                    </friction>
-                </surface>
-            </collision>
-            <visual name="visual">
-            <geometry>
-                <mesh>
-                    <uri>model://scout/meshes/365004.stl</uri>
-                    <scale>0.001 0.001 0.001</scale>
-                </mesh>
-            </geometry>
-            </visual>
-        </link>
-         <joint type="revolute" name="boom_base_joint">
-            <child>boom</child>
+        <!-- Left Lift Arm Joints -->
+        <joint type="prismatic" name="right_liftcylinder_prism">
+            <pose>-0.047 0 0 0 0 0</pose>
+            <child>right_liftcylinder_cylinder</child>
+            <parent>right_liftcylinder_base</parent>
+            <axis>
+                <xyz>1 0 0</xyz>
+                <dynamics>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
+                </dynamics>
+            </axis>
+        </joint>
+        <joint type="prismatic" name="sensor_left_liftcylinder_prism">
+            <pose>-0.047 0 0 0 0 0</pose>
+            <child>left_liftcylinder_cylinder</child>
+            <parent>left_liftcylinder_base</parent>
+            <axis>
+                <xyz>1 0 0</xyz>
+                <dynamics>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
+                </dynamics>
+            </axis>
+        </joint>
+        
+        <joint type="prismatic" name="sensor_implementcylinder_implementbase_prism">
+            <pose>-0.047 0 0 0 0 0</pose>
+            <child>implementcylinder_cylinder</child>
+            <parent>implementcylinder_base</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+                <dynamics>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
+                </dynamics>
+            </axis>
+        </joint>
+        <joint type="revolute" name="right_liftarm_bucket_joint">
+            <pose>0 0 0 0 0 0</pose>
+            <child>bucket</child>
+            <parent>right_liftarm</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+                <dynamics>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
+                </dynamics>
+            </axis>
+        </joint>
+        <joint type="revolute" name="left_liftcylinder_cylinder_joint">
+            <pose>0 0 0 0 0 0</pose>
+            <child>left_liftcylinder_cylinder</child>
+            <parent>left_liftarm</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+                <dynamics>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
+                </dynamics>
+            </axis>
+        </joint>
+         <joint type="revolute" name="left_liftcylinder_base_joint">
+            <pose>0 0 0 0 0 0</pose>
+            <child>left_liftcylinder_base</child>
             <parent>base</parent>
             <axis>
-                <xyz>1 0 0</xyz>
+                <xyz>0 1 0</xyz>
                 <dynamics>
-                    <damping>0</damping>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
                 </dynamics>
             </axis>
-            <physics>
-                <ode>
-                    <limit>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </limit>
-                    <suspension>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </suspension>
-                </ode>
-            </physics>
-        </joint> 
-        <joint type="revolute" name="bucket_boom_joint">
+        </joint>
+      
+        <joint type="revolute" name="left_liftarm_bucket_joint">
+            <pose>0 0 0 0 0 0</pose>
             <child>bucket</child>
-            <parent>boom</parent>
+            <parent>left_liftarm</parent>
             <axis>
-                <xyz>1 0 0</xyz>
+                <xyz>0 1 0</xyz>
                 <dynamics>
-                    <damping>0</damping>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
                 </dynamics>
             </axis>
-            <physics>
-                <ode>
-                    <limit>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </limit>
-                    <suspension>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </suspension>
-                </ode>
-            </physics>
-        </joint> 
-        <joint type="revolute" name="boomlink_bucket_joint">
-            <child>boomlink</child>
+        </joint>
+        <!-- Right Lift Arm Joints -->
+        <joint type="revolute" name="right_liftcylinder_base_joint">
+            <pose>0 0 0 0 0 0</pose>
+            <child>right_liftcylinder_base</child>
+            <parent>base</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+                <dynamics>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
+                </dynamics>
+            </axis>
+        </joint>
+        <joint type="revolute" name="right_liftcylinder_cylinder_joint">
+            <pose>0 0 0 0 0 0</pose>
+            <child>right_liftcylinder_cylinder</child>
+            <parent>right_liftarm</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+                <dynamics>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
+                </dynamics>
+            </axis>
+        </joint>
+        <!-- Implement Joints -->
+        <joint type="revolute" name="actuator_bucket_implementlink_joint">
+            <pose>0.09652 0 0 0 0 0</pose>
+            <child>implement_link</child>
             <parent>bucket</parent>
             <axis>
-                <xyz>1 0 0</xyz>
+                <xyz>0 1 0</xyz>
                 <dynamics>
-                    <damping>0</damping>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
                 </dynamics>
             </axis>
-            <physics>
-                <ode>
-                    <limit>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </limit>
-                    <suspension>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </suspension>
-                </ode>
-            </physics>
         </joint>
-        <joint type="revolute" name="rocker_boomlink_joint">
-            <child>rocker</child>
-            <parent>boomlink</parent>
+        <joint type="revolute" name="implementcylinder_base_joint">
+            <pose>0 0 0 0 0 0</pose>
+            <child>implementcylinder_base</child>
+            <parent>base</parent>
             <axis>
-                <xyz>1 0 0</xyz>
+                <xyz>0 1 0</xyz>
                 <dynamics>
-                    <damping>0</damping>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
                 </dynamics>
             </axis>
-            <physics>
-                <ode>
-                    <limit>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </limit>
-                    <suspension>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </suspension>
-                </ode>
-            </physics>
-        </joint> 
-        <joint type="revolute" name="rocker_boom_joint">
-            <pose frame=''>0 0.04191 0  0 0 0</pose>
-            <child>rocker</child>
-            <parent>boom</parent>
+        </joint>
+        
+         <joint type="revolute" name="right_liftarm_base_joint">
+            <pose>0 0 0 0 0 0</pose>
+            <child>right_liftarm</child>
+            <parent>base</parent>
             <axis>
-                <xyz>1 0 0</xyz>
+                <xyz>0 1 0</xyz>
                 <dynamics>
-                    <damping>0</damping>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
                 </dynamics>
             </axis>
-            <physics>
-                <ode>
-                    <limit>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </limit>
-                    <suspension>
-                        <cfm>0</cfm>
-                        <erp>0.2</erp>
-                    </suspension>
-                </ode>
-            </physics>
-        </joint> 
-        BOOM DISABLE -->
-
+        </joint>
+        <joint type="revolute" name="actuator_left_liftarm_base_joint">
+            <pose>0 0 0 0 0 0</pose>
+            <child>left_liftarm</child>
+            <parent>base</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+                <dynamics>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
+                </dynamics>
+            </axis>
+        </joint>
+        <joint type="revolute" name="leftbellcrank_implementcylinder_joint">
+            <pose>0 0 0 0 0 0</pose>
+            <child>implementcylinder_cylinder</child>
+            <parent>bellcrank</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+            </axis>
+        </joint>
+        <joint type="revolute" name="implementlink_leftbellcrank_joint">
+            <pose>0.0635 0 0 0 0 0</pose>
+            <child>bellcrank</child>
+            <parent>implement_link</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+                <dynamics>
+                    <damping>0.1</damping>
+                    <friction>0.2</friction>
+                </dynamics>
+            </axis>
+        </joint>
+        
+         <joint type="revolute" name="left_liftarm_bellcrank_joint">
+            <pose>0.0332 0 0 0 0 0</pose>
+            <child>bellcrank</child>
+            <parent>left_liftarm</parent>
+            <axis>
+                <xyz>0 1 0</xyz>
+            </axis>
+        </joint>
         <!-- SENSORS -->
+        <!-- -->
         <include>
             <uri>model://110015-NEXT</uri>
             <pose>-0.043688 0.099314 0.083566 0 0 1.570796327</pose> 
@@ -521,46 +910,14 @@
         </joint>
         <include>
             <uri>model://110015-3551284</uri>
-            <pose>0.043688 -0.099314 0.083566 0 0 -1.570796327</pose>
+            <pose>0.043688 -0.099314 0.083566 0 0 -1.570796327</pose>  
         </include>
         <joint name="base_rightimu" type="fixed">
             <child>110015-3551284::RightIMU</child>
             <parent>base</parent>
         </joint>
-         <!-- SONAR SENSORS -->
-        <include>
-            <uri>model://110001-FLSonar</uri>
-            <pose>0.22169 0.10960 0.15401 0 -2.0943 0</pose> 
-        </include>
-        <joint name="base_frontleftsonar" type="fixed">
-            <child>110001-FLSonar::FLSonar</child>
-            <parent>base</parent>
-        </joint>
-        <include>
-            <uri>model://110001-FRSonar</uri>
-            <pose>0.22169 -0.10960 0.15401 0 -2.0943 0</pose> 
-        </include>
-        <joint name="base_frontrightsonar" type="fixed">
-            <child>110001-FRSonar::FRSonar</child>
-            <parent>base</parent>
-        </joint>
-        <include>
-            <uri>model://110001-BLSonar</uri>
-            <pose>-0.22169 0.10960 0.15401 3.14159 -1.0471 0</pose> 
-        </include>
-        <joint name="base_backleftsonar" type="fixed">
-            <child>110001-BLSonar::BLSonar</child>
-            <parent>base</parent>
-        </joint>
-        <include>
-            <uri>model://110001-BRSonar</uri>
-            <pose>-0.22169 -0.10960 0.15401 3.14159 -1.0471 0</pose> 
-        </include>
-        <joint name="base_backrightsonar" type="fixed">
-            <child>110001-BRSonar::BRSonar</child>
-            <parent>base</parent>
-        </joint>
         <!-- -->
+        
         
         
     </model>

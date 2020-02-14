@@ -1,10 +1,15 @@
-function [signal] = Initialize_Signal()
+function [signal] = Initialize_Signal(signal_type)
 global SignalState;
 global SignalType;
-signal.name = '';
-signal.tov = -1.0;
-signal.type = SignalType.SIGNALTYPE_UNDEFINED;
-signal.value = 0.0;
-signal.status = SignalState.SIGNALSTATE_UNDEFINED;
-signal.rms = 0.0;
+count = 1;
+time = [0];
+signal.time = time;
+type = signal_type*ones(count,1)';
+value = 0*ones(count,1)';
+status = SignalState.SIGNALSTATE_UNDEFINED*ones(count,1)';
+rms = 0*ones(count,1)';
+sequence_number = 0*ones(count,1)';
+signal.signals.values = [type;value;status;rms;sequence_number;]';
+signal.signals.dimensions = 5;
+signal.available = 0;
 end
