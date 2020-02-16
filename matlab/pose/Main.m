@@ -12,9 +12,16 @@ addpath(genpath('PoseModel'));
 addpath(genpath('Initializers'));
 addpath(genpath('Analysis'));
 addpath(genpath('Simulink'));
-open_system('Simulink/Pose_AutoCode');
-set_param(gcs,'EnableLBRepository','on')
-%Initialize;
+
+if(bdIsLoaded('PoseExecutor') == 0)
+    pause(3);
+    disp('Opening PoseExecutor Model');
+    open_system('PoseExecutor');
+    pause(3);
+    set_param(gcs,'EnableLBRepository','on');
+end
+
+Initialize;
 % if(Config.PoseModelMode != MODELEXECUTION_MODE.Standard_PoseModel)
 %   TestClass;
 % elseif(Config.PoseModelMode == MODELEXECUTION_MODE.Standard_PoseModel)

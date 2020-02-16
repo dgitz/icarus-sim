@@ -1,110 +1,245 @@
 close all;
 fig_list = [];
-%Plot_Jerk = 1;
+
+Plot_Jerk = 0;
 Plot_Acceleration = 1;
-Plot_AngularRate = 0;
-%Plot_MagneticField = 1;
-Plot_Orientation = 1;
+Plot_AngularRate = 1;
+Plot_MagneticField = 1;
+Plot_Orientation = 0;
 
 Plot_SensorSignals = 1;
-Plot_TimedSignals = 0;
+Plot_TimedSignals = 1;
 Plot_ProcessedSignals = 0;
-Plot_InputSignals = 1;
+Plot_InputSignals = 0;
 
+STATUS_INDEX = 2;
 linear_acc_signals = [];
 rotation_rate_signals = [];
 magnetic_field_signals = [];
 orientation_signals = [];
 if(Plot_SensorSignals == 1)
-  for i = 1:length(Sensor_Signals)
-    if(Sensor_Signals{i}(1).type == SignalType.SIGNALTYPE_ACCELERATION)
-      linear_acc_signals{length(linear_acc_signals)+1} = Sensor_Signals{i};
+    if(Plot_Acceleration == 1)
+        if(accel1x_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(accel1x_in);
+            sig = convert_inputsignal_sensorsignal(name,accel1x_in);
+            linear_acc_signals{length(linear_acc_signals)+1} = sig;
+        end
+        if(accel1y_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(accel1y_in);
+            sig = convert_inputsignal_sensorsignal(name,accel1y_in);
+            linear_acc_signals{length(linear_acc_signals)+1} = sig;
+        end
+        if(accel1z_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(accel1z_in);
+            sig = convert_inputsignal_sensorsignal(name,accel1z_in);
+            linear_acc_signals{length(linear_acc_signals)+1} = sig;
+        end
+        if(accel2x_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(accel2x_in);
+            sig = convert_inputsignal_sensorsignal(name,accel2x_in);
+            linear_acc_signals{length(linear_acc_signals)+1} = sig;
+        end
+        if(accel2y_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(accel2y_in);
+            sig = convert_inputsignal_sensorsignal(name,accel2y_in);
+            linear_acc_signals{length(linear_acc_signals)+1} = sig;
+        end
+        if(accel2z_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(accel2z_in);
+            sig = convert_inputsignal_sensorsignal(name,accel2z_in);
+            linear_acc_signals{length(linear_acc_signals)+1} = sig;
+        end
+        if(accel3x_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(accel3x_in);
+            sig = convert_inputsignal_sensorsignal(name,accel3x_in);
+            linear_acc_signals{length(linear_acc_signals)+1} = sig;
+        end
+        if(accel3y_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(accel3y_in);
+            sig = convert_inputsignal_sensorsignal(name,accel3y_in);
+            linear_acc_signals{length(linear_acc_signals)+1} = sig;
+        end
+        if(accel3z_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(accel3z_in);
+            sig = convert_inputsignal_sensorsignal(name,accel3z_in);
+            linear_acc_signals{length(linear_acc_signals)+1} = sig;
+        end
+        if(accel4x_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(accel4x_in);
+            sig = convert_inputsignal_sensorsignal(name,accel4x_in);
+            linear_acc_signals{length(linear_acc_signals)+1} = sig;
+        end
+        if(accel4y_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(accel4y_in);
+            sig = convert_inputsignal_sensorsignal(name,accel4y_in);
+            linear_acc_signals{length(linear_acc_signals)+1} = sig;
+        end
+        if(accel4z_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(accel4z_in);
+            sig = convert_inputsignal_sensorsignal(name,accel4z_in);
+            linear_acc_signals{length(linear_acc_signals)+1} = sig;
+        end
     end
-    if(Sensor_Signals{i}(1).type == SignalType.SIGNALTYPE_ROTATION_RATE)
-      rotation_rate_signals{length(rotation_rate_signals)+1} = Sensor_Signals{i};
+    if(Plot_AngularRate == 1)
+        if(rotationrate1x_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(rotationrate1x_in);
+            sig = convert_inputsignal_sensorsignal(name,rotationrate1x_in);
+            rotation_rate_signals{length(rotation_rate_signals)+1} = sig;
+        end
+        if(rotationrate1y_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(rotationrate1y_in);
+            sig = convert_inputsignal_sensorsignal(name,rotationrate1y_in);
+            rotation_rate_signals{length(rotation_rate_signals)+1} = sig;
+        end
+        if(rotationrate1z_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(rotationrate1z_in);
+            sig = convert_inputsignal_sensorsignal(name,rotationrate1z_in);
+            rotation_rate_signals{length(rotation_rate_signals)+1} = sig;
+        end
+        if(rotationrate2x_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(rotationrate2x_in);
+            sig = convert_inputsignal_sensorsignal(name,rotationrate2x_in);
+            rotation_rate_signals{length(rotation_rate_signals)+1} = sig;
+        end
+        if(rotationrate2y_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(rotationrate2y_in);
+            sig = convert_inputsignal_sensorsignal(name,rotationrate2y_in);
+            rotation_rate_signals{length(rotation_rate_signals)+1} = sig;
+        end
+        if(rotationrate2z_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(rotationrate2z_in);
+            sig = convert_inputsignal_sensorsignal(name,rotationrate2z_in);
+            rotation_rate_signals{length(rotation_rate_signals)+1} = sig;
+        end
+        if(rotationrate3x_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(rotationrate3x_in);
+            sig = convert_inputsignal_sensorsignal(name,rotationrate3x_in);
+            rotation_rate_signals{length(rotation_rate_signals)+1} = sig;
+        end
+        if(rotationrate3y_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(rotationrate3y_in);
+            sig = convert_inputsignal_sensorsignal(name,rotationrate3y_in);
+            rotation_rate_signals{length(rotation_rate_signals)+1} = sig;
+        end
+        if(rotationrate3z_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(rotationrate3z_in);
+            sig = convert_inputsignal_sensorsignal(name,rotationrate3z_in);
+            rotation_rate_signals{length(rotation_rate_signals)+1} = sig;
+        end
+        if(rotationrate4x_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(rotationrate4x_in);
+            sig = convert_inputsignal_sensorsignal(name,rotationrate4x_in);
+            rotation_rate_signals{length(rotation_rate_signals)+1} = sig;
+        end
+        if(rotationrate4y_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(rotationrate4y_in);
+            sig = convert_inputsignal_sensorsignal(name,rotationrate4y_in);
+            rotation_rate_signals{length(rotation_rate_signals)+1} = sig;
+        end
+        if(rotationrate4z_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(rotationrate4z_in);
+            sig = convert_inputsignal_sensorsignal(name,rotationrate4z_in);
+            rotation_rate_signals{length(rotation_rate_signals)+1} = sig;
+        end
     end
-    if(Sensor_Signals{i}(1).type == SignalType.SIGNALTYPE_MAGNETIC_FIELD)
-      magnetic_field_signals{length(magnetic_field_signals)+1} = Sensor_Signals{i};
+    if(Plot_MagneticField == 1)
+        if(mag1x_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(mag1x_in);
+            sig = convert_inputsignal_sensorsignal(name,mag1x_in);
+            magnetic_field_signals{length(magnetic_field_signals)+1} = sig;
+        end
+        if(mag1y_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(mag1y_in);
+            sig = convert_inputsignal_sensorsignal(name,mag1y_in);
+            magnetic_field_signals{length(magnetic_field_signals)+1} = sig;
+        end
+        if(mag1z_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(mag1z_in);
+            sig = convert_inputsignal_sensorsignal(name,mag1z_in);
+            magnetic_field_signals{length(magnetic_field_signals)+1} = sig;
+        end
+        if(mag2x_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(mag2x_in);
+            sig = convert_inputsignal_sensorsignal(name,mag2x_in);
+            magnetic_field_signals{length(magnetic_field_signals)+1} = sig;
+        end
+        if(mag2y_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(mag2y_in);
+            sig = convert_inputsignal_sensorsignal(name,mag2y_in);
+            magnetic_field_signals{length(magnetic_field_signals)+1} = sig;
+        end
+        if(mag2z_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(mag2z_in);
+            sig = convert_inputsignal_sensorsignal(name,mag2z_in);
+            magnetic_field_signals{length(magnetic_field_signals)+1} = sig;
+        end
+        if(mag3x_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(mag3x_in);
+            sig = convert_inputsignal_sensorsignal(name,mag3x_in);
+            magnetic_field_signals{length(magnetic_field_signals)+1} = sig;
+        end
+        if(mag3y_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(mag3y_in);
+            sig = convert_inputsignal_sensorsignal(name,mag3y_in);
+            magnetic_field_signals{length(magnetic_field_signals)+1} = sig;
+        end
+        if(mag3z_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(mag3z_in);
+            sig = convert_inputsignal_sensorsignal(name,mag3z_in);
+            magnetic_field_signals{length(magnetic_field_signals)+1} = sig;
+        end
+        if(mag4x_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(mag4x_in);
+            sig = convert_inputsignal_sensorsignal(name,mag4x_in);
+            magnetic_field_signals{length(magnetic_field_signals)+1} = sig;
+        end
+        if(mag4y_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(mag4y_in);
+            sig = convert_inputsignal_sensorsignal(name,mag4y_in);
+            magnetic_field_signals{length(magnetic_field_signals)+1} = sig;
+        end
+        if(mag4z_in.signals.values(1,STATUS_INDEX) ~= SignalState.SIGSTATE_UNDEFINED)
+            name = getVarName(mag4z_in);
+            sig = convert_inputsignal_sensorsignal(name,mag4z_in);
+            magnetic_field_signals{length(magnetic_field_signals)+1} = sig;
+        end
     end
-  end
 end
 if(Plot_TimedSignals == 1)
-  for i = 1:length(Timed_Signals)
-    if(Timed_Signals{i}(1).type == SignalType.SIGNALTYPE_ACCELERATION)
-      linear_acc_signals{length(linear_acc_signals)+1} = Timed_Signals{i};
+    if(Plot_Acceleration == 1)
+        sig = convert_modelsignal(SignalClass.SIGCLASS_TIMEDSIGNAL,'xacc1',...
+            out.timed_signals.accel.accel1.accel1x.value.Time, ...
+            out.timed_signals.accel.accel1.accel1x.value.Data, ...
+            out.timed_signals.accel.accel1.accel1x.status.Data, ...
+            out.timed_signals.accel.accel1.accel1x.rms.Data);
+        linear_acc_signals{length(linear_acc_signals)+1} = sig;
+        sig = convert_modelsignal(SignalClass.SIGCLASS_TIMEDSIGNAL,'yacc1',...
+            out.timed_signals.accel.accel1.accel1y.value.Time, ...
+            out.timed_signals.accel.accel1.accel1y.value.Data, ...
+            out.timed_signals.accel.accel1.accel1y.status.Data, ...
+            out.timed_signals.accel.accel1.accel1y.rms.Data);
+        linear_acc_signals{length(linear_acc_signals)+1} = sig;
+        sig = convert_modelsignal(SignalClass.SIGCLASS_TIMEDSIGNAL,'zacc1',...
+            out.timed_signals.accel.accel1.accel1z.value.Time, ...
+            out.timed_signals.accel.accel1.accel1z.value.Data, ...
+            out.timed_signals.accel.accel1.accel1z.status.Data, ...
+            out.timed_signals.accel.accel1.accel1z.rms.Data);
+        linear_acc_signals{length(linear_acc_signals)+1} = sig;
+        
+   
+        
+       
     end
-    if(Timed_Signals{i}(1).type == SignalType.SIGNALTYPE_ROTATION_RATE)
-      rotation_rate_signals{length(rotation_rate_signals)+1} = Timed_Signals{i};
-    end
-    if(Timed_Signals{i}(1).type == SignalType.SIGNALTYPE_MAGNETIC_FIELD)
-      magnetic_field_signals{length(magnetic_field_signals)+1} = Timed_Signals{i};
-    end
-  end
-end
-if(Plot_ProcessedSignals == 1)
-  for i = 1:length(Processed_Signals)
-    if(Processed_Signals{i}(1).type == SignalType.SIGNALTYPE_ACCELERATION)
-      linear_acc_signals{length(linear_acc_signals)+1} = Processed_Signals{i};
-    end
-    if(Processed_Signals{i}(1).type == SignalType.SIGNALTYPE_ROTATION_RATE)
-      rotation_rate_signals{length(rotation_rate_signals)+1} = Processed_Signals{i};
-    end
-    if(Processed_Signals{i}(1).type == SignalType.SIGNALTYPE_MAGNETIC_FIELD)
-      magnetic_field_signals{length(magnetic_field_signals)+1} = Processed_Signals{i};
-    end
-  end
-end
-if(Plot_InputSignals == 1)
-  if(length(Input_Signals) > 0)
-    for i = 1:length(Input_Signals(1).linear_accelerations)
-      vector_x = [];
-      vector_y = [];
-      vector_z = [];
-      for t = 1:length(Input_Signals)
-        vector_x = [vector_x Input_Signals(t).linear_accelerations{i}.x];
-        vector_y = [vector_y Input_Signals(t).linear_accelerations{i}.y];
-        vector_z = [vector_z Input_Signals(t).linear_accelerations{i}.z];
-      end
-      linear_acc_signals{length(linear_acc_signals)+1} = vector_x;
-      linear_acc_signals{length(linear_acc_signals)+1} = vector_y;
-      linear_acc_signals{length(linear_acc_signals)+1} = vector_z;
-    end
-
-    for i = 1:length(Input_Signals(1).rotation_rates)
-      vector_x = [];
-      vector_y = [];
-      vector_z = [];
-      for t = 1:length(Input_Signals)
-        vector_x = [vector_x Input_Signals(t).rotation_rates{i}.x];
-        vector_y = [vector_y Input_Signals(t).rotation_rates{i}.y];
-        vector_z = [vector_z Input_Signals(t).rotation_rates{i}.z];
-      end
-      rotation_rate_signals{length(rotation_rate_signals)+1} = vector_x;
-      rotation_rate_signals{length(rotation_rate_signals)+1} = vector_y;
-      rotation_rate_signals{length(rotation_rate_signals)+1} = vector_z;
-    end
-
-    for i = 1:length(Input_Signals(1).orientations)
-      vector_x = [];
-      vector_y = [];
-      vector_z = [];
-      for t = 1:length(Input_Signals)
-        vector_x = [vector_x Input_Signals(t).orientations{i}.x];
-        vector_y = [vector_y Input_Signals(t).orientations{i}.y];
-        vector_z = [vector_z Input_Signals(t).orientations{i}.z];
-      end
-      orientation_signals{length(orientation_signals)+1} = vector_x;
-      orientation_signals{length(orientation_signals)+1} = vector_y;
-      orientation_signals{length(orientation_signals)+1} = vector_z;
-    end
-  end
 end
 if(Plot_Acceleration == 1)
-  fig_list = draw_linearacceleration_graphs(log_start_time,linear_acc_signals);
+  fig_list = draw_linearacceleration_graphs(0,linear_acc_signals);
 end
 if(Plot_AngularRate == 1)
-  fig_list = draw_rotationrate_graphs(log_start_time,rotation_rate_signals);
+  fig_list = draw_rotationrate_graphs(0,rotation_rate_signals);
+end
+if(Plot_MagneticField == 1)
+     fig_list = draw_magneticfield_graphs(0,magnetic_field_signals);
 end
 if(Plot_Orientation == 1)
-  fig_list = draw_orientation_graphs(log_start_time,orientation_signals);
+  %fig_list = draw_orientation_graphs(0,orientation_signals);
 end

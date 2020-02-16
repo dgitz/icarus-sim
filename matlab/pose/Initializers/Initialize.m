@@ -4,23 +4,20 @@ Load_GlobalDefines;
 Load_Configurables;
 Load_SensorConfig;
 Load_FilterConfig;
+Create_SimulinkBusObjects;
 if(exist('Sensor_Data_Loaded') == 0)
     Load_Data = 1;
 elseif(Sensor_Data_Loaded == 0)
   Load_Data = 1;
 end
-if(Config.PoseModelMode == MODELEXECUTION_MODE.Standard_PoseModel)
-  disp(['Using Scenario: ' Scenario]);
-else
-  Load_Data = 0;
-end
+disp(['Using Scenario: ' Scenario]);
 if(Load_Data == 1)
   disp(['Loading Data...']);
 else
   disp(['Data already loaded.']);
 end
 if(Load_Data == 1)
-  [Sensor_Data_Loaded, datatime_end...
+  [Sensor_Data_Loaded, current_time,datatime_end...
             accel1x_in,accel1y_in,accel1z_in, ...
             accel2x_in,accel2y_in,accel2z_in, ...
             accel3x_in,accel3y_in,accel3z_in, ...
