@@ -6,7 +6,7 @@ global Config;
 %Config.CalibrationThreshold_Jerk = .1;
 %Config.CalibrationTime = 2.0;
 %Config.Pose_UpdateRate = 20;
-Config.PoseModelMode = MODELEXECUTION_MODE.Standard_PoseModel;
+%Config.PoseModelMode = MODELEXECUTION_MODE.Standard_PoseModel;
 SaveResults = 0;
 Analyze_Pose = 0;
 %Plot_Figures = 1;

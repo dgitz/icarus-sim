@@ -1,5 +1,0 @@
-- Fix timestamps on data load.  
-- Encoder TOV not logging correctly
-- Need to connect IMU lever arms to imu data
-- Try to figure out how to compute RMSE instead of RMS
-- Simulated IMU value/status fields looks wrong

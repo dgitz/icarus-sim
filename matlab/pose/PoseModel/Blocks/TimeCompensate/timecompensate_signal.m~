@@ -1,0 +1,42 @@
+function [value,status,rms,update_counter,buffers_x,buffers_t] = timecompensate_signal(update_count_in,value_in,status_in,rms_in,buffers_x_in,buffers_t_in)
+if(status_in == SignalState.SIGSTATE_UPDATED)
+    value = value_in;
+    status = status_in;
+    rms = rms_in;
+    if(update_count_in <= uint32(TimeCompensateConfig.BUFFER_SIZE))
+        buffers_x(index,state.signal1_update_counter) = value1_in;
+        buffers_t(index,state.signal1_update_counter) = current_time;
+    else
+        row_x = buffers_x(index,:);
+        row_x = [row_x(2:TimeCompensateConfig.BUFFER_SIZE) value1_in];
+        buffers_x(index,:) = row_x;
+        row_t = buffers_t(index,:);
+        row_t = [row_t(2:TimeCompensateConfig.BUFFER_SIZE) current_time];
+        buffers_t(index,:) = row_t;
+        
+    end
+    state.signal1_update_counter = state.signal1_update_counter + uint32(1);
+else
+    if(TimeCompensateConfig.SAMPLING_MODE == SamplingMethod.SAMPLEMETHOD_SAMPLEHOLD)
+        value1 = value1_in;
+        status1 = uint8(SignalState.SIGSTATE_HOLD);
+        rms1 = rms1_in;
+    elseif(TimeCompensateConfig.SAMPLING_MODE == SamplingMethod.SAMPLEMETHOD_LINEAREXTRAPOLATE)
+        if(state.signal1_update_counter <= uint32(TimeCompensateConfig.BUFFER_SIZE))
+            value1 = value1_in;
+            status1 = uint8(SignalState.SIGSTATE_HOLD);
+            rms1 = rms1_in;
+        else
+            dt = diff(buffers_t(index,TimeCompensateConfig.BUFFER_SIZE-1:TimeCompensateConfig.BUFFER_SIZE));
+            dv = diff(buffers_x(index,TimeCompensateConfig.BUFFER_SIZE-1:TimeCompensateConfig.BUFFER_SIZE));
+            m = dv/dt;
+            value1 = m*(current_time-buffers_t(index,TimeCompensateConfig.BUFFER_SIZE))+buffers_x(index,TimeCompensateConfig.BUFFER_SIZE);
+            status1 = uint8(SignalState.SIGSTATE_EXTRAPOLATED);
+            rms1 = rms1_in;
+        end
+    else
+        value1 = value1_in;
+        status1 = status1_in;
+        rms1 = rms1_in;
+    end
+end
