@@ -23,6 +23,8 @@ public:
 	bool update_worldpose(
 		double t_current_time,
 		ignition::math::Pose3d pose,
+		ignition::math::Vector3d accel,
+		ignition::math::Vector3d linearvelocity,
 		ignition::math::Vector3d rate);
 	eros::pose get_pose() { return eros_pose; }
 private:
@@ -38,9 +40,17 @@ private:
 	
 	ignition::math::Pose3d world_pose;
 	ignition::math::Vector3d angular_rate;
+	ignition::math::Vector3d linear_acceleration;
+	ignition::math::Vector3d linear_velocity;
 	RMS rollrate_rms;
 	RMS pitchrate_rms;
 	RMS yawrate_rms;
+	RMS forwardacceleration_rms;
+	RMS lateralacceleration_rms;
+	RMS verticalacceleration_rms;
+	RMS forwardvelocity_rms;
+	RMS lateralvelocity_rms;
+	RMS verticalvelocity_rms;
 	RMS roll_rms;
 	RMS pitch_rms;
 	RMS yaw_rms;

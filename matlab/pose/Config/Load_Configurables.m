@@ -1,5 +1,5 @@
 %LoadConfigurables
-Scenario = '/home/robot/Documents/Data/2020-02-02-18-55-23_0_CSV';
+Scenario = '/home/robot/Documents/Data/DriveStraightTurnLeft/2020-02-18-06-06-53_0_CSV';
 global Config;
 %Config.TimeCompensation_Method = TIMINGCOMPENSATION_METHOD.LinearExtrapolate;
 %Config.InitializationTime = 5.0; %seconds
@@ -10,7 +10,7 @@ global Config;
 SaveResults = 0;
 Analyze_Pose = 0;
 %Plot_Figures = 1;
-%Truth_Available = 0;
+Truth_Available = 1;
 
 %global VEHICLE;
 %VEHICLE.TIRE_DIAMETER_M = 0;

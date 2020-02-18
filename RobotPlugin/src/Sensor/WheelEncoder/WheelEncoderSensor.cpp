@@ -18,14 +18,13 @@ bool WheelEncoderSensor::init(std::string t_partnumber,std::string t_name)
 {
 	name = t_name;
 	update_count = 0;
-	position_mod = 0.0;
-	position = 0.0;
-	tick_value = 0;
 	partnumber = t_partnumber;
-	signal.name = name;
-	signal.type = SIGNALTYPE_TICKSPEED;
-	signal.status = SIGNALSTATE_INITIALIZING;
-	signal.value = 0.0;
+	odom.xodom.name = name;
+	odom.xodom.type = SIGNALTYPE_ROTATION_RATE;
+	odom.xodom.status = SIGNALSTATE_INITIALIZING;
+	odom.xodom.value = 0.0;
+	odom.yodom.status = SIGNALSTATE_INVALID;
+	odom.zodom.status = SIGNALSTATE_INVALID;
 	if(partnumber == PN_110003)
 	{
 		count_per_revolution = 360.0;
@@ -47,34 +46,18 @@ double WheelEncoderSensor::get_currentconsumed()
 	}
 	return 0.0;
 }
-eros::signal WheelEncoderSensor::update(double t_current_time,double wheel_velocity)
+eros::odom WheelEncoderSensor::update(double t_current_time,double wheel_velocity)
 {
-	double tick_velocity = 0.0;
-	if(update_count > 0)
-	{
-		double dt = t_current_time-current_time;
-		position_mod+=(wheel_velocity*dt)*180.0/M_PI;
-		position+=(wheel_velocity*dt)*180.0/M_PI;
-		if(position_mod > 180.0)
-		{
-			position_mod = -180.0;
-		}
-		if(position_mod < -180.0)
-		{
-			position_mod  = 180.0;
-		}
-		int16_t last_tick = tick_value;
-		tick_value = position*(count_per_revolution/2.0)/180.0;
-		tick_velocity = (tick_value-last_tick)/dt;
-	}
-	
 	current_time = t_current_time;
-	rms = compute_rms(rms,tick_velocity,update_count);
-	signal.value = tick_velocity;
-	signal.rms = rms.value;
-	signal.status = SIGNALSTATE_UPDATED;
+	rms = compute_rms(rms,wheel_velocity,update_count);
+	odom.sequence_number = update_count;
+	odom.tov = current_time;
+	odom.xodom.tov = current_time;
+	odom.xodom.value = wheel_velocity;
+	odom.xodom.rms = rms.value;
+	odom.xodom.status = SIGNALSTATE_UPDATED;
 	update_count++;
-	return signal;
+	return odom;
 }
 WheelEncoderSensor::RMS WheelEncoderSensor::compute_rms(RMS rms,double value,uint64_t t_update_count)
 {

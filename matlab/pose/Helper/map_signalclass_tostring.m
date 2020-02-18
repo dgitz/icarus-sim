@@ -1,16 +1,18 @@
 function [str] = map_signalclass_tostring(class)
 str = 'UNKNOWN';
-if(class == SignalClass.SIGCLASS_UNDEFINED)
+if(class == SignalClass.SIGNALCLASS_UNDEFINED_)
   str = 'UNKNOWN';
-elseif(class == SignalClass.SIGCLASS_SENSORSIGNAL)
+elseif(class == SignalClass.SIGNALCLASS_SENSORSIGNAL_)
   str = 'SENSOR';
-elseif(class == SignalClass.SIGCLASS_TIMEDSIGNAL)
+elseif(class == SignalClass.SIGNALCLASS_TIMEDSIGNAL_)
   str = 'TIMED';
-elseif(class == SignalClass.SIGCLASS_PROCESSEDSIGNAL)
+elseif(class == SignalClass.SIGNALCLASS_PROCESSEDSIGNAL_)
   str = 'PROCESSED';
-elseif(class == SignalClass.SIGCLASS_INPUTSIGNAL)
+elseif(class == SignalClass.SIGNALCLASS_INPUTSIGNAL_)
   str = 'INPUT';
-elseif(class == SignalClass.SIGCLASS_POSESIGNAL)
+elseif(class == SignalClass.SIGNALCLASS_POSESIGNAL_)
   str = 'POSE';
+elseif(class == SignalClass.SIGNALCLASS_TRUTHSIGNAL_)
+  str = 'TRUTH';
 end
 end

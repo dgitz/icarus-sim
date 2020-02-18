@@ -1,5 +1,5 @@
 %LoadSensorData
-function [loaded, current_time,datatime_end,...
+function [loaded, max_time,...
             accel1x_in,accel1y_in,accel1z_in, ...
             accel2x_in,accel2y_in,accel2z_in, ...
             accel3x_in,accel3y_in,accel3z_in, ...
@@ -11,58 +11,78 @@ function [loaded, current_time,datatime_end,...
             mag1x_in,mag1y_in,mag1z_in, ...
             mag2x_in,mag2y_in,mag2z_in, ...
             mag3x_in,mag3y_in,mag3z_in, ...
-            mag4x_in,mag4y_in,mag4z_in] = Load_SensorSignals(scenario)
-global OPERATION_MODE;
-global SIGNAL_STATUS;
-global VARIANCE_BUFFER_SIZE;
-Sensor_Signals = [];
-accel1x_in = Initialize_Signal(SignalType.SIGTYPE_ACCELERATION);
-accel2x_in = Initialize_Signal(SignalType.SIGTYPE_ACCELERATION);
-accel3x_in = Initialize_Signal(SignalType.SIGTYPE_ACCELERATION);
-accel4x_in = Initialize_Signal(SignalType.SIGTYPE_ACCELERATION);
-accel1y_in = Initialize_Signal(SignalType.SIGTYPE_ACCELERATION);
-accel2y_in = Initialize_Signal(SignalType.SIGTYPE_ACCELERATION);
-accel3y_in = Initialize_Signal(SignalType.SIGTYPE_ACCELERATION);
-accel4y_in = Initialize_Signal(SignalType.SIGTYPE_ACCELERATION);
-accel1z_in = Initialize_Signal(SignalType.SIGTYPE_ACCELERATION);
-accel2z_in = Initialize_Signal(SignalType.SIGTYPE_ACCELERATION);
-accel3z_in = Initialize_Signal(SignalType.SIGTYPE_ACCELERATION);
-accel4z_in = Initialize_Signal(SignalType.SIGTYPE_ACCELERATION);
-rotationrate1x_in = Initialize_Signal(SignalType.SIGTYPE_ROTATION_RATE);
-rotationrate2x_in = Initialize_Signal(SignalType.SIGTYPE_ROTATION_RATE);
-rotationrate3x_in = Initialize_Signal(SignalType.SIGTYPE_ROTATION_RATE);
-rotationrate4x_in = Initialize_Signal(SignalType.SIGTYPE_ROTATION_RATE);
-rotationrate1y_in = Initialize_Signal(SignalType.SIGTYPE_ROTATION_RATE);
-rotationrate2y_in = Initialize_Signal(SignalType.SIGTYPE_ROTATION_RATE);
-rotationrate3y_in = Initialize_Signal(SignalType.SIGTYPE_ROTATION_RATE);
-rotationrate4y_in = Initialize_Signal(SignalType.SIGTYPE_ROTATION_RATE);
-rotationrate1z_in = Initialize_Signal(SignalType.SIGTYPE_ROTATION_RATE);
-rotationrate2z_in = Initialize_Signal(SignalType.SIGTYPE_ROTATION_RATE);
-rotationrate3z_in = Initialize_Signal(SignalType.SIGTYPE_ROTATION_RATE);
-rotationrate4z_in = Initialize_Signal(SignalType.SIGTYPE_ROTATION_RATE);
-mag1x_in = Initialize_Signal(SignalType.SIGTYPE_MAGNETIC_FIELD);
-mag2x_in = Initialize_Signal(SignalType.SIGTYPE_MAGNETIC_FIELD);
-mag3x_in = Initialize_Signal(SignalType.SIGTYPE_MAGNETIC_FIELD);
-mag4x_in = Initialize_Signal(SignalType.SIGTYPE_MAGNETIC_FIELD);
-mag1y_in = Initialize_Signal(SignalType.SIGTYPE_MAGNETIC_FIELD);
-mag2y_in = Initialize_Signal(SignalType.SIGTYPE_MAGNETIC_FIELD);
-mag3y_in = Initialize_Signal(SignalType.SIGTYPE_MAGNETIC_FIELD);
-mag4y_in = Initialize_Signal(SignalType.SIGTYPE_MAGNETIC_FIELD);
-mag1z_in = Initialize_Signal(SignalType.SIGTYPE_MAGNETIC_FIELD);
-mag2z_in = Initialize_Signal(SignalType.SIGTYPE_MAGNETIC_FIELD);
-mag3z_in = Initialize_Signal(SignalType.SIGTYPE_MAGNETIC_FIELD);
-mag4z_in = Initialize_Signal(SignalType.SIGTYPE_MAGNETIC_FIELD);
-IMU_Raw = [];
-IMU_SEQUENCE_COLUMN = 3; % MAY BE CHANGED WITH EROS MSG UPDATES
-IMU_XACC_COLUMN = 8;
-IMU_YACC_COLUMN = 14;
-IMU_ZACC_COLUMN = 20;
-IMU_XGYRO_COLUMN = 26;
-IMU_YGYRO_COLUMN = 32;
-IMU_ZGYRO_COLUMN = 38;
-IMU_XMAG_COLUMN = 44;
-IMU_YMAG_COLUMN = 50;
-IMU_ZMAG_COLUMN = 56;
+            mag4x_in,mag4y_in,mag4z_in, ...
+            odom1x_in,odom1y_in,odom1z_in, ...
+            odom2x_in,odom2y_in,odom2z_in, ...
+            odom3x_in,odom3y_in,odom3z_in, ...
+            odom4x_in,odom4y_in,odom4z_in] = Load_SensorSignals(scenario)
+odom1x_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+odom1y_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+odom1z_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+odom2x_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+odom2y_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+odom2z_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+odom3x_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+odom3y_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+odom3z_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+odom4x_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+odom4y_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+odom4z_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+accel1x_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION_);
+accel2x_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION_);
+accel3x_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION_);
+accel4x_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION_);
+accel1y_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION_);
+accel2y_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION_);
+accel3y_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION_);
+accel4y_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION_);
+accel1z_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION_);
+accel2z_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION_);
+accel3z_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION_);
+accel4z_in = Initialize_Signal(SignalType.SIGNALTYPE_ACCELERATION_);
+rotationrate1x_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+rotationrate2x_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+rotationrate3x_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+rotationrate4x_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+rotationrate1y_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+rotationrate2y_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+rotationrate3y_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+rotationrate4y_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+rotationrate1z_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+rotationrate2z_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+rotationrate3z_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+rotationrate4z_in = Initialize_Signal(SignalType.SIGNALTYPE_ROTATION_RATE_);
+mag1x_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD_);
+mag2x_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD_);
+mag3x_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD_);
+mag4x_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD_);
+mag1y_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD_);
+mag2y_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD_);
+mag3y_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD_);
+mag4y_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD_);
+mag1z_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD_);
+mag2z_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD_);
+mag3z_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD_);
+mag4z_in = Initialize_Signal(SignalType.SIGNALTYPE_MAGNETIC_FIELD_);
+IMU_SEQUENCE_COLUMN = 2; % MAY BE CHANGED WITH EROS MSG UPDATES
+IMU_TIMESTAMP_COLUMN = 3;
+IMU_XACC_COLUMN = 7;
+IMU_YACC_COLUMN = 13;
+IMU_ZACC_COLUMN = 19;
+IMU_XGYRO_COLUMN = 25;
+IMU_YGYRO_COLUMN = 31;
+IMU_ZGYRO_COLUMN = 37;
+IMU_XMAG_COLUMN = 43;
+IMU_YMAG_COLUMN = 49;
+IMU_ZMAG_COLUMN = 55;
+
+ODOM_SEQUENCE_COLUMN = 2;
+ODOM_TIMESTAMP_COLUMN = 3;
+ODOM_XODOM_COLUMN = 7;
+ODOM_YODOM_COLUMN = 13;
+ODOM_ZODOM_COLUMN = 19;
+
+max_time = 0;
 if(isempty(scenario) == 1)
   disp(['WARN: Scenario Not Defined. Not loading any data. ']);
   loaded = 0;
@@ -75,6 +95,8 @@ if(length(listing) == 0)
 end
 imuindex = 0;
 IMU_Count = 0;
+odomindex = 0;
+ODOM_Count = 0;
 for i = 3:length(listing)
   is_lockfile = strfind(listing(i).name,'lock');
   if(is_lockfile > 0)
@@ -85,11 +107,18 @@ for i = 3:length(listing)
     IMU_Count = IMU_Count + 1;
     imuindex = imuindex + 1;
     imu_name = listing(i).name(1:end-4);
-    disp(['Reading IMU' imu_name ' Data']);
+    disp(['Reading IMU: ' imu_name ' Data']);
     data = readtable([scenario '/' listing(i).name]);
-    timestamp = table2array(data(:,4));
+    timestamp = table2array(data(:,IMU_TIMESTAMP_COLUMN));
     timestamp = timestamp(:)-timestamp(1);
-    datatime_end = timestamp(end);
+    max_dt = max(diff(timestamp));
+    if(max_dt > TimeCompensateConfig.TOVDELTA_ERROR)
+        disp(['[WARN]: File: ' listing(i).name ' Has a Max Delta Timestamp: ' num2str(max_dt) ' > ' num2str(TimeCompensateConfig.TOVDELTA_ERROR)]);
+    end
+    log_end = timestamp(end);
+    if(log_end > max_time)
+        max_time = log_end;
+    end
     
     xacc_value = table2array(data(:,IMU_XACC_COLUMN));
     xacc_status = table2array(data(:,IMU_XACC_COLUMN+1));
@@ -262,11 +291,78 @@ for i = 3:length(listing)
         mag4z_in.signals.values = [zmag_value';zmag_status';zmag_rms';zmag_sequence_number';]';
     end
   end
+  v = strfind(listing(i).name,'Encoder');
+  if(v > 0)
+    ODOM_Count = ODOM_Count + 1;
+    odomindex = odomindex + 1;
+    odom_name = listing(i).name(1:end-4);
+    disp(['Reading ODOM: ' odom_name ' Data']);
+    data = readtable([scenario '/' listing(i).name]);
+    timestamp = table2array(data(:,ODOM_TIMESTAMP_COLUMN));
+    timestamp = timestamp(:)-timestamp(1);
+    datatime_end = timestamp(end);
+    
+    xodom_value = table2array(data(:,ODOM_XODOM_COLUMN));
+    xodom_status = table2array(data(:,ODOM_XODOM_COLUMN+1));
+    xodom_rms = table2array(data(:,ODOM_XODOM_COLUMN+2));
+    xodom_sequence_number = table2array(data(:,ODOM_SEQUENCE_COLUMN));
+    
+    yodom_value = table2array(data(:,ODOM_YODOM_COLUMN));
+    yodom_status = table2array(data(:,ODOM_YODOM_COLUMN+1));
+    yodom_rms = table2array(data(:,ODOM_YODOM_COLUMN+2));
+    yodom_sequence_number = table2array(data(:,ODOM_SEQUENCE_COLUMN));
+    
+    zodom_value = table2array(data(:,ODOM_ZODOM_COLUMN));
+    zodom_status = table2array(data(:,ODOM_ZODOM_COLUMN+1));
+    zodom_rms = table2array(data(:,ODOM_ZODOM_COLUMN+2));
+    zodom_sequence_number = table2array(data(:,ODOM_SEQUENCE_COLUMN));
+    if(odomindex == 1)
+        odom1x_in.available = 1;
+        odom1x_in.time = timestamp;
+        odom1x_in.signals.values = [xodom_value';xodom_status';xodom_rms';xodom_sequence_number';]';
+        odom1y_in.available = 1;
+        odom1y_in.time = timestamp;
+        odom1y_in.signals.values = [yodom_value';yodom_status';yodom_rms';yodom_sequence_number';]';
+        odom1z_in.available = 1;
+        odom1z_in.time = timestamp;
+        odom1z_in.signals.values = [zodom_value';zodom_status';zodom_rms';zodom_sequence_number';]';
+    end
+    if(odomindex == 2)
+        odom2x_in.available = 1;
+        odom2x_in.time = timestamp;
+        odom2x_in.signals.values = [xodom_value';xodom_status';xodom_rms';xodom_sequence_number';]';
+        odom2y_in.available = 1;
+        odom2y_in.time = timestamp;
+        odom2y_in.signals.values = [yodom_value';yodom_status';yodom_rms';yodom_sequence_number';]';
+        odom2z_in.available = 1;
+        odom2z_in.time = timestamp;
+        odom2z_in.signals.values = [zodom_value';zodom_status';zodom_rms';zodom_sequence_number';]';
+    end
+    if(odomindex == 3)
+        odom3x_in.available = 1;
+        odom3x_in.time = timestamp;
+        odom3x_in.signals.values = [xodom_value';xodom_status';xodom_rms';xodom_sequence_number';]';
+        odom3y_in.available = 1;
+        odom3y_in.time = timestamp;
+        odom3y_in.signals.values = [yodom_value';yodom_status';yodom_rms';yodom_sequence_number';]';
+        odom3z_in.available = 1;
+        odom3z_in.time = timestamp;
+        odom3z_in.signals.values = [zodom_value';zodom_status';zodom_rms';zodom_sequence_number';]';
+    end
+    if(odomindex == 4)
+        odom4x_in.available = 1;
+        odom4x_in.time = timestamp;
+        odom4x_in.signals.values = [xodom_value';xodom_status';xodom_rms';xodom_sequence_number';]';
+        odom4y_in.available = 1;
+        odom4y_in.time = timestamp;
+        odom4y_in.signals.values = [yodom_value';yodom_status';yodom_rms';yodom_sequence_number';]';
+        odom4z_in.available = 1;
+        odom4z_in.time = timestamp;
+        odom4z_in.signals.values = [zodom_value';zodom_status';zodom_rms';zodom_sequence_number';]';
+    end
+  end
 end
-t = 0:1/ModelConfig.POSE_UPDATE_RATE:datatime_end;
-current_time.time = t;
-current_time.signals.values = t';
-current_time.signals.dimensions = 1;
+
 
 disp('Sensor Data Load Complete.');
 loaded = 1;

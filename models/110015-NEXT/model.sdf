@@ -2,12 +2,11 @@
 <sdf version="1.6">
   <model name="110015-NEXT">
     <static>false</static>
+    
     <link name="LeftIMU">
         <inertial>
-          <mass>0.05</mass>
+         <mass>0.01</mass>
         </inertial>
-
-
       <visual name="visual">
         <geometry>
           <box>
@@ -20,18 +19,48 @@
         <imu>
           <angular_velocity>
             <x>
+              <noise type="gaussian_quantized">
+                <mean>0.0</mean> <!--assumed calibrated out -->
+                <stddev>0.05645735</stddev>
+                <precision>0.061035</precision>
+              </noise>
             </x>
             <y>
+              <noise type="gaussian_quantized">
+                <mean>0.0</mean> <!--assumed calibrated out -->
+                <stddev>0.07339414</stddev>
+                <precision>0.061035</precision>
+              </noise>
             </y>
             <z>
+              <noise type="gaussian_quantized">
+                <mean>0.0</mean> <!--assumed calibrated out -->
+                <stddev>0.06702133</stddev>
+                <precision>0.061035</precision>
+              </noise>
             </z>
           </angular_velocity>
           <linear_acceleration>
             <x>
+              <noise type="gaussian_quantized">
+                <mean>0.0</mean>
+                <stddev>0.01466293</stddev>
+                <precision>0.00059795</precision>
+              </noise>
             </x>
             <y>
+              <noise type="gaussian_quantized">
+                <mean>0.0</mean>
+                <stddev>0.01499929</stddev>
+                <precision>0.00059795</precision>
+              </noise>
             </y>
             <z>
+              <noise type="gaussian_quantized">
+                <mean>0.0</mean>
+                <stddev>0.02270911</stddev>
+                <precision>0.00059795</precision>
+              </noise>
             </z>
           </linear_acceleration>
         </imu>
@@ -51,6 +80,7 @@
         <always_on>1</always_on>
         <update_rate>2</update_rate>
       </sensor>
+
     </link>
   </model>
 </sdf>
