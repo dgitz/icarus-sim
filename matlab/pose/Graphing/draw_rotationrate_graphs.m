@@ -12,7 +12,7 @@ function [figs] = draw_rotationrate_graphs (log_start_time,signals)
   leg = [];
   for i = 1:sz
     offset_time = 0;
-    if(x_signals{i}.class == SignalClass.SIGCLASS_SENSORSIGNAL)
+    if(x_signals{i}.class == SignalClass.SIGNALCLASS_SENSORSIGNAL_)
       offset_time=log_start_time;
     end
     plot([x_signals{i}.tov]-offset_time,[x_signals{i}.value],'color',cm(i,:));
@@ -26,7 +26,7 @@ function [figs] = draw_rotationrate_graphs (log_start_time,signals)
   leg = [];
   for i = 1:sz
     offset_time = 0;
-    if(x_signals{i}.class == SignalClass.SIGCLASS_SENSORSIGNAL)
+    if(x_signals{i}.class == SignalClass.SIGNALCLASS_SENSORSIGNAL_)
       offset_time=log_start_time;
     end
     plot([x_signals{i}.tov]-offset_time,[x_signals{i}.rms],'color',cm(i,:));
@@ -40,7 +40,7 @@ function [figs] = draw_rotationrate_graphs (log_start_time,signals)
   leg = [];
   for i = 1:sz
     offset_time = 0;
-    if(x_signals{i}.class == SignalClass.SIGCLASS_SENSORSIGNAL)
+    if(x_signals{i}.class == SignalClass.SIGNALCLASS_SENSORSIGNAL_)
       offset_time=log_start_time;
     end
     plot([x_signals{i}.tov]-offset_time,[x_signals{i}.status],'color',cm(i,:));
@@ -62,7 +62,7 @@ function [figs] = draw_rotationrate_graphs (log_start_time,signals)
   leg = [];
   for i = 1:sz
     offset_time = 0;
-    if(y_signals{i}.class == SignalClass.SIGCLASS_SENSORSIGNAL)
+    if(y_signals{i}.class == SignalClass.SIGNALCLASS_SENSORSIGNAL_)
       offset_time=log_start_time;
     end
     plot([y_signals{i}.tov]-offset_time,[y_signals{i}.value],'color',cm(i,:));
@@ -76,7 +76,7 @@ function [figs] = draw_rotationrate_graphs (log_start_time,signals)
   leg = [];
   for i = 1:sz
     offset_time = 0;
-    if(y_signals{i}.class == SignalClass.SIGCLASS_SENSORSIGNAL)
+    if(y_signals{i}.class == SignalClass.SIGNALCLASS_SENSORSIGNAL_)
       offset_time=log_start_time;
     end
     plot([y_signals{i}.tov]-offset_time,[y_signals{i}.rms],'color',cm(i,:));
@@ -90,7 +90,7 @@ function [figs] = draw_rotationrate_graphs (log_start_time,signals)
   leg = [];
   for i = 1:sz
     offset_time = 0;
-    if(y_signals{i}.class == SignalClass.SIGCLASS_SENSORSIGNAL)
+    if(y_signals{i}.class == SignalClass.SIGNALCLASS_SENSORSIGNAL_)
       offset_time=log_start_time;
     end
     plot([y_signals{i}.tov]-offset_time,[y_signals{i}.status],'color',cm(i,:));
@@ -112,7 +112,7 @@ function [figs] = draw_rotationrate_graphs (log_start_time,signals)
   leg = [];
   for i = 1:sz
     offset_time = 0;
-    if(z_signals{i}.class == SignalClass.SIGCLASS_SENSORSIGNAL)
+    if(z_signals{i}.class == SignalClass.SIGNALCLASS_SENSORSIGNAL_)
       offset_time=log_start_time;
     end
     plot([z_signals{i}.tov]-offset_time,[z_signals{i}.value],'color',cm(i,:));
@@ -126,7 +126,7 @@ function [figs] = draw_rotationrate_graphs (log_start_time,signals)
   leg = [];
   for i = 1:sz
     offset_time = 0;
-    if(z_signals{i}.class == SignalClass.SIGCLASS_SENSORSIGNAL)
+    if(z_signals{i}.class == SignalClass.SIGNALCLASS_SENSORSIGNAL_)
       offset_time=log_start_time;
     end
     plot([z_signals{i}.tov]-offset_time,[z_signals{i}.rms],'color',cm(i,:));
@@ -140,7 +140,7 @@ function [figs] = draw_rotationrate_graphs (log_start_time,signals)
   leg = [];
   for i = 1:sz
     offset_time = 0;
-    if(z_signals{i}.class == SignalClass.SIGCLASS_SENSORSIGNAL)
+    if(z_signals{i}.class == SignalClass.SIGNALCLASS_SENSORSIGNAL_)
       offset_time=log_start_time;
     end
     plot([z_signals{i}.tov]-offset_time,[z_signals{i}.status],'color',cm(i,:));

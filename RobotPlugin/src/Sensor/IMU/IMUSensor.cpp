@@ -98,6 +98,13 @@ eros::imu IMUSensor::update_IMU(double current_time,double last_imu_update,doubl
 		if(time_updated > time_imu_updated)
 		{
 			time_imu_updated = time_updated;
+			imu_data.xacc.tov = current_time;
+			imu_data.yacc.tov = current_time;
+			imu_data.zacc.tov = current_time;
+			imu_data.xgyro.tov = current_time;
+			imu_data.ygyro.tov = current_time;
+			imu_data.zgyro.tov = current_time;
+
 			imu_data.xacc.status = SIGNALSTATE_UPDATED;
 			imu_data.yacc.status = SIGNALSTATE_UPDATED;
 			imu_data.zacc.status = SIGNALSTATE_UPDATED;
@@ -148,6 +155,9 @@ eros::imu IMUSensor::update_IMU(double current_time,double last_imu_update,doubl
 		if(time_updated > time_imumag_updated)
 		{
 			time_imumag_updated = time_updated;
+			imu_data.xmag.tov = current_time;
+			imu_data.ymag.tov = current_time;
+			imu_data.zmag.tov = current_time;
 			imu_data.xmag.status = SIGNALSTATE_UPDATED;
 			imu_data.ymag.status = SIGNALSTATE_UPDATED;
 			imu_data.zmag.status = SIGNALSTATE_UPDATED;

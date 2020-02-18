@@ -2,7 +2,7 @@ function [value,status,rms,update_count,buffers_x,buffers_t] = timecompensate_si
 update_count = update_count_in;
 buffers_x = buffers_x_in;
 buffers_t = buffers_t_in;
-if(status_in == SignalState.SIGSTATE_UPDATED)
+if(status_in == SignalState.SIGNALSTATE_UPDATED_)
     value = value_in;
     status = status_in;
     rms = rms_in;
@@ -22,12 +22,12 @@ if(status_in == SignalState.SIGSTATE_UPDATED)
 else
     if(TimeCompensateConfig.SAMPLING_MODE == SamplingMethod.SAMPLEMETHOD_SAMPLEHOLD)
         value = value_in;
-        status = uint8(SignalState.SIGSTATE_HOLD);
+        status = uint8(SignalState.SIGNALSTATE_HOLD_);
         rms = rms_in;
     elseif(TimeCompensateConfig.SAMPLING_MODE == SamplingMethod.SAMPLEMETHOD_LINEAREXTRAPOLATE)
         if(update_count_in <= uint32(TimeCompensateConfig.BUFFER_SIZE))
             value = value_in;
-            status = uint8(SignalState.SIGSTATE_HOLD);
+            status = uint8(SignalState.SIGNALSTATE_HOLD_);
             rms = rms_in;
         else
             dt = diff(buffers_t(index,TimeCompensateConfig.BUFFER_SIZE-1:TimeCompensateConfig.BUFFER_SIZE));

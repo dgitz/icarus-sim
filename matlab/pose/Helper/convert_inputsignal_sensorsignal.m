@@ -1,9 +1,5 @@
 function [sig] = convert_inputsignal_sensorsignal(name,signal)
-VALUE_INDEX = 1;
-STATUS_INDEX = 2;
-RMS_INDEX = 3;
-SEQUENCENUMBER_INDEX = 4;
-sig.class = SignalClass.SIGCLASS_SENSORSIGNAL;
+sig.class = SignalClass.SIGNALCLASS_SENSORSIGNAL_;
 if(strfind(name,'accel') == 1)
     seperator = strfind(name,'_');
     index = str2num(name(6:seperator-2));
@@ -39,10 +35,10 @@ elseif(strfind(name,'mag') == 1)
     end
 end
 sig.tov = signal.time;
-sig.value = signal.signals.values(:,VALUE_INDEX);
-sig.status = signal.signals.values(:,STATUS_INDEX);
-sig.rms = signal.signals.values(:,RMS_INDEX);
-sig.sequence_number = signal.signals.values(:,SEQUENCENUMBER_INDEX);
+sig.value = signal.signals.values(:,SignalIndex.VALUE);
+sig.status = signal.signals.values(:,SignalIndex.STATUS);
+sig.rms = signal.signals.values(:,SignalIndex.RMS);
+sig.sequence_number = signal.signals.values(:,SignalIndex.SEQUENCE_NUMBER);
         
 %sig = [];
             %sig.class = SignalClass.SIGCLASS_SENSORSIGNAL;

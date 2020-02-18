@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="TruthSensorIMU">
+    <static>false</static>
+    
+    <link name="TruthIMU">
+        <inertial>
+         <mass>0.01</mass>
+        </inertial>
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.0508 0.0508 0.0127</size>
+          </box>
+        </geometry>
+      </visual>
+      <sensor name="truth_imu" type="imu">
+        <visualize>true</visualize>
+        <always_on>1</always_on>
+        <update_rate>50</update_rate>
+      </sensor>
+    </link>
+  </model>
+</sdf>

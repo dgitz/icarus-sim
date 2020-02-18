@@ -51,6 +51,7 @@
 #include <eros/pose.h>
 #include <eros/heartbeat.h>
 #include <eros/battery.h>
+#include <eros/odom.h>
 //Project
 #include "../../include/SimpleTimer.h"
 #include "../../../eROS/include/eROS_Definitions.h"
@@ -67,6 +68,7 @@
 #include "Actuator/LinearActuatorModel/LinearActuatorModel.h"
 #include "CameraPanTilt/CameraPanTilt.h"
 #include "../../../eROS/include/DiagnosticClass.h"
+#include "../../../eROS/include/PoseHelper.h"
 #define ALLOW_INCOMPLETEMODEL_INITIALIZATION true
 #define INITIALIZATION_TIME 5.0f
 #define KEYCODE_UPARROW 16777235
@@ -177,6 +179,7 @@ private:
 	{
 		TruthSensor sensor;
 		eros::pose pose;
+		sensors::ImuSensorPtr m_gazebo_imu;
 	};
 	struct IMUStorage
 	{
@@ -329,6 +332,8 @@ private:
 	std::vector<SonarStorage> sonar_sensors;
 
 	CameraPanTiltStorage camera_pantilt;
+
+	PoseHelper pose_helper;
 
 };
 GZ_REGISTER_MODEL_PLUGIN(RobotPlugin)

@@ -485,8 +485,8 @@ bool RobotPlugin::InitializePublications()
 	{
 		pub_leftimu = this->rosNode->advertise<eros::imu>("/LeftIMU_Simulated", 1);
 		pub_rightimu = this->rosNode->advertise<eros::imu>("/RightIMU_Simulated", 1);
-		pub_leftwheelencoder = this->rosNode->advertise<eros::signal>("/LeftWheelEncoder_Simulated", 1);
-		pub_rightwheelencoder = this->rosNode->advertise<eros::signal>("/RightWheelEncoder_Simulated", 1);
+		pub_leftwheelencoder = this->rosNode->advertise<eros::odom>("/LeftWheelEncoder_Simulated", 1);
+		pub_rightwheelencoder = this->rosNode->advertise<eros::odom>("/RightWheelEncoder_Simulated", 1);
 	}
 	for (std::size_t i = 0; i < linear_actuators.size(); ++i)
 	{
@@ -513,6 +513,16 @@ bool RobotPlugin::LoadSensors()
 		if (m_sensorManager == nullptr)
 		{
 			return false;
+		}
+		{	// Load Truth Sensors
+			sensors::SensorPtr _sensor = m_sensorManager->GetSensor("truth_imu");
+			if (_sensor == nullptr)
+			{
+				logger->log_error(__FILE__, __LINE__, "Could not load truth_imu.  Exiting.");
+				return false;
+			}
+			truth_pose.m_gazebo_imu = dynamic_pointer_cast<sensors::ImuSensor, sensors::Sensor>(_sensor);
+
 		}
 		{
 			std::string location = "left";
@@ -840,7 +850,9 @@ void RobotPlugin::OnUpdate()
 			bool status = truth_pose.sensor.update_worldpose(
 				m_fastloop.get_currentTime(),
 				m_model->GetLink(base_link)->WorldPose(),
-				m_model->GetLink(base_link)->WorldAngularVel());
+				truth_pose.m_gazebo_imu->LinearAcceleration(),
+				m_model->GetLink(base_link)->RelativeLinearVel(),
+				truth_pose.m_gazebo_imu->AngularVelocity());
 			if (status == false)
 			{
 				kill_node = false;
@@ -923,7 +935,9 @@ void RobotPlugin::OnUpdate()
 		{
 			logger->log_warn(__FILE__, __LINE__, "BATTERY DEPLETED");
 		}
-		{   if(camera_pantilt.initialized == true)
+		if(0)
+		{  
+			if(camera_pantilt.initialized == true)
 			{
 				// Camera Pan/Tilt Updates
 				std::vector<CameraPanTilt::Joint> cam_joints = camera_pantilt.assy.update(m_mediumloop.get_timedelta(),
@@ -955,6 +969,7 @@ void RobotPlugin::OnUpdate()
 	}
 	if (m_slowloop.run_loop())
 	{
+		printf("%s\n",pose_helper.get_simplepose_string(truth_pose.sensor.get_pose()).c_str());
 		double sim_time = m_model->GetWorld()->RealTime().Double();
 		uint32_t count = m_model->GetWorld()->Iterations();
 		double update_rate = 0.0;

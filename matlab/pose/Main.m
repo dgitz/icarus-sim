@@ -10,6 +10,7 @@ addpath(genpath('Helper'));
 addpath(genpath('SensorModel'));
 addpath(genpath('PoseModel'));
 addpath(genpath('Initializers'));
+addpath(genpath('Initializers/auto_gen'));
 addpath(genpath('Analysis'));
 addpath(genpath('Simulink'));
 
