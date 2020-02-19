@@ -24,7 +24,7 @@
                 <surface>
                     <friction>
                         <torsional>
-                            <coefficient>0.7</coefficient>
+                            <coefficient>1.0</coefficient>
                             <surface_radius>1</surface_radius>
                             <use_patch_radius>false</use_patch_radius>
                         </torsional>
@@ -42,6 +42,7 @@
                         </ode>
                     </contact>
                 </surface>
+
             </collision>
         </link>
     </model>

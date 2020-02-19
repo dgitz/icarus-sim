@@ -78,6 +78,8 @@
 #define KEYCODE_SPACE 32
 #define KEYCODE_ENTER 13
 
+#define LARGEWHEEL_MIDWHEEL_MULTIPLIER 2.464f // How Much larger the Large Wheel of the Scout Rover is compared to the Mid Wheel.
+
 namespace gazebo
 {
 /*! \class RobotPlugin RobotPlugin.h "RobotPlugin.h"
@@ -144,7 +146,9 @@ private:
 		UNKNOWN = 0,
 		DRIVETRAIN_LEFT =1,
 		DRIVETRAIN_RIGHT = 2,
-		LINEAR_ACTUATOR = 3,
+		DRIVETRAIN_LEFT_MID = 3,
+		DRIVETRAIN_RIGHT_MID = 4,
+		LINEAR_ACTUATOR = 5,
 	};
 	enum class LinkType
 	{
