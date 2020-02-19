@@ -50,7 +50,6 @@
         
         
         <!-- DRIVETRAIN -->
-        <!--
         <include>
             <uri>model://mid_wheel</uri>
             <name>midleft_wheel</name>
@@ -61,7 +60,6 @@
             <name>midright_wheel</name>
             <pose>0.0 -0.176911 0.031115 0 1.5707 1.5707</pose>
         </include>
-        -->
         <include>
             <uri>model://large_wheel</uri>
             <name>frontleft_wheel</name>

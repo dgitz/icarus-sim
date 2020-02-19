@@ -190,10 +190,17 @@ bool RobotPlugin::LoadModel()
 			if (m_model->GetJoints()[i]->GetScopedName().find("left") != std::string::npos)
 			{
 				joint newjoint;
-				newjoint.joint_type = JointType::DRIVETRAIN_LEFT;
+				if(m_model->GetJoints()[i]->GetScopedName().find("mid") != std::string::npos)
+				{
+					newjoint.joint_type = JointType::DRIVETRAIN_LEFT_MID;
+				}
+				else
+				{
+					newjoint.joint_type = JointType::DRIVETRAIN_LEFT;
+				}
 				newjoint.id = i;
 				newjoint.poweron_setpoint = 0.0;
-				drivetrain_left_actual_velocity = newjoint.poweron_setpoint;
+				drivetrain_left_actual_velocity = newjoint.poweron_setpoint*180.0/M_PI;
 				newjoint.name = m_model->GetJoints()[i]->GetScopedName();
 				if (left_wheelencoder.sensor.is_initialized() == false)
 				{
@@ -215,10 +222,17 @@ bool RobotPlugin::LoadModel()
 			if (m_model->GetJoints()[i]->GetScopedName().find("right") != std::string::npos)
 			{
 				joint newjoint;
-				newjoint.joint_type = JointType::DRIVETRAIN_RIGHT;
+				if(m_model->GetJoints()[i]->GetScopedName().find("mid") != std::string::npos)
+				{
+					newjoint.joint_type = JointType::DRIVETRAIN_RIGHT_MID;
+				}
+				else
+				{
+					newjoint.joint_type = JointType::DRIVETRAIN_RIGHT;
+				}
 				newjoint.id = i;
-				newjoint.poweron_setpoint = 0.0;
-				drivetrain_right_actual_velocity = newjoint.poweron_setpoint;
+				newjoint.poweron_setpoint = 10.0;
+				drivetrain_right_actual_velocity = newjoint.poweron_setpoint*180.0/M_PI;
 				newjoint.name = m_model->GetJoints()[i]->GetScopedName();
 				if (right_wheelencoder.sensor.is_initialized() == false)
 				{
@@ -814,14 +828,14 @@ void RobotPlugin::OnUpdate()
 			{
 				if (std::string::npos != joints.at(i).name.find("front"))
 				{
-					drivetrain_left_actual_velocity = m_model->GetJoints()[joints.at(i).id]->GetVelocity(0);
+					drivetrain_left_actual_velocity = m_model->GetJoints()[joints.at(i).id]->GetVelocity(0)*180.0/M_PI;
 				}
 			}
 			else if (joints.at(i).joint_type == JointType::DRIVETRAIN_RIGHT)
 			{
 				if (std::string::npos != joints.at(i).name.find("front"))
 				{
-					drivetrain_right_actual_velocity = m_model->GetJoints()[joints.at(i).id]->GetVelocity(0);
+					drivetrain_right_actual_velocity = m_model->GetJoints()[joints.at(i).id]->GetVelocity(0)*180.0/M_PI;
 				}
 				/*printf("%s %f %f %f\n",
 					joints.at(i).name.c_str(),
@@ -935,7 +949,7 @@ void RobotPlugin::OnUpdate()
 		{
 			logger->log_warn(__FILE__, __LINE__, "BATTERY DEPLETED");
 		}
-		if(0)
+		if(1)
 		{  
 			if(camera_pantilt.initialized == true)
 			{
@@ -1136,6 +1150,10 @@ void RobotPlugin::drivetrain_left_cmd(const eros::pin::ConstPtr &_msg)
 		{
 			m_model->GetJoints()[joints.at(i).id]->SetVelocity(0, left_cmd);
 		}
+		if (joints.at(i).joint_type == JointType::DRIVETRAIN_LEFT_MID)
+		{
+			m_model->GetJoints()[joints.at(i).id]->SetVelocity(0, left_cmd*LARGEWHEEL_MIDWHEEL_MULTIPLIER);
+		}
 	}
 }
 
@@ -1149,6 +1167,10 @@ void RobotPlugin::drivetrain_right_cmd(const eros::pin::ConstPtr &_msg)
 		if (joints.at(i).joint_type == JointType::DRIVETRAIN_RIGHT)
 		{
 			m_model->GetJoints()[joints.at(i).id]->SetVelocity(0, right_cmd);
+		}
+		if (joints.at(i).joint_type == JointType::DRIVETRAIN_RIGHT_MID)
+		{
+			m_model->GetJoints()[joints.at(i).id]->SetVelocity(0, right_cmd*LARGEWHEEL_MIDWHEEL_MULTIPLIER);
 		}
 	}
 }
@@ -1205,6 +1227,12 @@ std::string RobotPlugin::map_jointtype_tostring(JointType joint_type)
 		break;
 	case JointType::DRIVETRAIN_RIGHT:
 		return "DRIVETRAIN RIGHT";
+		break;
+	case JointType::DRIVETRAIN_LEFT_MID:
+		return "DRIVETRAIN MID-LEFT";
+		break;
+	case JointType::DRIVETRAIN_RIGHT_MID:
+		return "DRIVETRAIN MID-RIGHT";
 		break;
 	default:
 		return "UNKNOWN";
