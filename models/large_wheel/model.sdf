@@ -24,23 +24,17 @@
                 <surface>
                     <friction>
                         <torsional>
-                            <coefficient>1.0</coefficient>
+                            <coefficient>0.7</coefficient>
                             <surface_radius>1</surface_radius>
                             <use_patch_radius>false</use_patch_radius>
                         </torsional>
                         <ode>
-                            <mu>1.0</mu>
-                            <mu2>1.0</mu2>
+                            <mu>0.7</mu>
+                            <mu2>0.7</mu2>
                             <slip1>0.0</slip1>
                             <slip2>0.0</slip2>
                         </ode>
                     </friction>
-                    <contact>
-                        <ode>
-                            <min_depth>0.005</min_depth>
-                            <kp>1e8</kp>
-                        </ode>
-                    </contact>
                 </surface>
 
             </collision>

@@ -45,6 +45,7 @@
 #include <gazebo/msgs/msgs.hh>
 //ROS Messages
 #include "std_msgs/Float64.h"
+#include "std_msgs/Bool.h"
 #include <eros/signal.h>
 #include <eros/imu.h>
 #include <eros/pin.h>
@@ -131,8 +132,10 @@ public:
 	void implement_cmd(const eros::pin::ConstPtr& _msg);
 	void boom_rotate_cmd(const eros::pin::ConstPtr& _msg);
 	void bucket_rotate_cmd(const eros::pin::ConstPtr& _msg);
-	void panservo_cmd(const eros::pin::ConstPtr& _msg);
-	void tiltservo_cmd(const eros::pin::ConstPtr& _msg);
+	void panleftservo_cmd(const std_msgs::Bool::ConstPtr& _msg);
+	void panrightservo_cmd(const std_msgs::Bool::ConstPtr& _msg);
+	void tiltupservo_cmd(const std_msgs::Bool::ConstPtr& _msg);
+	void tiltdownservo_cmd(const std_msgs::Bool::ConstPtr& _msg);
 	
 	//Attributes
 	std::vector<eros::diagnostic> get_diagnostics() { return diagnostics; }
@@ -265,8 +268,10 @@ private:
 	ros::Subscriber sub_drivetrain_right_cmd;
 	ros::Subscriber sub_boomrotate_cmd;
 	ros::Subscriber sub_bucketrotate_cmd;
-	ros::Subscriber sub_panservo_cmd;
-	ros::Subscriber sub_tiltservo_cmd;
+	ros::Subscriber sub_panleftservo_cmd;
+	ros::Subscriber sub_panrightservo_cmd;
+	ros::Subscriber sub_tiltupservo_cmd;
+	ros::Subscriber sub_tiltdownservo_cmd;
 	ros::Publisher pub_leftimu;
 	ros::Publisher pub_rightimu;
 	ros::Publisher pub_truthpose;

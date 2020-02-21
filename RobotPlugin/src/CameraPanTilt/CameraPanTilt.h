@@ -36,15 +36,23 @@ public:
 	double get_currentconsumed();
 	std::vector<Joint> update(double dt,double pan_joint_current_deg,double tilt_joint_current_deg);
 	virtual ~CameraPanTilt();
-    bool set_jointcommand(uint8_t index,double value)
+    bool set_jointcommand(uint8_t index,double increment_value)
     {
         if(index < (joints.size()))
         {
             if(index == (uint8_t)JointIndex::JOINT_PAN_INDEX)
             {
-                value = -1.0*value;
+                increment_value = -1.0*increment_value;
             }
-            joints.at(index).command_value = value;
+            joints.at(index).command_value += increment_value;
+            if(joints.at(index).command_value > 90.0)
+            {
+                joints.at(index).command_value = 90.0;
+            }
+            if(joints.at(index).command_value < -90.0)
+            {
+                joints.at(index).command_value = -90.0;
+            }
             joints.at(index).cg.new_input("Command",joints.at(index).command_value);
             return true;
         }
