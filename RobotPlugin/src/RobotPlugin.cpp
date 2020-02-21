@@ -451,21 +451,39 @@ bool RobotPlugin::InitializeSubscriptions()
 	}
 	{
 		ros::SubscribeOptions so =
-			ros::SubscribeOptions::create<eros::pin>(
-				"/PanServo",
+			ros::SubscribeOptions::create<std_msgs::Bool>(
+				"/PanLeft",
 				1,
-				boost::bind(&RobotPlugin::panservo_cmd, this, _1),
+				boost::bind(&RobotPlugin::panleftservo_cmd, this, _1),
 				ros::VoidPtr(), &this->rosQueue);
-		sub_panservo_cmd = this->rosNode->subscribe(so);
+		sub_panleftservo_cmd = this->rosNode->subscribe(so);
 	}
 	{
 		ros::SubscribeOptions so =
-			ros::SubscribeOptions::create<eros::pin>(
-				"/TiltServo",
+			ros::SubscribeOptions::create<std_msgs::Bool>(
+				"/PanRight",
 				1,
-				boost::bind(&RobotPlugin::tiltservo_cmd, this, _1),
+				boost::bind(&RobotPlugin::panrightservo_cmd, this, _1),
 				ros::VoidPtr(), &this->rosQueue);
-		sub_tiltservo_cmd = this->rosNode->subscribe(so);
+		sub_panrightservo_cmd = this->rosNode->subscribe(so);
+	}
+	{
+		ros::SubscribeOptions so =
+			ros::SubscribeOptions::create<std_msgs::Bool>(
+				"/TiltUp",
+				1,
+				boost::bind(&RobotPlugin::tiltupservo_cmd, this, _1),
+				ros::VoidPtr(), &this->rosQueue);
+		sub_tiltupservo_cmd = this->rosNode->subscribe(so);
+	}
+	{
+		ros::SubscribeOptions so =
+			ros::SubscribeOptions::create<std_msgs::Bool>(
+				"/TiltDown",
+				1,
+				boost::bind(&RobotPlugin::tiltdownservo_cmd, this, _1),
+				ros::VoidPtr(), &this->rosQueue);
+		sub_tiltdownservo_cmd = this->rosNode->subscribe(so);
 	}
 
 	for (std::size_t i = 0; i < linear_actuators.size(); ++i)
@@ -1174,18 +1192,44 @@ void RobotPlugin::drivetrain_right_cmd(const eros::pin::ConstPtr &_msg)
 		}
 	}
 }
-void RobotPlugin::panservo_cmd(const eros::pin::ConstPtr& _msg)
+void RobotPlugin::panleftservo_cmd(const std_msgs::Bool::ConstPtr& _msg)
 {
 	if(camera_pantilt.initialized == true)
 	{
-		camera_pantilt.assy.set_jointcommand((uint8_t)CameraPanTilt::JointIndex::JOINT_PAN_INDEX,convert_pwm_toangle_deg(_msg->Value));
+		if(_msg->data == true)
+		{
+			camera_pantilt.assy.set_jointcommand((uint8_t)CameraPanTilt::JointIndex::JOINT_PAN_INDEX,-0.25);
+		}
 	}
 }
-void RobotPlugin::tiltservo_cmd(const eros::pin::ConstPtr& _msg)
+void RobotPlugin::panrightservo_cmd(const std_msgs::Bool::ConstPtr& _msg)
 {
 	if(camera_pantilt.initialized == true)
 	{
-		camera_pantilt.assy.set_jointcommand((uint8_t)CameraPanTilt::JointIndex::JOINT_TILT_INDEX,convert_pwm_toangle_deg(_msg->Value));
+		if(_msg->data == true)
+		{
+			camera_pantilt.assy.set_jointcommand((uint8_t)CameraPanTilt::JointIndex::JOINT_PAN_INDEX,0.25);
+		}
+	}
+}
+void RobotPlugin::tiltupservo_cmd(const std_msgs::Bool::ConstPtr& _msg)
+{
+	if(camera_pantilt.initialized == true)
+	{
+		if(_msg->data == true)
+		{
+			camera_pantilt.assy.set_jointcommand((uint8_t)CameraPanTilt::JointIndex::JOINT_TILT_INDEX,0.25);
+		}
+	}
+}
+void RobotPlugin::tiltdownservo_cmd(const std_msgs::Bool::ConstPtr& _msg)
+{
+	if(camera_pantilt.initialized == true)
+	{
+		if(_msg->data == true)
+		{
+			camera_pantilt.assy.set_jointcommand((uint8_t)CameraPanTilt::JointIndex::JOINT_TILT_INDEX,-0.25);
+		}
 	}
 }
 //Utility Functions
