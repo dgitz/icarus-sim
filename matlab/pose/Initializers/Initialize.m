@@ -9,13 +9,19 @@ if(exist('Sensor_Data_Loaded') == 0)
     Load_Data = 1;
 elseif(Sensor_Data_Loaded == 0)
   Load_Data = 1;
+  
 end
-disp(['Using Scenario: ' Scenario]);
+
 if(Load_Data == 1)
-  disp(['Loading Data...']);
+    if(strcmp(Scenario,""))
+        Scenario = uigetdir("/home/robot/Documents/DataCollection");
+    end
+    disp(['Loading Data...']);
 else
   disp(['Data already loaded.']);
 end
+disp(['Using Scenario: ' Scenario]);
+
 if(Load_Data == 1)
    if(Truth_Available == 1)
        [Truth_Data_Loaded,truthdata_time_end, ...

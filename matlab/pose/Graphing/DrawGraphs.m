@@ -9,9 +9,15 @@ Plot_Orientation = 0;
 
 Plot_SensorSignals = 1;
 Plot_TimedSignals = 1;
-Plot_ProcessedSignals = 0;
-Plot_InputSignals = 0;
+Plot_ProcessedSignals = 1;
+Plot_InputSignals = 1;
 Plot_TruthSignals = 1;
+
+if(Analyze_Pose == 0)
+    Plot_TimedSignals = 0;
+    Plot_ProcessedSignals = 0;
+    Plot_InputSignals = 0;
+end
 
 linear_acc_signals = [];
 rotation_rate_signals = [];
