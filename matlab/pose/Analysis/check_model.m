@@ -6,6 +6,8 @@ block_definition{2}.name = 'SensorPostProcessing';
 block_definition{2}.max_count = 50;
 block_definition{3}.name = 'SignalLinker';
 block_definition{3}.max_count = 100;
+block_definition{4}.name = 'PoseAccelerationBlock';
+block_definition{4}.max_count = 75;
 result = 0;
 if((strcmp(model_name,'Pose_AutoCode')) || (strcmp(model_name,'PoseExecutor')))
 else
@@ -28,27 +30,20 @@ for i = 1:length(system_listing)
     end
 end
 all_checks_ok = 1;
-for i = 1:length(top_level_blocks)
-    found = 0;
-    for j = 1:length(block_definition)
+for j = 1:length(block_definition)
 
-         match_str = [model_name  '/PoseModel/'  block_definition{j}.name];
-        
-        if(strcmp(top_level_blocks{i},match_str) == 1)
-            found = 1;
-            block_count = length(find_system(top_level_blocks{i}, 'LookUnderMasks', 'on', 'FollowLinks', 'on','Virtual','off'));
-            if(block_count > block_definition{j}.max_count)
-                all_checks_ok = 0;
-                disp(['[ERROR]: Model: ' model_name ' Block: ' block_definition{j}.name ... 
-                    ' Exceeds Block Count Threshold: ' num2str(block_count) ' > ' num2str(block_definition{1}.max_count) '.']);
-            else
-                disp(['[INFO]: Model: ' model_name ' Block: ' block_definition{j}.name ...
-                    ' Usage Level: ' num2str(100.0 * block_count/block_definition{j}.max_count) ' %' ...
-                    ' (' num2str(block_count) ' used of ' num2str(block_definition{j}.max_count) ' available).']);
-            end
+     match_str = [model_name  '/PoseModel/'  block_definition{j}.name];
+        block_count = length(find_system(match_str, 'LookUnderMasks', 'on', 'FollowLinks', 'on','Virtual','off'));
+        if(block_count > block_definition{j}.max_count)
+            all_checks_ok = 0;
+            disp(['[ERROR]: Model: ' model_name ' Block: ' block_definition{j}.name ... 
+                ' Exceeds Block Count Threshold: ' num2str(block_count) ' > ' num2str(block_definition{1}.max_count) '.']);
+        else
+            disp(['[INFO]: Model: ' model_name ' Block: ' block_definition{j}.name ...
+                ' Usage Level: ' num2str(100.0 * block_count/block_definition{j}.max_count) ' %' ...
+                ' (' num2str(block_count) ' used of ' num2str(block_definition{j}.max_count) ' available).']);
         end
-        
-    end
+
 end
 model_blockcount = length(find_system(model_name, 'LookUnderMasks', 'on', 'FollowLinks', 'on','Virtual','off'));
 if(model_blockcount > max_blockcount)

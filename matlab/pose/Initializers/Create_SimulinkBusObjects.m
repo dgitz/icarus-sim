@@ -36,6 +36,7 @@ sequence_number.SampleTime = -1;
 sequence_number.Complexity = 'real';
 
 InputSignalObject.Elements = [value status rms sequence_number];
+clear value status rms sequence_number;
 
 OutputSignalObject = Simulink.Bus;
 value = [];
@@ -57,7 +58,6 @@ status.SampleTime = -1;
 status.Complexity = 'real';
 
 rms = [];
-rms = [];
 rms = Simulink.BusElement;
 rms.Name = 'rms';
 rms.Dimensions = 1;
@@ -66,6 +66,28 @@ rms.DataType = 'double';
 rms.SampleTime = -1;
 rms.Complexity = 'real';
 OutputSignalObject.Elements = [value status rms];
+clear value status rms
+
+KalmanFilterObjectState = Simulink.Bus;
+initialized = [];
+initialized = Simulink.BusElement;
+initialized.Name = 'initialized';
+initialized.Dimensions = 1;
+initialized.DimensionsMode = 'Fixed';
+initialized.DataType = 'uint8';
+initialized.SampleTime = -1;
+initialized.Complexity = 'real';
+
+update_counter = [];
+update_counter = Simulink.BusElement;
+update_counter.Name = 'update_counter';
+update_counter.Dimensions = 1;
+update_counter.DimensionsMode = 'Fixed';
+update_counter.DataType = 'uint32';
+update_counter.SampleTime = -1;
+update_counter.Complexity = 'real';
+KalmanFilterObjectState.Elements = [initialized update_counter];
+clear initialized update_counter
 
 TimeCompensatorObjectState = Simulink.Bus;
 initialized = [];
@@ -107,3 +129,4 @@ update3.Complexity = 'real';
 
 
 TimeCompensatorObjectState.Elements = [initialized update1 update2 update3];
+clear initialized update1 update2 update3
