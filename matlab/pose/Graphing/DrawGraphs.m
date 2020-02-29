@@ -3,14 +3,15 @@ fig_list = [];
 
 Plot_Jerk = 0;
 Plot_Acceleration = 1;
-Plot_AngularRate = 1;
-Plot_MagneticField = 1;
+Plot_AngularRate = 0;
+Plot_MagneticField = 0;
 Plot_Orientation = 0;
 
-Plot_SensorSignals = 1;
-Plot_TimedSignals = 1;
-Plot_ProcessedSignals = 1;
-Plot_InputSignals = 1;
+Plot_SensorSignals = 0;
+Plot_TimedSignals = 0;
+Plot_ProcessedSignals = 0;
+Plot_InputSignals = 0;
+Plot_PoseSignals = 1;
 Plot_TruthSignals = 1;
 
 if(Analyze_Pose == 0)
@@ -232,6 +233,28 @@ if(Plot_TimedSignals == 1)
             out.timed_signals.accel.accel1.accel1z.rms.Data);
         linear_acc_signals{length(linear_acc_signals)+1} = sig;
     end    
+end
+if(Plot_PoseSignals == 1)
+    if(Plot_Acceleration == 1)
+        sig = convert_modelsignal(SignalClass.SIGNALCLASS_POSESIGNAL_,'xacc',...
+            out.pose_linearacceleration_signals.xacc.value.Time, ...
+            out.pose_linearacceleration_signals.xacc.value.Data, ...
+            out.pose_linearacceleration_signals.xacc.status.Data, ...
+            out.pose_linearacceleration_signals.xacc.rms.Data);
+        linear_acc_signals{length(linear_acc_signals)+1} = sig;
+        sig = convert_modelsignal(SignalClass.SIGNALCLASS_POSESIGNAL_,'yacc',...
+            out.pose_linearacceleration_signals.yacc.value.Time, ...
+            out.pose_linearacceleration_signals.yacc.value.Data, ...
+            out.pose_linearacceleration_signals.yacc.status.Data, ...
+            out.pose_linearacceleration_signals.yacc.rms.Data);
+        linear_acc_signals{length(linear_acc_signals)+1} = sig;
+        sig = convert_modelsignal(SignalClass.SIGNALCLASS_POSESIGNAL_,'zacc',...
+            out.pose_linearacceleration_signals.zacc.value.Time, ...
+            out.pose_linearacceleration_signals.zacc.value.Data, ...
+            out.pose_linearacceleration_signals.zacc.status.Data, ...
+            out.pose_linearacceleration_signals.zacc.rms.Data);
+        linear_acc_signals{length(linear_acc_signals)+1} = sig;
+    end
 end
 if(Plot_TruthSignals == 1)
     if(Plot_Acceleration == 1)

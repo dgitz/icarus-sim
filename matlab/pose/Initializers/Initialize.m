@@ -52,7 +52,7 @@ if(Load_Data == 1)
             odom4x_in,odom4y_in,odom4z_in] = Load_SensorSignals(Scenario);
     
     datatime_end = max(truthdata_time_end,sensordata_time_end);
-    t = 0:1/ModelConfig.POSE_UPDATE_RATE:datatime_end;
+    t = 0:1/TimeCompensateConfig.POSE_UPDATE_RATE:datatime_end;
     current_time.time = t;
     current_time.signals.values = t';
     current_time.signals.dimensions = 1;

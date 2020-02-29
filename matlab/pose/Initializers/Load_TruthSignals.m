@@ -63,6 +63,7 @@ for i = 3:length(listing)
     data = readtable([scenario '/' listing(i).name]);
     timestamp = table2array(data(:,TIMESTAMP_COLUMN));
     timestamp = timestamp(:)-timestamp(1);
+    %quick_timestamp = 0:1/TimeCompensateConfig.QUICK_ANALYZE_RATE:timestamp(end);
     max_dt = max(diff(timestamp));
     if(max_dt > TimeCompensateConfig.TOVDELTA_ERROR)
         disp(['[WARN]: File: ' listing(i).name ' Has a Max Delta Timestamp: ' num2str(max_dt) ' > ' num2str(TimeCompensateConfig.TOVDELTA_ERROR)]);

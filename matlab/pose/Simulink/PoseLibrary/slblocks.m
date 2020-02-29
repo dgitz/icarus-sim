@@ -12,6 +12,9 @@ function blkStruct = slblocks
         Browser(3).Library = 'timecompensate'; 
         Browser(3).Name    = 'Pose Time Compensate Library'; 
         Browser(3).IsFlat  = 1;% Is this library "flat" (i.e. no subsystems)?
+        Browser(4).Library = 'posefilter'; 
+        Browser(4).Name    = 'Pose Filter Library'; 
+        Browser(4).IsFlat  = 1;% Is this library "flat" (i.e. no subsystems)?
 		% 'My Library' is the library name that appears 
              % in the Library Browser
 		blkStruct.Browser = Browser; 
