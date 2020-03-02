@@ -2,10 +2,10 @@ close all;
 fig_list = [];
 
 Plot_Jerk = 0;
-Plot_Acceleration = 1;
+Plot_Acceleration = 0;
 Plot_AngularRate = 0;
 Plot_MagneticField = 0;
-Plot_Orientation = 0;
+Plot_Orientation = 1;
 
 Plot_SensorSignals = 0;
 Plot_TimedSignals = 0;
@@ -255,6 +255,21 @@ if(Plot_PoseSignals == 1)
             out.pose_linearacceleration_signals.zacc.rms.Data);
         linear_acc_signals{length(linear_acc_signals)+1} = sig;
     end
+    
+    if(Plot_Orientation == 1)
+        sig = convert_modelsignal(SignalClass.SIGNALCLASS_POSESIGNAL_,'roll',...
+            out.pose_orientation_signals.roll.value.Time, ...
+            out.pose_orientation_signals.roll.value.Data, ...
+            out.pose_orientation_signals.roll.status.Data, ...
+            out.pose_orientation_signals.roll.rms.Data);
+        orientation_signals{length(orientation_signals)+1} = sig;
+        sig = convert_modelsignal(SignalClass.SIGNALCLASS_POSESIGNAL_,'pitch',...
+            out.pose_orientation_signals.pitch.value.Time, ...
+            out.pose_orientation_signals.pitch.value.Data, ...
+            out.pose_orientation_signals.pitch.status.Data, ...
+            out.pose_orientation_signals.pitch.rms.Data);
+        orientation_signals{length(orientation_signals)+1} = sig;
+    end
 end
 if(Plot_TruthSignals == 1)
     if(Plot_Acceleration == 1)
@@ -297,6 +312,26 @@ if(Plot_TruthSignals == 1)
             truth_yawrate.signals.values(:,SignalIndex.RMS));
         rotation_rate_signals{length(rotation_rate_signals)+1} = sig;
     end
+    if(Plot_Orientation == 1)
+        sig = convert_modelsignal(SignalClass.SIGNALCLASS_TRUTHSIGNAL_,'roll_truth',...
+            truth_roll.time, ...
+            truth_roll.signals.values(:,SignalIndex.VALUE),...
+            truth_roll.signals.values(:,SignalIndex.STATUS),...
+            truth_roll.signals.values(:,SignalIndex.RMS));
+        orientation_signals{length(orientation_signals)+1} = sig;
+        sig = convert_modelsignal(SignalClass.SIGNALCLASS_TRUTHSIGNAL_,'pitch_truth',...
+            truth_pitch.time, ...
+            truth_pitch.signals.values(:,SignalIndex.VALUE),...
+            truth_pitch.signals.values(:,SignalIndex.STATUS),...
+            truth_pitch.signals.values(:,SignalIndex.RMS));
+        orientation_signals{length(orientation_signals)+1} = sig;
+        sig = convert_modelsignal(SignalClass.SIGNALCLASS_TRUTHSIGNAL_,'yaw_truth',...
+            truth_yaw.time, ...
+            truth_yaw.signals.values(:,SignalIndex.VALUE),...
+            truth_yaw.signals.values(:,SignalIndex.STATUS),...
+            truth_yaw.signals.values(:,SignalIndex.RMS));
+        orientation_signals{length(orientation_signals)+1} = sig;
+    end
 end
 if(Plot_Acceleration == 1)
   fig_list = draw_linearacceleration_graphs(0,linear_acc_signals);
@@ -308,5 +343,5 @@ if(Plot_MagneticField == 1)
      fig_list = draw_magneticfield_graphs(0,magnetic_field_signals);
 end
 if(Plot_Orientation == 1)
-  %fig_list = draw_orientation_graphs(0,orientation_signals);
+  fig_list = draw_orientation_graphs(0,orientation_signals);
 end

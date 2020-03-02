@@ -150,5 +150,3 @@ function [figs] = draw_orientation_graphs (log_start_time,signals)
   xlabel("Time (s)")
   ylabel("Status")
   hold off  
-
-endfunction
