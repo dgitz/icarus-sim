@@ -8,6 +8,8 @@ block_definition{3}.name = 'SignalLinker';
 block_definition{3}.max_count = 100;
 block_definition{4}.name = 'PoseAccelerationBlock';
 block_definition{4}.max_count = 75;
+block_definition{5}.name = 'PoseOrientationBlock';
+block_definition{5}.max_count = 75;
 result = 0;
 if((strcmp(model_name,'Pose_AutoCode')) || (strcmp(model_name,'PoseExecutor')))
 else
