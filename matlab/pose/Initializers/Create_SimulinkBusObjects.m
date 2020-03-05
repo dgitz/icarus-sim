@@ -126,7 +126,34 @@ update3.DataType = 'uint32';
 update3.SampleTime = -1;
 update3.Complexity = 'real';
 
+update4 = [];
+update4 = Simulink.BusElement;
+update4.Name = 'signal4_update_counter';
+update4.Dimensions = 1;
+update4.DimensionsMode = 'Fixed';
+update4.DataType = 'uint32';
+update4.SampleTime = -1;
+update4.Complexity = 'real';
+
+update5 = [];
+update5 = Simulink.BusElement;
+update5.Name = 'signal5_update_counter';
+update5.Dimensions = 1;
+update5.DimensionsMode = 'Fixed';
+update5.DataType = 'uint32';
+update5.SampleTime = -1;
+update5.Complexity = 'real';
+
+update6 = [];
+update6 = Simulink.BusElement;
+update6.Name = 'signal6_update_counter';
+update6.Dimensions = 1;
+update6.DimensionsMode = 'Fixed';
+update6.DataType = 'uint32';
+update6.SampleTime = -1;
+update6.Complexity = 'real';
 
 
-TimeCompensatorObjectState.Elements = [initialized update1 update2 update3];
-clear initialized update1 update2 update3
+
+TimeCompensatorObjectState.Elements = [initialized update1 update2 update3 update4 update5 update6];
+clear initialized update1 update2 update3 update4 update5 update6
